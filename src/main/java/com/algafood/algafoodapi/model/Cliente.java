@@ -6,22 +6,18 @@ public class Cliente {
     private String nome;
     private Boolean ativo;
 
-    public Cliente() {
-        this.ativo = true;
-    }
+//    public Cliente() {
+//        this.ativo = true;
+//    }
 
-    public Cliente(Boolean ativo, String nome, Integer id) {
-        this.ativo = ativo;
+    public Cliente(Integer id, String nome) {
+        this.ativo = true;
         this.nome = nome;
         this.id = id;
     }
 
     public Boolean getAtivo() {
         return ativo;
-    }
-
-    public void setAtivo(Boolean ativo) {
-        this.ativo = ativo;
     }
 
     public String getNome() {
@@ -38,5 +34,13 @@ public class Cliente {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public void ativar() {
+        this.ativo = true;
+    }
+
+    public void inativar() {
+        this.ativo = false;
     }
 }
