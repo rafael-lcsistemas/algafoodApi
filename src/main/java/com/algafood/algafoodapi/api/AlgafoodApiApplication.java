@@ -1,4 +1,4 @@
-package com.algafood.algafoodapi;
+package com.algafood.algafoodapi.api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
