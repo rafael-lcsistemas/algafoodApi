@@ -7,6 +7,7 @@ public class Cliente {
     private Boolean ativo;
 
     public Cliente() {
+        this.ativo = true;
     }
 
     public Cliente(Boolean ativo, String nome, Integer id) {

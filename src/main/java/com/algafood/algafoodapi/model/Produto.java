@@ -7,6 +7,7 @@ public class Produto {
     private Double preco;
 
     public Produto() {
+
     }
 
     public Produto(Integer id, Double preco, String nome) {
