@@ -7,6 +7,9 @@ import com.algafood.algafoodapi.model.Cliente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
 @Component
 public class ClienteService {
 
@@ -18,6 +21,18 @@ public class ClienteService {
 //    public ClienteService(Notificador notificador) {
 //        this.notificador = notificador;
 //    }
+
+    @PostConstruct
+    public void initial() {
+        // Executa alguma ação depois do construtor
+        System.out.println("Iniciou");
+    }
+
+    @PreDestroy
+    public void destroy() {
+        // Executa alguma ação antes de destroir o ciclo de vida do componente Spring
+        System.out.println("Terminou");
+    }
 
     public void ativar(Cliente cliente) {
         cliente.ativar();
