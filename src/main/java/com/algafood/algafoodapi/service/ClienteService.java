@@ -1,16 +1,25 @@
 package com.algafood.algafoodapi.service;
 
+import com.algafood.algafoodapi.interfaces.Notificador;
 import com.algafood.algafoodapi.model.Cliente;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 public class ClienteService {
 
+    private Notificador notificador;
+
+    public ClienteService(Notificador notificador) {
+        this.notificador = notificador;
+    }
+
     public void ativar(Cliente cliente) {
         cliente.ativar();
-        System.out.printf("Cliente: %s ativado com sucesso! \n", cliente.getId() + " - " + cliente.getNome());
+        notificador.notificar(cliente, "Seu cadastro no sistema foi ativado!");
     }
 
     public void inativar(Cliente cliente) {
         cliente.inativar();
-        System.out.printf("Cliente: %s inativado com sucesso! \n", cliente.getId() + " - " + cliente.getNome());
+        notificador.notificar(cliente, "Seu cadastro no sistema foi inativado!");
     }
 }

@@ -4,16 +4,18 @@ public class Cliente {
 
     private Integer id;
     private String nome;
+    private String email;
     private Boolean ativo;
 
 //    public Cliente() {
 //        this.ativo = true;
 //    }
 
-    public Cliente(Integer id, String nome) {
+    public Cliente(Integer id, String nome, String email) {
         this.ativo = true;
         this.nome = nome;
         this.id = id;
+        this.email = email;
     }
 
     public Boolean getAtivo() {
@@ -42,5 +44,13 @@ public class Cliente {
 
     public void inativar() {
         this.ativo = false;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
