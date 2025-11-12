@@ -5,13 +5,16 @@ import com.algafood.algafoodapi.model.Cliente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+@Component
 public class ClienteService {
 
+    @Autowired
     private Notificador notificador;
 
-    public ClienteService(Notificador notificador) {
-        this.notificador = notificador;
-    }
+//    @Autowired
+//    public ClienteService(Notificador notificador) {
+//        this.notificador = notificador;
+//    }
 
     public void ativar(Cliente cliente) {
         cliente.ativar();
