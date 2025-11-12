@@ -5,29 +5,16 @@ public class Cliente {
     private Integer id;
     private String nome;
     private String email;
+    private String telefone;
     private Boolean ativo;
 
-//    public Cliente() {
-//        this.ativo = true;
-//    }
 
-    public Cliente(Integer id, String nome, String email) {
-        this.ativo = true;
-        this.nome = nome;
+    public Cliente(Integer id, String nome, String email, String telefone, Boolean ativo) {
         this.id = id;
-        this.email = email;
-    }
-
-    public Boolean getAtivo() {
-        return ativo;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
         this.nome = nome;
+        this.email = email;
+        this.telefone = telefone;
+        this.ativo = ativo;
     }
 
     public Integer getId() {
@@ -38,12 +25,12 @@ public class Cliente {
         this.id = id;
     }
 
-    public void ativar() {
-        this.ativo = true;
+    public String getNome() {
+        return nome;
     }
 
-    public void inativar() {
-        this.ativo = false;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public String getEmail() {
@@ -52,5 +39,25 @@ public class Cliente {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
+
+    public Boolean getAtivo() {
+        return ativo;
+    }
+
+    public void ativar() {
+        this.ativo = true;
+    }
+
+    public void inativar() {
+        this.ativo = false;
     }
 }

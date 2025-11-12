@@ -20,8 +20,8 @@ public class MeuPrimeiroController {
 
     @GetMapping("/hello")
     public List<Cliente> hello() {
-        Cliente cliente1 = new Cliente(1, "Rafael", "rafael@gmail.com");
-        Cliente cliente2 = new Cliente(2, "José", "jose@gmail.com");
+        Cliente cliente1 = new Cliente(1, "Rafael", "rafael@gmail.com", "(91)99120-0793", true);
+        Cliente cliente2 = new Cliente(2, "José", "jose@gmail.com", "(99)99999-9999", false);
 
         clienteService.inativar(cliente1);
         clienteService.ativar(cliente2);

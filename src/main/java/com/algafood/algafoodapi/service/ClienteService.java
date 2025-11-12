@@ -5,11 +5,13 @@ import com.algafood.algafoodapi.model.Cliente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class ClienteService {
 
     @Autowired
-    private Notificador notificador;
+    private List<Notificador> notificadores;
 
 //    @Autowired
 //    public ClienteService(Notificador notificador) {
@@ -18,11 +20,17 @@ public class ClienteService {
 
     public void ativar(Cliente cliente) {
         cliente.ativar();
-        notificador.notificar(cliente, "Seu cadastro no sistema foi ativado!");
+
+        for (Notificador notificador : notificadores) {
+            notificador.notificar(cliente, "Seu cadastro no sistema foi ativado!");
+        }
     }
 
     public void inativar(Cliente cliente) {
         cliente.inativar();
-        notificador.notificar(cliente, "Seu cadastro no sistema foi inativado!");
+
+        for (Notificador notificador : notificadores) {
+            notificador.notificar(cliente, "Seu cadastro no sistema foi inativado!");
+        }
     }
 }
