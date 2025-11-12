@@ -1,15 +1,16 @@
 package com.algafood.algafoodapi.service;
 
+import com.algafood.algafoodapi.anotations.TipoNotificador;
+import com.algafood.algafoodapi.enums.NivelUrgencia;
 import com.algafood.algafoodapi.interfaces.Notificador;
 import com.algafood.algafoodapi.model.Cliente;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ClienteService {
 
-    @Qualifier("normal")
+    @TipoNotificador(NivelUrgencia.URGENTE)
     @Autowired
     private Notificador notificador;
 
