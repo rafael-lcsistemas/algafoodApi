@@ -1,4 +1,4 @@
-package com.algafood.algafoodapi.service;
+package com.algafood.algafoodapi.service.notificador;
 
 import com.algafood.algafoodapi.anotations.TipoNotificador;
 import com.algafood.algafoodapi.enums.NivelUrgencia;

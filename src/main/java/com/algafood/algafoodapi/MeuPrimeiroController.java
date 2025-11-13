@@ -1,11 +1,10 @@
 package com.algafood.algafoodapi;
 
 import com.algafood.algafoodapi.model.Cliente;
-import com.algafood.algafoodapi.service.ClienteService;
+import com.algafood.algafoodapi.service.cliente.ClienteService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

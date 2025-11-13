@@ -1,4 +1,4 @@
-package com.algafood.algafoodapi.service;
+package com.algafood.algafoodapi.service.notificador;
 
 import com.algafood.algafoodapi.anotations.TipoNotificador;
 import com.algafood.algafoodapi.enums.NivelUrgencia;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @TipoNotificador(NivelUrgencia.URGENTE)
 @Component
-public class NotificadorWPP implements Notificador {
+public class NotificadorWhatsApp implements Notificador {
 
     @Override
     public void notificar(Cliente cliente, String msg) {

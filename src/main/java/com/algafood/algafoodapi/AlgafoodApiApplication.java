@@ -1,7 +1,5 @@
 package com.algafood.algafoodapi;
 
-import com.algafood.algafoodapi.model.Cliente;
-import com.algafood.algafoodapi.service.ClienteService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
