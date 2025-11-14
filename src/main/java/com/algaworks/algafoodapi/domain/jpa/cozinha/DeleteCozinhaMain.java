@@ -19,6 +19,6 @@ public class DeleteCozinhaMain {
         Cozinha cozinha = new Cozinha();
         cozinha.setId(1L);
 
-        cozinhaRepository.delete(cozinha);
+        cozinhaRepository.delete(cozinha.getId());
     }
 }

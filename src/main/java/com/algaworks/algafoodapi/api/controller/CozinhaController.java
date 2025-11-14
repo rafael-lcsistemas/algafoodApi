@@ -28,4 +28,9 @@ public class CozinhaController {
     public Cozinha inserirOrUpdate(@RequestBody Cozinha cozinha) {
         return cozinhaRepository.insertOrUpdate(cozinha);
     }
+
+    @DeleteMapping
+    public void deletar(Long id) {
+        cozinhaRepository.delete(id);
+    }
 }
