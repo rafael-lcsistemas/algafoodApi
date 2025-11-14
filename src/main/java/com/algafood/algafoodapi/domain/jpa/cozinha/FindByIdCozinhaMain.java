@@ -1,7 +1,8 @@
-package com.algafood.algafoodapi.domain.service;
+package com.algafood.algafoodapi.domain.jpa.cozinha;
 
 import com.algafood.algafoodapi.AlgafoodApiApplication;
 import com.algafood.algafoodapi.domain.entity.Cozinha;
+import com.algafood.algafoodapi.domain.repository.CozinhaRepository;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContext;
@@ -13,9 +14,9 @@ public class FindByIdCozinhaMain {
         ApplicationContext context = new SpringApplicationBuilder(AlgafoodApiApplication.class).
                 web(WebApplicationType.NONE).run(args);
 
-        CozinhaService cozinhaService = context.getBean(CozinhaService.class);
+        CozinhaRepository cozinhaRepository = context.getBean(CozinhaRepository.class);
 
-        Cozinha cozinha = cozinhaService.findById(1L);
+        Cozinha cozinha = cozinhaRepository.findById(1L);
 
         System.out.println(cozinha);
     }
