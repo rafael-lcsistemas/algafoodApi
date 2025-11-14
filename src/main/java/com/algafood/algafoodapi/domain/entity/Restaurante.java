@@ -14,13 +14,18 @@ public class Restaurante {
 
     private Double taxaFrete;
 
+    @ManyToOne
+    @JoinColumn(name = "id_cozinha")
+    private Cozinha cozinha;
+
     public Restaurante() {
     }
 
-    public Restaurante(Long id, String nome, Double taxaFrete) {
+    public Restaurante(Long id, String nome, Double taxaFrete, Cozinha cozinha) {
         this.id = id;
         this.nome = nome;
         this.taxaFrete = taxaFrete;
+        this.cozinha = cozinha;
     }
 
     public Long getId() {
@@ -47,6 +52,14 @@ public class Restaurante {
         this.taxaFrete = taxaFrete;
     }
 
+    public Cozinha getCozinha() {
+        return cozinha;
+    }
+
+    public void setCozinha(Cozinha cozinha) {
+        this.cozinha = cozinha;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
@@ -61,6 +74,6 @@ public class Restaurante {
 
     @Override
     public String toString() {
-        return "Restaurante: " + id + " - " + nome;
+        return "Restaurante: " + id + " - " + nome + " / Cozinha: " + cozinha.getNome();
     }
 }
