@@ -40,6 +40,7 @@ public class CozinhaController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public Cozinha inserirOrUpdate(@RequestBody Cozinha cozinha) {
         return cozinhaRepository.insertOrUpdate(cozinha);
     }
