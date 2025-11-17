@@ -30,11 +30,4 @@ public class RestauranteService implements RestauranteRepository {
     public Restaurante insertOrUpdate(Restaurante restaurante) {
         return manager.merge(restaurante);
     }
-
-    @Transactional
-    @Override
-    public void delete(Restaurante restaurante) {
-        restaurante = findById(restaurante.getId());
-        manager.remove(restaurante);
-    }
 }

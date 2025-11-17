@@ -30,11 +30,4 @@ public class CozinhaService implements CozinhaRepository {
     public Cozinha insertOrUpdate(Cozinha cozinha) {
         return manager.merge(cozinha);
     }
-
-    @Transactional
-    @Override
-    public void delete(Long id) {
-        Cozinha cozinha = findById(id);
-        manager.remove(cozinha);
-    }
 }
