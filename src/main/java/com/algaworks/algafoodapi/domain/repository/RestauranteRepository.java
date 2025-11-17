@@ -8,5 +8,4 @@ public interface RestauranteRepository {
     List<Restaurante> findAll();
     Restaurante findById(Long id);
     Restaurante insertOrUpdate(Restaurante restaurante);
-    void delete(Restaurante restaurante);
 }
