@@ -1,11 +1,12 @@
 package com.algaworks.algafoodapi.api.controller;
 
-import com.algaworks.algafoodapi.api.model.CozinhasXmlRepresentation;
 import com.algaworks.algafoodapi.domain.entity.Cozinha;
-import com.algaworks.algafoodapi.domain.repository.CozinhaRepository;
+import com.algaworks.algafoodapi.domain.exceptions.EntidadeEmUsoException;
+import com.algaworks.algafoodapi.domain.exceptions.EntidadeNaoEncontradaException;
+import com.algaworks.algafoodapi.domain.service.CozinhaService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,32 +17,52 @@ import java.util.List;
 public class CozinhaController {
 
     @Autowired
-    private CozinhaRepository cozinhaRepository;
-
-    @GetMapping(value = "/listar", produces = MediaType.APPLICATION_XML_VALUE)
-    public CozinhasXmlRepresentation listarEmXml() {
-        return new CozinhasXmlRepresentation(cozinhaRepository.findAll());
-    }
+    private CozinhaService cozinhaService;
 
     @GetMapping("/listar")
     public List<Cozinha> listar() {
-        return cozinhaRepository.findAll();
+        return cozinhaService.findAll();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Cozinha> buscarPorId(@PathVariable Long id) {
-        Cozinha cozinha = cozinhaRepository.findById(id);
-
-        if(cozinha == null) {
+        try {
+            Cozinha cozinha = cozinhaService.findById(id);
+            return ResponseEntity.ok(cozinha);
+        } catch (EntidadeNaoEncontradaException e) {
             return ResponseEntity.notFound().build();
         }
-
-        return ResponseEntity.ok(cozinha);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Cozinha inserirOrUpdate(@RequestBody Cozinha cozinha) {
-        return cozinhaRepository.insertOrUpdate(cozinha);
+    public Cozinha inserirNova(@RequestBody Cozinha cozinha) {
+        return cozinhaService.insert(cozinha);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Cozinha> update(@PathVariable Long id, @RequestBody Cozinha cozinhaAtualizada) {
+        try {
+            Cozinha cozinhaAtual = cozinhaService.findById(id);
+            BeanUtils.copyProperties(cozinhaAtualizada, cozinhaAtual, "id");
+            Cozinha cozinhaSalva = cozinhaService.update(cozinhaAtual);
+
+            return ResponseEntity.ok(cozinhaSalva);
+        } catch (EntidadeNaoEncontradaException e) {
+            throw new EntidadeNaoEncontradaException(String.format("Cozinha de código %d não encontrada", id ));
+        }
+    }
+
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Cozinha> remover(@PathVariable Long id) {
+        try {
+            cozinhaService.remove(id);
+            return ResponseEntity.ok().build();
+        } catch (EntidadeNaoEncontradaException e) {
+            return ResponseEntity.notFound().build();
+        } catch (EntidadeEmUsoException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
     }
 }

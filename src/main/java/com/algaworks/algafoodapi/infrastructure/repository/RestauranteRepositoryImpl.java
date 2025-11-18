@@ -1,4 +1,4 @@
-package com.algaworks.algafoodapi.infrastructure;
+package com.algaworks.algafoodapi.infrastructure.repository;
 
 import com.algaworks.algafoodapi.domain.entity.Restaurante;
 import com.algaworks.algafoodapi.domain.repository.RestauranteRepository;
@@ -10,7 +10,7 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Component
-public class RestauranteService implements RestauranteRepository {
+public class RestauranteRepositoryImpl implements RestauranteRepository {
 
     @PersistenceContext
     private EntityManager manager;

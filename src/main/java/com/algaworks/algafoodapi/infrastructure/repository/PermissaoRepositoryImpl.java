@@ -1,4 +1,4 @@
-package com.algaworks.algafoodapi.infrastructure;
+package com.algaworks.algafoodapi.infrastructure.repository;
 
 import com.algaworks.algafoodapi.domain.entity.Permissao;
 import com.algaworks.algafoodapi.domain.repository.PermissaoRepository;
@@ -10,7 +10,7 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Component
-public class PermissaoService implements PermissaoRepository {
+public class PermissaoRepositoryImpl implements PermissaoRepository {
 
     @PersistenceContext
     private EntityManager manager;

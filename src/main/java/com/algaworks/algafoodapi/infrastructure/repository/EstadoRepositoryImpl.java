@@ -1,4 +1,4 @@
-package com.algaworks.algafoodapi.infrastructure;
+package com.algaworks.algafoodapi.infrastructure.repository;
 
 import com.algaworks.algafoodapi.domain.entity.Estado;
 import com.algaworks.algafoodapi.domain.repository.EstadoRepository;
@@ -10,7 +10,7 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Component
-public class EstadoService implements EstadoRepository {
+public class EstadoRepositoryImpl implements EstadoRepository {
 
     @PersistenceContext
     private EntityManager manager;

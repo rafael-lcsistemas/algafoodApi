@@ -2,7 +2,7 @@ package com.algaworks.algafoodapi.domain.jpa.formaPagamento;
 
 import com.algaworks.algafoodapi.AlgafoodApiApplication;
 import com.algaworks.algafoodapi.domain.entity.FormaPagamento;
-import com.algaworks.algafoodapi.infrastructure.FormaPagamentoService;
+import com.algaworks.algafoodapi.infrastructure.repository.FormaPagamentoRepositoryImpl;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContext;
@@ -13,13 +13,13 @@ public class Update {
         ApplicationContext context = new SpringApplicationBuilder(AlgafoodApiApplication.class)
                 .web(WebApplicationType.NONE).run(args);
 
-        FormaPagamentoService formaPagamentoService = context.getBean(FormaPagamentoService.class);
+        FormaPagamentoRepositoryImpl formaPagamentoRepositoryImpl = context.getBean(FormaPagamentoRepositoryImpl.class);
 
         FormaPagamento pagamento = new FormaPagamento();
         pagamento.setId(1L);
         pagamento.setNome("Boleto");
 
-        pagamento = formaPagamentoService.insertOrUpdate(pagamento);
+        pagamento = formaPagamentoRepositoryImpl.insertOrUpdate(pagamento);
 
         System.out.println(pagamento);
     }

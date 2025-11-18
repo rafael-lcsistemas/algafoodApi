@@ -19,6 +19,6 @@ public class InsertCozinhaMain {
         Cozinha cozinha = new Cozinha();
         cozinha.setNome("Gaúcha");
 
-        cozinhaRepository.insertOrUpdate(cozinha);
+        cozinhaRepository.insert(cozinha);
     }
 }

@@ -2,7 +2,7 @@ package com.algaworks.algafoodapi.domain.jpa.formaPagamento;
 
 import com.algaworks.algafoodapi.AlgafoodApiApplication;
 import com.algaworks.algafoodapi.domain.entity.FormaPagamento;
-import com.algaworks.algafoodapi.infrastructure.FormaPagamentoService;
+import com.algaworks.algafoodapi.infrastructure.repository.FormaPagamentoRepositoryImpl;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContext;
@@ -15,9 +15,9 @@ public class FindAll {
         ApplicationContext context = new SpringApplicationBuilder(AlgafoodApiApplication.class)
                 .web(WebApplicationType.NONE).run(args);
 
-        FormaPagamentoService formaPagamentoService = context.getBean(FormaPagamentoService.class);
+        FormaPagamentoRepositoryImpl formaPagamentoRepositoryImpl = context.getBean(FormaPagamentoRepositoryImpl.class);
 
-        List<FormaPagamento> pagamentos = formaPagamentoService.findAll();
+        List<FormaPagamento> pagamentos = formaPagamentoRepositoryImpl.findAll();
 
         pagamentos.forEach(System.out::println);
     }

@@ -1,4 +1,4 @@
-package com.algaworks.algafoodapi.infrastructure;
+package com.algaworks.algafoodapi.infrastructure.repository;
 
 import com.algaworks.algafoodapi.domain.entity.Cidade;
 import com.algaworks.algafoodapi.domain.repository.CidadeRepository;
@@ -10,7 +10,7 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Component
-public class CidadeService implements CidadeRepository {
+public class CidadeRepositoryImpl implements CidadeRepository {
 
     @PersistenceContext
     private EntityManager manager;
