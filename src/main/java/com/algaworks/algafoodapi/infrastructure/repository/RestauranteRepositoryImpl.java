@@ -2,6 +2,7 @@ package com.algaworks.algafoodapi.infrastructure.repository;
 
 import com.algaworks.algafoodapi.domain.entity.Restaurante;
 import com.algaworks.algafoodapi.domain.repository.RestauranteRepository;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,7 +28,25 @@ public class RestauranteRepositoryImpl implements RestauranteRepository {
 
     @Transactional
     @Override
-    public Restaurante insertOrUpdate(Restaurante restaurante) {
+    public Restaurante insert(Restaurante restaurante) {
         return manager.merge(restaurante);
+    }
+
+    @Transactional
+    @Override
+    public Restaurante update(Restaurante restaurante) {
+        return manager.merge(restaurante);
+    }
+
+    @Transactional
+    @Override
+    public void delete(Long id) {
+        Restaurante restaurante = findById(id);
+
+        if (restaurante == null) {
+            throw new EmptyResultDataAccessException(1);
+        }
+
+        manager.remove(restaurante);
     }
 }

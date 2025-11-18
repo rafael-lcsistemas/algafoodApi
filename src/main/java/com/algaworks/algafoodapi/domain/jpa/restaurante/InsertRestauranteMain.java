@@ -20,7 +20,7 @@ public class InsertRestauranteMain {
         restaurante.setNome("Paragominas");
         restaurante.setTaxaFrete(10.0);
 
-        restaurante = restauranteRepository.insertOrUpdate(restaurante);
+        restaurante = restauranteRepository.insert(restaurante);
 
         System.out.println(restaurante);
     }

@@ -21,7 +21,7 @@ public class UpdateRestauranteMain {
         restaurante.setNome("Restaurante 1");
         restaurante.setTaxaFrete(0.0);
 
-        restaurante = restauranteRepository.insertOrUpdate(restaurante);
+        restaurante = restauranteRepository.insert(restaurante);
 
         System.out.println(restaurante);
     }
