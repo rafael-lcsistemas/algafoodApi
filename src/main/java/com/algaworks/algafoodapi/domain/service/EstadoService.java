@@ -38,7 +38,7 @@ public class EstadoService {
             throw new EntidadeNaoEncontradaException(String.format("Estado do código %d não encontrado", id));
         }
 
-        return estadoRepository.findById(id);
+        return estado;
     }
 
     public Estado insert(Estado estado) {
