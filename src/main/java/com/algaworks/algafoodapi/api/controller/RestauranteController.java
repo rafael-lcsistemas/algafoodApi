@@ -3,7 +3,6 @@ package com.algaworks.algafoodapi.api.controller;
 import com.algaworks.algafoodapi.domain.entity.Restaurante;
 import com.algaworks.algafoodapi.domain.exceptions.EntidadeIntegridadeException;
 import com.algaworks.algafoodapi.domain.exceptions.EntidadeNaoEncontradaException;
-import com.algaworks.algafoodapi.domain.repository.RestauranteRepository;
 import com.algaworks.algafoodapi.domain.service.RestauranteService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +15,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/restaurantes")
 public class RestauranteController {
-
-    @Autowired
-    private RestauranteRepository restauranteRepository;
 
     @Autowired
     private RestauranteService restauranteService;
