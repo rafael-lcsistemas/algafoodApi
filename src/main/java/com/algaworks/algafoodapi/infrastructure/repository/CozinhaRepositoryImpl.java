@@ -3,14 +3,14 @@ package com.algaworks.algafoodapi.infrastructure.repository;
 import com.algaworks.algafoodapi.domain.entity.Cozinha;
 import com.algaworks.algafoodapi.domain.repository.CozinhaRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
-@Component
+@Repository
 public class CozinhaRepositoryImpl implements CozinhaRepository {
 
     @PersistenceContext
@@ -19,6 +19,13 @@ public class CozinhaRepositoryImpl implements CozinhaRepository {
     @Override
     public List<Cozinha> findAll() {
         return manager.createQuery("from Cozinha", Cozinha.class).getResultList();
+    }
+
+    @Override
+    public List<Cozinha> searchToName(String nome) {
+        return manager.createQuery("from Cozinha where nome like :nome", Cozinha.class)
+                .setParameter("nome", "%" + nome + "%")
+                .getResultList();
     }
 
     @Override
@@ -43,7 +50,7 @@ public class CozinhaRepositoryImpl implements CozinhaRepository {
     public void delete(Long id) {
         Cozinha cozinha = findById(id);
 
-        if(cozinha == null) {
+        if (cozinha == null) {
             throw new EmptyResultDataAccessException(1);
         }
 

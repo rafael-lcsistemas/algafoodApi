@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface CozinhaRepository {
     List<Cozinha> findAll();
+    List<Cozinha> searchToName(String nome);
     Cozinha findById(Long id);
     Cozinha insert(Cozinha cozinha);
     Cozinha update(Cozinha cozinha);
