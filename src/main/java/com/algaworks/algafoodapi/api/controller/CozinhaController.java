@@ -2,6 +2,7 @@ package com.algaworks.algafoodapi.api.controller;
 
 import com.algaworks.algafoodapi.domain.entity.Cozinha;
 import com.algaworks.algafoodapi.domain.exceptions.EntidadeEmUsoException;
+import com.algaworks.algafoodapi.domain.exceptions.EntidadeIntegridadeException;
 import com.algaworks.algafoodapi.domain.exceptions.EntidadeNaoEncontradaException;
 import com.algaworks.algafoodapi.domain.service.CozinhaService;
 import org.springframework.beans.BeanUtils;
@@ -41,7 +42,7 @@ public class CozinhaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Cozinha> update(@PathVariable Long id, @RequestBody Cozinha cozinhaAtualizada) {
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Cozinha cozinhaAtualizada) {
         try {
             Cozinha cozinhaAtual = cozinhaService.findById(id);
             BeanUtils.copyProperties(cozinhaAtualizada, cozinhaAtual, "id");
@@ -49,10 +50,11 @@ public class CozinhaController {
 
             return ResponseEntity.ok(cozinhaSalva);
         } catch (EntidadeNaoEncontradaException e) {
-            throw new EntidadeNaoEncontradaException(String.format("Cozinha de código %d não encontrada", id ));
+            return ResponseEntity.notFound().build();
+        } catch (EntidadeIntegridadeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> remover(@PathVariable Long id) {

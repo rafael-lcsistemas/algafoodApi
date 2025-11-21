@@ -1,6 +1,7 @@
 package com.algaworks.algafoodapi.domain.entity;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Objects;
 
 @Entity
@@ -12,7 +13,7 @@ public class Restaurante {
 
     private String nome;
 
-    private Double taxaFrete;
+    private BigDecimal taxaFrete;
 
     @ManyToOne
     @JoinColumn(name = "id_cozinha", nullable = false)
@@ -25,7 +26,7 @@ public class Restaurante {
     public Restaurante() {
     }
 
-    public Restaurante(Long id, String nome, Double taxaFrete, Cozinha cozinha, FormaPagamento formaPagamento) {
+    public Restaurante(Long id, String nome, BigDecimal taxaFrete, Cozinha cozinha, FormaPagamento formaPagamento) {
         this.id = id;
         this.nome = nome;
         this.taxaFrete = taxaFrete;
@@ -49,11 +50,11 @@ public class Restaurante {
         this.nome = nome;
     }
 
-    public Double getTaxaFrete() {
+    public BigDecimal getTaxaFrete() {
         return taxaFrete;
     }
 
-    public void setTaxaFrete(Double taxaFrete) {
+    public void setTaxaFrete(BigDecimal taxaFrete) {
         this.taxaFrete = taxaFrete;
     }
 
