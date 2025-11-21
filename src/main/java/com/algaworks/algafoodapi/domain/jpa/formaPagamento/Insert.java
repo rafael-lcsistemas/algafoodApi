@@ -18,7 +18,7 @@ public class Insert {
         FormaPagamento pagamento = new FormaPagamento();
         pagamento.setNome("Boleto");
 
-        pagamento = formaPagamentoRepositoryImpl.insertOrUpdate(pagamento);
+        pagamento = formaPagamentoRepositoryImpl.insert(pagamento);
 
         System.out.println(pagamento);
     }

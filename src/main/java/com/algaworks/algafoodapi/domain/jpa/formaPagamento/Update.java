@@ -19,7 +19,7 @@ public class Update {
         pagamento.setId(1L);
         pagamento.setNome("Boleto");
 
-        pagamento = formaPagamentoRepositoryImpl.insertOrUpdate(pagamento);
+        pagamento = formaPagamentoRepositoryImpl.insert(pagamento);
 
         System.out.println(pagamento);
     }

@@ -7,5 +7,7 @@ import java.util.List;
 public interface FormaPagamentoRepository {
     List<FormaPagamento> findAll();
     FormaPagamento findById(Long id);
-    FormaPagamento insertOrUpdate(FormaPagamento formaPagamento);
+    FormaPagamento insert(FormaPagamento formaPagamento);
+    FormaPagamento update(FormaPagamento formaPagamento);
+    void delete(Long id);
 }

@@ -5,7 +5,6 @@ import com.algaworks.algafoodapi.domain.entity.FormaPagamento;
 import com.algaworks.algafoodapi.domain.entity.Restaurante;
 import com.algaworks.algafoodapi.domain.exceptions.EntidadeIntegridadeException;
 import com.algaworks.algafoodapi.domain.exceptions.EntidadeNaoEncontradaException;
-import com.algaworks.algafoodapi.domain.repository.FormaPagamentoRepository;
 import com.algaworks.algafoodapi.domain.repository.RestauranteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +21,7 @@ public class RestauranteService {
     private CozinhaService cozinhaService;
 
     @Autowired
-    private FormaPagamentoRepository formaPagamentoRepository;
+    private FormaPagamentoService formaPagamentoService;
 
     public List<Restaurante> findAll() {
         try {
@@ -58,7 +57,7 @@ public class RestauranteService {
                     restaurante.getCozinha().getId()));
         }
 
-        FormaPagamento formaPagamento = formaPagamentoRepository.findById(restaurante.getFormaPagamento().getId());
+        FormaPagamento formaPagamento = formaPagamentoService.findById(restaurante.getFormaPagamento().getId());
 
         if (formaPagamento == null) {
             throw new EntidadeNaoEncontradaException(String.format("Forma de pagamento do código %d não encontrada",
@@ -73,7 +72,7 @@ public class RestauranteService {
 
     public Restaurante update(Restaurante restaurante) {
         Cozinha cozinha = cozinhaService.findById(restaurante.getCozinha().getId());
-        FormaPagamento formaPagamento = formaPagamentoRepository.findById(restaurante.getFormaPagamento().getId());
+        FormaPagamento formaPagamento = formaPagamentoService.findById(restaurante.getFormaPagamento().getId());
 
         if (restaurante.getNome() == null | restaurante.getNome().isEmpty()) {
             throw new EntidadeIntegridadeException("O nome do restaurante não pode ser vazio ou nulo");
