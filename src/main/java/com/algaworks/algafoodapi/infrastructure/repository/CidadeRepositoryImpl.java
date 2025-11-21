@@ -32,11 +32,13 @@ public class CidadeRepositoryImpl implements CidadeRepository {
         return manager.merge(cidade);
     }
 
+    @Transactional
     @Override
     public Cidade update(Cidade cidade) {
         return manager.merge(cidade);
     }
 
+    @Transactional
     @Override
     public void delete(Long id) {
         Cidade cidade = findById(id);

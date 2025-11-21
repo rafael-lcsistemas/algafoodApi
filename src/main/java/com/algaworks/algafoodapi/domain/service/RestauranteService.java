@@ -5,7 +5,6 @@ import com.algaworks.algafoodapi.domain.entity.FormaPagamento;
 import com.algaworks.algafoodapi.domain.entity.Restaurante;
 import com.algaworks.algafoodapi.domain.exceptions.EntidadeIntegridadeException;
 import com.algaworks.algafoodapi.domain.exceptions.EntidadeNaoEncontradaException;
-import com.algaworks.algafoodapi.domain.repository.CozinhaRepository;
 import com.algaworks.algafoodapi.domain.repository.FormaPagamentoRepository;
 import com.algaworks.algafoodapi.domain.repository.RestauranteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,7 @@ public class RestauranteService {
     private RestauranteRepository restauranteRepository;
 
     @Autowired
-    private CozinhaRepository cozinhaRepository;
+    private CozinhaService cozinhaService;
 
     @Autowired
     private FormaPagamentoRepository formaPagamentoRepository;
@@ -44,18 +43,22 @@ public class RestauranteService {
     }
 
     public Restaurante insert(Restaurante restaurante) {
-
-        Cozinha cozinha = cozinhaRepository.findById(restaurante.getCozinha().getId());
-        FormaPagamento formaPagamento = formaPagamentoRepository.findById(restaurante.getFormaPagamento().getId());
+        if (restaurante == null) {
+            throw new RuntimeException("Erro inesperado ao inserir restaurante");
+        }
 
         if (restaurante.getNome() == null | restaurante.getNome().isEmpty()) {
             throw new EntidadeNaoEncontradaException("O nome do restaurante não pode ser vazia ou nula");
         }
 
+        Cozinha cozinha = cozinhaService.findById(restaurante.getCozinha().getId());
+
         if (cozinha == null) {
             throw new EntidadeNaoEncontradaException(String.format("Cozinha do código %d não encontrada",
                     restaurante.getCozinha().getId()));
         }
+
+        FormaPagamento formaPagamento = formaPagamentoRepository.findById(restaurante.getFormaPagamento().getId());
 
         if (formaPagamento == null) {
             throw new EntidadeNaoEncontradaException(String.format("Forma de pagamento do código %d não encontrada",
@@ -69,7 +72,7 @@ public class RestauranteService {
     }
 
     public Restaurante update(Restaurante restaurante) {
-        Cozinha cozinha = cozinhaRepository.findById(restaurante.getCozinha().getId());
+        Cozinha cozinha = cozinhaService.findById(restaurante.getCozinha().getId());
         FormaPagamento formaPagamento = formaPagamentoRepository.findById(restaurante.getFormaPagamento().getId());
 
         if (restaurante.getNome() == null | restaurante.getNome().isEmpty()) {
