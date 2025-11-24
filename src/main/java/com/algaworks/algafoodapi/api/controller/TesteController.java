@@ -4,10 +4,10 @@ import com.algaworks.algafoodapi.domain.entity.Cozinha;
 import com.algaworks.algafoodapi.domain.entity.Restaurante;
 import com.algaworks.algafoodapi.domain.repository.CozinhaRepository;
 import com.algaworks.algafoodapi.domain.repository.RestauranteRepository;
+import com.algaworks.algafoodapi.infrastructure.repository.specification.RestauranteSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
@@ -25,8 +25,8 @@ public class TesteController {
 
     @GetMapping("/cozinhas/por-nome")
     public List<Cozinha> listarTodasPorNome(String nome) {
-        if(nome.isEmpty()) {
-            throw new RuntimeException("O nome não pode ser vazio.") ;
+        if (nome.isEmpty()) {
+            throw new RuntimeException("O nome não pode ser vazio.");
         }
 
         return cozinhaRepository.findByNomeContaining(nome);
@@ -34,8 +34,8 @@ public class TesteController {
 
     @GetMapping("/cozinhas/unica-por-nome")
     public Optional<Cozinha> listarUnicaPorNome(String nome) {
-        if(nome.isEmpty()) {
-            throw new RuntimeException("O nome não pode ser vazio.") ;
+        if (nome.isEmpty()) {
+            throw new RuntimeException("O nome não pode ser vazio.");
         }
 
         return cozinhaRepository.findByNome(nome);
@@ -54,5 +54,11 @@ public class TesteController {
     @GetMapping("/restaurantes/por-nome-e-frete")
     public List<Restaurante> listarPorNomeETaxaFrete(String nome, BigDecimal taxaFreteInicial, BigDecimal taxaFreteFinal) {
         return restauranteRepository.find(nome, taxaFreteInicial, taxaFreteFinal);
+    }
+
+    @GetMapping("/restaurantes/com-frete-gratis")
+    public List<Restaurante> restauranteComFreteGratis(String nome) {
+        return restauranteRepository.findAll(RestauranteSpecification.comFreteGratis()
+                .and(RestauranteSpecification.nomeSemelhante(nome)));
     }
 }
