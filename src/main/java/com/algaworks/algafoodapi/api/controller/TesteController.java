@@ -50,4 +50,9 @@ public class TesteController {
     public List<Restaurante> listarPorNomeECozinhaNome(String nome, Long cozinhaId) {
         return restauranteRepository.consultarPorNome(nome, cozinhaId);
     }
+
+    @GetMapping("/restaurantes/por-nome-e-frete")
+    public List<Restaurante> listarPorNomeETaxaFrete(String nome, BigDecimal taxaFreteinicial, BigDecimal taxaFretefinal) {
+        return restauranteRepository.find(nome, taxaFreteinicial, taxaFretefinal);
+    }
 }
