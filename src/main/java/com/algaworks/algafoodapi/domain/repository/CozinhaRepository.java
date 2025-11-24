@@ -1,14 +1,15 @@
 package com.algaworks.algafoodapi.domain.repository;
 
 import com.algaworks.algafoodapi.domain.entity.Cozinha;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface CozinhaRepository {
-    List<Cozinha> findAll();
-    List<Cozinha> searchToName(String nome);
-    Cozinha findById(Long id);
-    Cozinha insert(Cozinha cozinha);
-    Cozinha update(Cozinha cozinha);
-    void delete(Long id);
+@Repository
+public interface CozinhaRepository extends JpaRepository<Cozinha, Long> {
+
+    List<Cozinha> findByNomeContaining(String nome);
+    Optional<Cozinha> findByNome(String nome);
 }

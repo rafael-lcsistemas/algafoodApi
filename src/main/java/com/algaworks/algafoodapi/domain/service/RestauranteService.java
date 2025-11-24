@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RestauranteService {
@@ -31,10 +32,10 @@ public class RestauranteService {
         }
     }
 
-    public Restaurante findById(Long id) {
-        Restaurante restaurante = restauranteRepository.findById(id);
+    public Optional<Restaurante> findById(Long id) {
+        Optional<Restaurante> restaurante = restauranteRepository.findById(id);
 
-        if (restaurante == null) {
+        if (restaurante.isEmpty()) {
             throw new EntidadeNaoEncontradaException(String.format("Restaurante do código %d não encontrado", id));
         }
 
@@ -50,9 +51,9 @@ public class RestauranteService {
             throw new EntidadeNaoEncontradaException("O nome do restaurante não pode ser vazia ou nula");
         }
 
-        Cozinha cozinha = cozinhaService.findById(restaurante.getCozinha().getId());
+        Optional<Cozinha> cozinha = cozinhaService.findById(restaurante.getCozinha().getId());
 
-        if (cozinha == null) {
+        if (cozinha.isEmpty()) {
             throw new EntidadeNaoEncontradaException(String.format("Cozinha do código %d não encontrada",
                     restaurante.getCozinha().getId()));
         }
@@ -64,14 +65,14 @@ public class RestauranteService {
                     restaurante.getFormaPagamento().getId()));
         }
 
-        restaurante.setCozinha(cozinha);
+        restaurante.setCozinha(cozinha.get());
         restaurante.setFormaPagamento(formaPagamento);
 
-        return restauranteRepository.insert(restaurante);
+        return restauranteRepository.save(restaurante);
     }
 
     public Restaurante update(Restaurante restaurante) {
-        Cozinha cozinha = cozinhaService.findById(restaurante.getCozinha().getId());
+        Optional<Cozinha> cozinha = cozinhaService.findById(restaurante.getCozinha().getId());
         FormaPagamento formaPagamento = formaPagamentoService.findById(restaurante.getFormaPagamento().getId());
 
         if (restaurante.getNome() == null | restaurante.getNome().isEmpty()) {
@@ -80,7 +81,7 @@ public class RestauranteService {
 
         if (restaurante.getCozinha().getId() == null) {
             throw new EntidadeIntegridadeException("Código da cozinha é obrigatoria");
-        } else if (cozinha == null) {
+        } else if (cozinha.isEmpty()) {
             throw new EntidadeIntegridadeException(String.format("Cozinha de código %d não escontrada",
                     restaurante.getCozinha().getId()));
         }
@@ -92,6 +93,6 @@ public class RestauranteService {
                     restaurante.getFormaPagamento().getId()));
         }
 
-        return restauranteRepository.update(restaurante);
+        return restauranteRepository.save(restaurante);
     }
 }

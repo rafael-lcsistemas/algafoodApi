@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/cozinhas")
@@ -28,8 +29,13 @@ public class CozinhaController {
     @GetMapping("/{id}")
     public ResponseEntity<Cozinha> buscarPorId(@PathVariable Long id) {
         try {
-            Cozinha cozinha = cozinhaService.findById(id);
-            return ResponseEntity.ok(cozinha);
+            Optional<Cozinha> cozinha = cozinhaService.findById(id);
+
+            if(cozinha.isEmpty()) {
+                return ResponseEntity.notFound().build();
+            }
+
+            return ResponseEntity.ok(cozinha.get());
         } catch (EntidadeNaoEncontradaException e) {
             return ResponseEntity.notFound().build();
         }
@@ -44,13 +50,19 @@ public class CozinhaController {
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Cozinha cozinhaAtualizada) {
         try {
-            Cozinha cozinhaAtual = cozinhaService.findById(id);
+            Cozinha cozinhaAtual = cozinhaService.findById(id)
+                    .orElseThrow(() -> new EntidadeNaoEncontradaException(
+                            String.format("Cozinha de código %d não encontrada", id)
+                    ));
+
             BeanUtils.copyProperties(cozinhaAtualizada, cozinhaAtual, "id");
+
             Cozinha cozinhaSalva = cozinhaService.update(cozinhaAtual);
 
             return ResponseEntity.ok(cozinhaSalva);
         } catch (EntidadeNaoEncontradaException e) {
             return ResponseEntity.notFound().build();
+
         } catch (EntidadeIntegridadeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

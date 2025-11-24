@@ -2,6 +2,7 @@ package com.algaworks.algafoodapi.domain.service;
 
 import com.algaworks.algafoodapi.domain.entity.Cozinha;
 import com.algaworks.algafoodapi.domain.exceptions.EntidadeEmUsoException;
+import com.algaworks.algafoodapi.domain.exceptions.EntidadeIntegridadeException;
 import com.algaworks.algafoodapi.domain.exceptions.EntidadeNaoEncontradaException;
 import com.algaworks.algafoodapi.domain.repository.CozinhaRepository;
 import org.hibernate.exception.ConstraintViolationException;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CozinhaService {
@@ -23,39 +25,37 @@ public class CozinhaService {
         return cozinhaRepository.findAll();
     }
 
-    public Cozinha findById(Long id) {
-        try {
-            Cozinha cozinha = cozinhaRepository.findById(id);
+    public Optional<Cozinha> findById(Long id) {
+        if(id == null) {
+            throw new EntidadeIntegridadeException("ID da cozinha não pode ser nulo");
+        }
 
-            if (cozinha == null) {
-                throw new EntidadeNaoEncontradaException(String.format("Cozinha de código %d não encontrada.", id));
-            }
+        try {
             return cozinhaRepository.findById(id);
-        } catch (EntityNotFoundException e) {
-            throw new EntidadeNaoEncontradaException(e.getMessage());
+        } catch (EntidadeNaoEncontradaException e) {
+            throw new EntidadeNaoEncontradaException(String.format("Cozinha de código %d não encontrada", id));
         }
     }
 
     public Cozinha insert(Cozinha cozinha) {
-        try {
-            if (cozinha.getNome() == null) {
-                throw new DataIntegrityViolationException("Não foi possivel salvar cozinha, verifique os dados e tente novamente");
-            }
+        if (cozinha.getNome().isEmpty() || cozinha.getNome() == null) {
+            throw new RuntimeException("Cozinha não pode ter o nome vazio ou nulo");
+        }
 
-            return cozinhaRepository.insert(cozinha);
+        try {
+            return cozinhaRepository.save(cozinha);
         } catch (DataIntegrityViolationException e) {
             throw new DataIntegrityViolationException("Não foi possivel salvar cozinha, verifique os dados e tente novamente");
         }
     }
 
     public Cozinha update(Cozinha cozinha) {
+        if (cozinha.getNome().isEmpty() || cozinha.getNome() == null) {
+            throw new RuntimeException("Cozinha não pode ter o nome vazio ou nulo");
+        }
+
         try {
-
-            if(cozinha.getNome().isEmpty() | cozinha.getNome() == null) {
-                throw new RuntimeException("Cozinha não pode ter o nome vazio ou nulo");
-            }
-
-            return cozinhaRepository.update(cozinha);
+            return cozinhaRepository.save(cozinha);
         } catch (DataIntegrityViolationException e) {
             throw new DataIntegrityViolationException("Não foi possivel atualizar os dados de cozinha, verifique os dados e tente novamente");
         }
@@ -63,7 +63,7 @@ public class CozinhaService {
 
     public void remove(Long id) {
         try {
-            cozinhaRepository.delete(id);
+            cozinhaRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
             throw new EntidadeNaoEncontradaException(String.format("Cozinha de código %d não encontrada", id));
         } catch (DataIntegrityViolationException | ConstraintViolationException e) {

@@ -4,17 +4,14 @@ import com.algaworks.algafoodapi.domain.entity.Restaurante;
 import com.algaworks.algafoodapi.domain.exceptions.EntidadeIntegridadeException;
 import com.algaworks.algafoodapi.domain.exceptions.EntidadeNaoEncontradaException;
 import com.algaworks.algafoodapi.domain.service.RestauranteService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.reflect.Field;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/restaurantes")
@@ -31,8 +28,8 @@ public class RestauranteController {
     @GetMapping("{id}")
     public ResponseEntity<?> buscarPorId(@PathVariable Long id) {
         try {
-            Restaurante restaurante = restauranteService.findById(id);
-            return ResponseEntity.ok(restaurante);
+            Optional<Restaurante> restaurante = restauranteService.findById(id);
+            return ResponseEntity.ok(restaurante.get());
         } catch (EntidadeNaoEncontradaException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -52,9 +49,9 @@ public class RestauranteController {
     @PutMapping("/{id}")
     public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody Restaurante restauranteAtualizado) {
         try {
-            Restaurante restauranteAtual = restauranteService.findById(id);
+            Optional<Restaurante> restauranteAtual = restauranteService.findById(id);
             BeanUtils.copyProperties(restauranteAtualizado, restauranteAtual, "id");
-            Restaurante restauranteSalvo = restauranteService.update(restauranteAtual);
+            Restaurante restauranteSalvo = restauranteService.update(restauranteAtual.get());
 
             return ResponseEntity.ok(restauranteSalvo);
         } catch (EntidadeNaoEncontradaException e) {

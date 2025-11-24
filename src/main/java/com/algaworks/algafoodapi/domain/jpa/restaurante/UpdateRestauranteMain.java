@@ -23,7 +23,7 @@ public class UpdateRestauranteMain {
         restaurante.setNome("Restaurante 1");
         restaurante.setTaxaFrete(new BigDecimal(0));
 
-        restaurante = restauranteRepository.insert(restaurante);
+        restaurante = restauranteRepository.save(restaurante);
 
         System.out.println(restaurante);
     }

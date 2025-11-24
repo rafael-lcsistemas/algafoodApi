@@ -22,7 +22,7 @@ public class InsertRestauranteMain {
         restaurante.setNome("Paragominas");
         restaurante.setTaxaFrete(new BigDecimal(10));
 
-        restaurante = restauranteRepository.insert(restaurante);
+        restaurante = restauranteRepository.save(restaurante);
 
         System.out.println(restaurante);
     }

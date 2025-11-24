@@ -7,6 +7,8 @@ import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContext;
 
+import java.util.Optional;
+
 public class FindByIdRestauranteMain {
 
     public static void main(String[] args) {
@@ -16,8 +18,8 @@ public class FindByIdRestauranteMain {
 
         RestauranteRepository restauranteRepository = context.getBean(RestauranteRepository.class);
 
-        Restaurante restaurante = restauranteRepository.findById(2L);
+        Optional<Restaurante> restaurante = restauranteRepository.findById(2L);
 
-        System.out.println(restaurante);
+        System.out.println(restaurante.get());
     }
 }

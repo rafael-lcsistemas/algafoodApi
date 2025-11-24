@@ -20,6 +20,6 @@ public class UpdateCozinhaMain {
         cozinha.setId(1L);
         cozinha.setNome("Paulista");
 
-        cozinhaRepository.update(cozinha);
+        cozinhaRepository.save(cozinha);
     }
 }
