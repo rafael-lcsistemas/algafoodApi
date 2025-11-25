@@ -7,8 +7,19 @@ insert into forma_pagamento(nome) values('Dinheiro');
 insert into forma_pagamento(nome) values('Pix');
 insert into forma_pagamento(nome) values('Cartão de Crédito');
 insert into forma_pagamento(nome) values('Cartão de Débito');
+-- Estados
+insert into estado(nome, uf) values('Pará', 'PA');
+insert into estado(nome, uf) values('Maranhão', 'MA');
+insert into estado(nome, uf) values('Minas Gerais', 'MG');
+-- Cidades
+insert into cidade(nome, id_estado) values('Aurora do Pará', 1);
+insert into cidade(nome, id_estado) values('Mâe do Rio', 1);
+insert into cidade(nome, id_estado) values('imperatriz', 2);
+insert into cidade(nome, id_estado) values('Sãi Luiz', 2);
+insert into cidade(nome, id_estado) values('Contagem', 3);
+insert into cidade(nome, id_estado) values('Caldas', 3);
 -- Restaurantes
-insert into restaurante(nome, taxa_Frete, id_cozinha) values('Aurora', 0.0, 1);
+insert into restaurante(nome, taxa_Frete, id_cozinha, endereco_cep, endereco_logradouro, endereco_bairro, endereco_numero, endereco_complemento, endereco_id_cidade) values('Aurora', 0.0, 1, '68658-000', 'Av Bernado sayão', 'Centro', '1000', 'Apto 101', 1);
 insert into restaurante(nome, taxa_Frete, id_cozinha) values('Imperatriz', 5.0, 2);
 insert into restaurante(nome, taxa_Frete, id_cozinha) values('Belo Horizonte', 10.0, 3);
 -- Restaurantes & Formas de pagamento
@@ -21,15 +32,4 @@ insert into restaurante_forma_pagamento(id_restaurante, id_forma_pagamento) valu
 insert into restaurante_forma_pagamento(id_restaurante, id_forma_pagamento) values(3, 2);
 insert into restaurante_forma_pagamento(id_restaurante, id_forma_pagamento) values(3, 3);
 insert into restaurante_forma_pagamento(id_restaurante, id_forma_pagamento) values(3, 4);
--- Estados
-insert into estado(nome, uf) values('Pará', 'PA');
-insert into estado(nome, uf) values('Maranhão', 'MA');
-insert into estado(nome, uf) values('Minas Gerais', 'MG');
--- Cidades
-insert into cidade(nome, id_estado) values('Aurora do Pará', 1);
-insert into cidade(nome, id_estado) values('Mâe do Rio', 1);
-insert into cidade(nome, id_estado) values('imperatriz', 2);
-insert into cidade(nome, id_estado) values('Sãi Luiz', 2);
-insert into cidade(nome, id_estado) values('Contagem', 3);
-insert into cidade(nome, id_estado) values('Caldas', 3);
 

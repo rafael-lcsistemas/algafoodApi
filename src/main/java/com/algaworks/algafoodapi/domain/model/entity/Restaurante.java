@@ -24,6 +24,10 @@ public class Restaurante {
     private Cozinha cozinha;
 
     @JsonIgnore
+    @Embedded
+    private RestauranteEndereco endereco;
+
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "restaurante_forma_pagamento",
             joinColumns = @JoinColumn(name = "id_restaurante"),
@@ -33,12 +37,13 @@ public class Restaurante {
     public Restaurante() {
     }
 
-    public Restaurante(Long id, String nome, BigDecimal taxaFrete, Cozinha cozinha, List<FormaPagamento> formasPagamento) {
+    public Restaurante(Long id, String nome, BigDecimal taxaFrete, Cozinha cozinha, List<FormaPagamento> formasPagamento, RestauranteEndereco endereco) {
         this.id = id;
         this.nome = nome;
         this.taxaFrete = taxaFrete;
         this.cozinha = cozinha;
         this.formasPagamento = formasPagamento;
+        this.endereco = endereco;
     }
 
     public Long getId() {
@@ -79,6 +84,14 @@ public class Restaurante {
 
     public void setFormasPagamento(List<FormaPagamento> formasPagamento) {
         this.formasPagamento = formasPagamento;
+    }
+
+    public RestauranteEndereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(RestauranteEndereco endereco) {
+        this.endereco = endereco;
     }
 
     @Override
