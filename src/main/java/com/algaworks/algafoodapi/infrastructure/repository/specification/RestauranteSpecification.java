@@ -1,7 +1,7 @@
 package com.algaworks.algafoodapi.infrastructure.repository.specification;
 
 
-import com.algaworks.algafoodapi.domain.entity.Restaurante;
+import com.algaworks.algafoodapi.domain.model.entity.Restaurante;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.math.BigDecimal;

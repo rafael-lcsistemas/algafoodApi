@@ -1,6 +1,6 @@
 package com.algaworks.algafoodapi.domain.repository;
 
-import com.algaworks.algafoodapi.domain.entity.Cidade;
+import com.algaworks.algafoodapi.domain.model.entity.Cidade;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package com.algaworks.algafoodapi.domain.repository;
 
-import com.algaworks.algafoodapi.domain.entity.Permissao;
+import com.algaworks.algafoodapi.domain.model.entity.Permissao;
 
 import java.util.List;
 

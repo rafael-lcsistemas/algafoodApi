@@ -1,7 +1,7 @@
 package com.algaworks.algafoodapi.domain.service;
 
-import com.algaworks.algafoodapi.domain.entity.Cidade;
-import com.algaworks.algafoodapi.domain.entity.Estado;
+import com.algaworks.algafoodapi.domain.model.entity.Cidade;
+import com.algaworks.algafoodapi.domain.model.entity.Estado;
 import com.algaworks.algafoodapi.domain.exceptions.EntidadeIntegridadeException;
 import com.algaworks.algafoodapi.domain.exceptions.EntidadeNaoEncontradaException;
 import com.algaworks.algafoodapi.domain.repository.CidadeRepository;

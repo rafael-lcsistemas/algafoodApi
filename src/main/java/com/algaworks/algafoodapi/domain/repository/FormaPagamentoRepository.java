@@ -1,6 +1,6 @@
 package com.algaworks.algafoodapi.domain.repository;
 
-import com.algaworks.algafoodapi.domain.entity.FormaPagamento;
+import com.algaworks.algafoodapi.domain.model.entity.FormaPagamento;
 
 import java.util.List;
 

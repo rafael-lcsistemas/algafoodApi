@@ -1,10 +1,10 @@
-package com.algaworks.algafoodapi.domain.entity;
+package com.algaworks.algafoodapi.domain.model.entity;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-public class Cozinha {
+public class FormaPagamento {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,10 +12,10 @@ public class Cozinha {
 
     private String nome;
 
-    public Cozinha() {
+    public FormaPagamento() {
     }
 
-    public Cozinha(Long id, String nome) {
+    public FormaPagamento(Long id, String nome) {
         this.id = id;
         this.nome = nome;
     }
@@ -39,8 +39,8 @@ public class Cozinha {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        Cozinha cozinha = (Cozinha) o;
-        return Objects.equals(id, cozinha.id);
+        FormaPagamento that = (FormaPagamento) o;
+        return Objects.equals(id, that.id);
     }
 
     @Override
@@ -50,6 +50,6 @@ public class Cozinha {
 
     @Override
     public String toString() {
-        return "Cozinha: " + id + " - " + nome;
+        return "Forma de Pagamento: " + id + " - " + nome;
     }
 }

@@ -1,4 +1,4 @@
-package com.algaworks.algafoodapi.domain.entity;
+package com.algaworks.algafoodapi.domain.model.entity;
 
 import javax.persistence.*;
 import java.util.Objects;

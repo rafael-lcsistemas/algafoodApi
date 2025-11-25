@@ -1,28 +1,26 @@
-package com.algaworks.algafoodapi.domain.entity;
+package com.algaworks.algafoodapi.domain.model.entity;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-public class Cidade {
+public class Permissao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JoinColumn(nullable = false)
+    @Column(nullable = false)
     private String nome;
 
-    @ManyToOne
-    @JoinColumn(name = "id_estado")
-    private Estado estado;
+    @JoinColumn(nullable = false)
+    private String descricao;
 
-    public Cidade() {}
+    public Permissao() {}
 
-    public Cidade(Long id, String nome, Estado estado) {
-        this.id = id;
+    public Permissao(String nome, String descricao) {
         this.nome = nome;
-        this.estado = estado;
+        this.descricao = descricao;
     }
 
     public Long getId() {
@@ -41,19 +39,19 @@ public class Cidade {
         this.nome = nome;
     }
 
-    public Estado getEstado() {
-        return estado;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setEstado(Estado estado) {
-        this.estado = estado;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        Cidade cidade = (Cidade) o;
-        return Objects.equals(id, cidade.id);
+        Permissao permissao = (Permissao) o;
+        return Objects.equals(id, permissao.id);
     }
 
     @Override
@@ -63,6 +61,6 @@ public class Cidade {
 
     @Override
     public String toString() {
-        return "Cidade: " +  id + " - " + nome + " / " + estado;
+        return "Permissão: " + id + " - " + nome;
     }
 }

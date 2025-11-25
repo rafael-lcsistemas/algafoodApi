@@ -1,6 +1,6 @@
 package com.algaworks.algafoodapi.api.controller;
 
-import com.algaworks.algafoodapi.domain.entity.Cozinha;
+import com.algaworks.algafoodapi.domain.model.entity.Cozinha;
 import com.algaworks.algafoodapi.domain.exceptions.EntidadeEmUsoException;
 import com.algaworks.algafoodapi.domain.exceptions.EntidadeIntegridadeException;
 import com.algaworks.algafoodapi.domain.exceptions.EntidadeNaoEncontradaException;

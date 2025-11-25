@@ -1,6 +1,6 @@
 package com.algaworks.algafoodapi.infrastructure.repository;
 
-import com.algaworks.algafoodapi.domain.entity.Estado;
+import com.algaworks.algafoodapi.domain.model.entity.Estado;
 import com.algaworks.algafoodapi.domain.repository.EstadoRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;

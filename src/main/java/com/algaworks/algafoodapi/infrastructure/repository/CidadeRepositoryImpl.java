@@ -1,6 +1,6 @@
 package com.algaworks.algafoodapi.infrastructure.repository;
 
-import com.algaworks.algafoodapi.domain.entity.Cidade;
+import com.algaworks.algafoodapi.domain.model.entity.Cidade;
 import com.algaworks.algafoodapi.domain.repository.CidadeRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
