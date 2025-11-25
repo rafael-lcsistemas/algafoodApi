@@ -1,10 +1,9 @@
 package com.algaworks.algafoodapi.api.controller;
 
-import com.algaworks.algafoodapi.domain.entity.Cozinha;
-import com.algaworks.algafoodapi.domain.entity.Restaurante;
+import com.algaworks.algafoodapi.domain.model.entity.Cozinha;
+import com.algaworks.algafoodapi.domain.model.entity.Restaurante;
 import com.algaworks.algafoodapi.domain.repository.CozinhaRepository;
 import com.algaworks.algafoodapi.domain.repository.RestauranteRepository;
-import com.algaworks.algafoodapi.infrastructure.repository.specification.RestauranteSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,20 +24,17 @@ public class TesteController {
 
     @GetMapping("/cozinhas/por-nome")
     public List<Cozinha> listarTodasPorNome(String nome) {
-        if (nome.isEmpty()) {
-            throw new RuntimeException("O nome não pode ser vazio.");
-        }
-
         return cozinhaRepository.findByNomeContaining(nome);
+    }
+
+    @GetMapping("/cozinhas/primeira")
+    public Optional<Cozinha> buscarPrimeira() {
+        return cozinhaRepository.buscarPrimeiro();
     }
 
     @GetMapping("/cozinhas/unica-por-nome")
     public Optional<Cozinha> listarUnicaPorNome(String nome) {
-        if (nome.isEmpty()) {
-            throw new RuntimeException("O nome não pode ser vazio.");
-        }
-
-        return cozinhaRepository.findByNome(nome);
+         return cozinhaRepository.findByNome(nome);
     }
 
     @GetMapping("/restaurantes/por-taxa-frete")
@@ -59,5 +55,10 @@ public class TesteController {
     @GetMapping("/restaurantes/com-frete-gratis")
     public List<Restaurante> restauranteComFreteGratis(String nome) {
         return restauranteRepository.findComFreteGratis(nome);
+    }
+
+    @GetMapping("/restaurantes/primeiro")
+    public Optional<Restaurante> buscarPrimeiro() {
+        return restauranteRepository.buscarPrimeiro();
     }
 }

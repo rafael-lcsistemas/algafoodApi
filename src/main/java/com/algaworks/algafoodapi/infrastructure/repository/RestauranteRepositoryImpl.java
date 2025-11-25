@@ -1,6 +1,6 @@
 package com.algaworks.algafoodapi.infrastructure.repository;
 
-import com.algaworks.algafoodapi.domain.entity.Restaurante;
+import com.algaworks.algafoodapi.domain.model.entity.Restaurante;
 import com.algaworks.algafoodapi.domain.repository.RestauranteRepository;
 import com.algaworks.algafoodapi.domain.repository.RestauranteRepositoryQueries;
 import com.algaworks.algafoodapi.infrastructure.repository.specification.RestauranteSpecification;
