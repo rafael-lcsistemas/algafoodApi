@@ -8,9 +8,19 @@ insert into forma_pagamento(nome) values('Pix');
 insert into forma_pagamento(nome) values('Cartão de Crédito');
 insert into forma_pagamento(nome) values('Cartão de Débito');
 -- Restaurantes
-insert into restaurante(nome, taxa_Frete, id_cozinha, id_forma_pagamento) values('Aurora', 0.0, 1, 1);
-insert into restaurante(nome, taxa_Frete, id_cozinha, id_forma_pagamento) values('Imperatriz', 5.0, 2, 2);
-insert into restaurante(nome, taxa_Frete, id_cozinha, id_forma_pagamento) values('Belo Horizonte', 10.0, 3, 4);
+insert into restaurante(nome, taxa_Frete, id_cozinha) values('Aurora', 0.0, 1);
+insert into restaurante(nome, taxa_Frete, id_cozinha) values('Imperatriz', 5.0, 2);
+insert into restaurante(nome, taxa_Frete, id_cozinha) values('Belo Horizonte', 10.0, 3);
+-- Restaurantes & Formas de pagamento
+insert into restaurante_forma_pagamento(id_restaurante, id_forma_pagamento) values(1, 1);
+insert into restaurante_forma_pagamento(id_restaurante, id_forma_pagamento) values(1, 2);
+insert into restaurante_forma_pagamento(id_restaurante, id_forma_pagamento) values(2, 1);
+insert into restaurante_forma_pagamento(id_restaurante, id_forma_pagamento) values(2, 2);
+insert into restaurante_forma_pagamento(id_restaurante, id_forma_pagamento) values(2, 3);
+insert into restaurante_forma_pagamento(id_restaurante, id_forma_pagamento) values(3, 1);
+insert into restaurante_forma_pagamento(id_restaurante, id_forma_pagamento) values(3, 2);
+insert into restaurante_forma_pagamento(id_restaurante, id_forma_pagamento) values(3, 3);
+insert into restaurante_forma_pagamento(id_restaurante, id_forma_pagamento) values(3, 4);
 -- Estados
 insert into estado(nome, uf) values('Pará', 'PA');
 insert into estado(nome, uf) values('Maranhão', 'MA');

@@ -1,7 +1,11 @@
 package com.algaworks.algafoodapi.domain.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -19,19 +23,22 @@ public class Restaurante {
     @JoinColumn(name = "id_cozinha", nullable = false)
     private Cozinha cozinha;
 
-    @ManyToOne
-    @JoinColumn(name = "id_formaPagamento", nullable = false)
-    private FormaPagamento formaPagamento;
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(name = "restaurante_forma_pagamento",
+            joinColumns = @JoinColumn(name = "id_restaurante"),
+            inverseJoinColumns = @JoinColumn(name = "id_forma_pagamento"))
+    private List<FormaPagamento> formasPagamento = new ArrayList<>();
 
     public Restaurante() {
     }
 
-    public Restaurante(Long id, String nome, BigDecimal taxaFrete, Cozinha cozinha, FormaPagamento formaPagamento) {
+    public Restaurante(Long id, String nome, BigDecimal taxaFrete, Cozinha cozinha, List<FormaPagamento> formasPagamento) {
         this.id = id;
         this.nome = nome;
         this.taxaFrete = taxaFrete;
         this.cozinha = cozinha;
-        this.formaPagamento = formaPagamento;
+        this.formasPagamento = formasPagamento;
     }
 
     public Long getId() {
@@ -66,12 +73,12 @@ public class Restaurante {
         this.cozinha = cozinha;
     }
 
-    public FormaPagamento getFormaPagamento() {
-        return formaPagamento;
+    public List<FormaPagamento> getFormasPagamento() {
+        return formasPagamento;
     }
 
-    public void setFormaPagamento(FormaPagamento formaPagamento) {
-        this.formaPagamento = formaPagamento;
+    public void setFormasPagamento(List<FormaPagamento> formasPagamento) {
+        this.formasPagamento = formasPagamento;
     }
 
     @Override
@@ -89,6 +96,6 @@ public class Restaurante {
     @Override
     public String toString() {
         return "Restaurante: " + id + " - " + nome + " / Cozinha: " + cozinha.getNome() +
-                " / Forma de pagamento: " + formaPagamento.getNome();
+                " / Forma de pagamento: ";
     }
 }
