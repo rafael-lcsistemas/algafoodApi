@@ -32,4 +32,9 @@ insert into restaurante_forma_pagamento(id_restaurante, id_forma_pagamento) valu
 insert into restaurante_forma_pagamento(id_restaurante, id_forma_pagamento) values(3, 2);
 insert into restaurante_forma_pagamento(id_restaurante, id_forma_pagamento) values(3, 3);
 insert into restaurante_forma_pagamento(id_restaurante, id_forma_pagamento) values(3, 4);
-
+-- Produto
+INSERT INTO produto (nome, descricao, preco, ativo, id_restaurante, data_cadastro, data_alteracao) VALUES ('Hambúrguer Clássico', 'Pão brioche, carne 180g, queijo, alface e tomate.', 28.90, true, 1, UTC_TIMESTAMP, UTC_TIMESTAMP);
+INSERT INTO produto (nome, descricao, preco, ativo, id_restaurante, data_cadastro, data_alteracao) VALUES ('Pizza Margherita', 'Molho de tomate, mussarela, manjericão fresco e azeite.', 42.00, true, 2, UTC_TIMESTAMP, UTC_TIMESTAMP);
+INSERT INTO produto (nome, descricao, preco, ativo, id_restaurante, data_cadastro, data_alteracao) VALUES ('Lasanha Bolonhesa', 'Massa fresca, molho bolonhesa artesanal e parmesão gratinado.', 36.50, true, 1, UTC_TIMESTAMP, UTC_TIMESTAMP);
+INSERT INTO produto (nome, descricao, preco, ativo, id_restaurante, data_cadastro, data_alteracao) VALUES ('Salada Caesar', 'Alface americana, frango grelhado, croutons e molho caesar.', 24.00, true, 2, UTC_TIMESTAMP, UTC_TIMESTAMP);
+INSERT INTO produto (nome, descricao, preco, ativo, id_restaurante, data_cadastro, data_alteracao) VALUES ('Café Espresso', 'Café 100% arábica, torra média, servido curto.', 6.00, true, 3, UTC_TIMESTAMP, UTC_TIMESTAMP);
