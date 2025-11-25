@@ -31,11 +31,11 @@ public class CozinhaController {
         try {
             Optional<Cozinha> cozinha = cozinhaService.findById(id);
 
-            if(cozinha.isEmpty()) {
-                return ResponseEntity.notFound().build();
+            if(cozinha.isPresent()) {
+                return ResponseEntity.ok(cozinha.get());
             }
 
-            return ResponseEntity.ok(cozinha.get());
+            return ResponseEntity.notFound().build();
         } catch (EntidadeNaoEncontradaException e) {
             return ResponseEntity.notFound().build();
         }
