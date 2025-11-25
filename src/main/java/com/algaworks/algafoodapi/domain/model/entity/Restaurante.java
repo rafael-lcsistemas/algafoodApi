@@ -47,10 +47,13 @@ public class Restaurante {
             inverseJoinColumns = @JoinColumn(name = "id_forma_pagamento"))
     private List<FormaPagamento> formasPagamento = new ArrayList<>();
 
+    @OneToMany(mappedBy = "restaurante")
+    private List<Produto> produtos = new ArrayList<>();
+
     public Restaurante() {
     }
 
-    public Restaurante(Long id, String nome, BigDecimal taxaFrete, Cozinha cozinha, List<FormaPagamento> formasPagamento, RestauranteEndereco endereco, LocalDateTime dataCadastro, LocalDateTime dataAlteracao) {
+    public Restaurante(Long id, String nome, BigDecimal taxaFrete, Cozinha cozinha, List<FormaPagamento> formasPagamento, RestauranteEndereco endereco, LocalDateTime dataCadastro, LocalDateTime dataAlteracao, List<Produto> produtos) {
         this.id = id;
         this.nome = nome;
         this.taxaFrete = taxaFrete;
@@ -59,6 +62,7 @@ public class Restaurante {
         this.endereco = endereco;
         this.dataCadastro = dataCadastro;
         this.dataAlteracao = dataAlteracao;
+        this.produtos = produtos;
     }
 
     public Long getId() {
@@ -107,6 +111,14 @@ public class Restaurante {
 
     public void setEndereco(RestauranteEndereco endereco) {
         this.endereco = endereco;
+    }
+
+    public List<Produto> getProdutos() {
+        return produtos;
+    }
+
+    public void setProdutos(List<Produto> produtos) {
+        this.produtos = produtos;
     }
 
     public LocalDateTime getDataCadastro() {
