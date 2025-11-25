@@ -19,9 +19,9 @@ insert into cidade(nome, id_estado) values('Sãi Luiz', 2);
 insert into cidade(nome, id_estado) values('Contagem', 3);
 insert into cidade(nome, id_estado) values('Caldas', 3);
 -- Restaurantes
-insert into restaurante(nome, taxa_Frete, id_cozinha, endereco_cep, endereco_logradouro, endereco_bairro, endereco_numero, endereco_complemento, endereco_id_cidade) values('Aurora', 0.0, 1, '68658-000', 'Av Bernado sayão', 'Centro', '1000', 'Apto 101', 1);
-insert into restaurante(nome, taxa_Frete, id_cozinha) values('Imperatriz', 5.0, 2);
-insert into restaurante(nome, taxa_Frete, id_cozinha) values('Belo Horizonte', 10.0, 3);
+insert into restaurante(nome, taxa_Frete, id_cozinha, endereco_cep, endereco_logradouro, endereco_bairro, endereco_numero, endereco_complemento, endereco_id_cidade, data_cadastro, data_alteracao) values('Aurora', 0.0, 1, '68658-000', 'Av Bernado sayão', 'Centro', '1000', 'Apto 101', 1, utc_timestamp, utc_timestamp);
+insert into restaurante(nome, taxa_Frete, id_cozinha, data_cadastro, data_alteracao) values('Imperatriz', 5.0, 2, utc_timestamp, utc_timestamp);
+insert into restaurante(nome, taxa_Frete, id_cozinha, data_cadastro, data_alteracao) values('Belo Horizonte', 10.0, 3, utc_timestamp, utc_timestamp);
 -- Restaurantes & Formas de pagamento
 insert into restaurante_forma_pagamento(id_restaurante, id_forma_pagamento) values(1, 1);
 insert into restaurante_forma_pagamento(id_restaurante, id_forma_pagamento) values(1, 2);
