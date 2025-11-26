@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface CozinhaRepository extends CustomJpsRepository<Cozinha, Long> {
+public interface CozinhaRepository extends CustomJpaRepository<Cozinha, Long> {
 
     List<Cozinha> findByNomeContaining(String nome);
     Optional<Cozinha> findByNome(String nome);
