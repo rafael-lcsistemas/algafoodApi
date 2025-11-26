@@ -1,5 +1,6 @@
 package com.algaworks.algafoodapi.domain.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
