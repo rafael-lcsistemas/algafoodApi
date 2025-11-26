@@ -96,3 +96,11 @@ INSERT INTO grupo_permissao (id_grupo, id_permissao) VALUES (3, 4);
 INSERT INTO grupo_permissao (id_grupo, id_permissao) VALUES (3, 8);
 INSERT INTO grupo_permissao (id_grupo, id_permissao) VALUES (3, 12);
 INSERT INTO grupo_permissao (id_grupo, id_permissao) VALUES (3, 16);
+-- Usuario
+INSERT INTO usuario (nome, email, senha) VALUES ('Rafael Nunes', 'rafael@email.com', '123456');
+INSERT INTO usuario (nome, email, senha) VALUES ('Ana Souza', 'ana.souza@email.com', '123456');
+INSERT INTO usuario (nome, email, senha) VALUES ('Carlos Lima', 'carlos.lima@email.com', '123456');
+-- Usuario Grupo
+INSERT INTO usuario_grupo (id_usuario, id_grupo) VALUES (1, 1);
+INSERT INTO usuario_grupo (id_usuario, id_grupo) VALUES (2, 2);
+INSERT INTO usuario_grupo (id_usuario, id_grupo) VALUES (3, 3);
