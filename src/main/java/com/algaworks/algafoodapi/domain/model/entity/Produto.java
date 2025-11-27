@@ -1,6 +1,7 @@
 package com.algaworks.algafoodapi.domain.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -29,15 +30,13 @@ public class Produto {
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "id_restaurante", nullable = false)
+    @JoinColumn(name = "id_restaurante")
     private Restaurante restaurante;
 
-    @JsonIgnore
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "TIMESTAMP")
     private LocalDateTime dataCadastro;
 
-    @JsonIgnore
     @UpdateTimestamp
     @Column(nullable = false, columnDefinition = "TIMESTAMP")
     private LocalDateTime dataAlteracao;
@@ -45,7 +44,8 @@ public class Produto {
     public Produto() {
     }
 
-    public Produto(Long id, String nome, String descricao, BigDecimal preco, Boolean ativo, Restaurante restaurante, LocalDateTime dataCadastro, LocalDateTime dataAlteracao) {
+    public Produto(Long id, String nome, String descricao, BigDecimal preco, Boolean ativo, Restaurante restaurante,
+                   LocalDateTime dataCadastro, LocalDateTime dataAlteracao) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
