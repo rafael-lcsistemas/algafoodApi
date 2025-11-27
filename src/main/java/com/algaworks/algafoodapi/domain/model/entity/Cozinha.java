@@ -14,7 +14,10 @@ public class Cozinha {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String nome;
+
+    private Boolean ativo;
 
     @JsonIgnore
     @OneToMany(mappedBy = "cozinha")
@@ -23,9 +26,10 @@ public class Cozinha {
     public Cozinha() {
     }
 
-    public Cozinha(Long id, String nome) {
+    public Cozinha(Long id, String nome, Boolean ativo) {
         this.id = id;
         this.nome = nome;
+        this.ativo = ativo;
     }
 
     public Long getId() {
@@ -42,6 +46,14 @@ public class Cozinha {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public Boolean getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
     }
 
     public List<Restaurante> getRestaurantes() {
