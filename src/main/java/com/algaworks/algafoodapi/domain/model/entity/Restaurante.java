@@ -18,10 +18,11 @@ public class Restaurante {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String nome;
 
     private BigDecimal taxaFrete;
-
+ 
     @ManyToOne
     @JoinColumn(name = "id_cozinha", nullable = false)
     private Cozinha cozinha;
@@ -47,6 +48,7 @@ public class Restaurante {
             inverseJoinColumns = @JoinColumn(name = "id_forma_pagamento"))
     private List<FormaPagamento> formasPagamento = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "restaurante")
     private List<Produto> produtos = new ArrayList<>();
 
