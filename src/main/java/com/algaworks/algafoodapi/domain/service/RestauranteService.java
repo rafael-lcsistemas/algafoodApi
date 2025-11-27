@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class RestauranteService {
@@ -52,35 +53,31 @@ public class RestauranteService {
             throw new EntidadeNaoEncontradaException("O nome do restaurante não pode ser vazia ou nula");
         }
 
-        Optional<Cozinha> cozinha = cozinhaService.findById(restaurante.getCozinha().getId());
+        Optional<Cozinha> cozinha = cozinhaService.filtrarPorId(restaurante.getCozinha().getId());
 
         if (cozinha.isEmpty()) {
             throw new EntidadeNaoEncontradaException(String.format("Cozinha do código %d não encontrada",
                     restaurante.getCozinha().getId()));
         }
 
-        List<FormaPagamento> formasPagamento = restaurante.getFormasPagamento();
+        List<FormaPagamento> formasPagamentoCompletas = restaurante.getFormasPagamento()
+                .stream()
+                .map(fp -> formaPagamentoService.filtrarPorID(fp.getId())
+                        .orElseThrow(() -> new EntidadeNaoEncontradaException(
+                                String.format("Forma de pagamento do código %d não encontrada", fp.getId())
+                        ))
+                ).collect(Collectors.toList());
 
-        formasPagamento.forEach(formaPagamento -> {
-            formaPagamentoService.findById(formaPagamento.getId());
-
-            var pagamento = formaPagamentoService.findById(formaPagamento.getId());
-
-            if (pagamento == null) {
-                throw new EntidadeNaoEncontradaException(String.format("Forma de pagamento do código %d não encontrada",
-                        pagamento.getId()));
-            }
-        });
 
 
         restaurante.setCozinha(cozinha.get());
-        restaurante.setFormasPagamento(formasPagamento);
+        restaurante.setFormasPagamento(formasPagamentoCompletas);
 
         return restauranteRepository.save(restaurante);
     }
 
     public Restaurante update(Restaurante restaurante) {
-        Optional<Cozinha> cozinha = cozinhaService.findById(restaurante.getCozinha().getId());
+        Optional<Cozinha> cozinha = cozinhaService.filtrarPorId(restaurante.getCozinha().getId());
         List<FormaPagamento> formasPagamento = restaurante.getFormasPagamento();
 
         if (restaurante.getNome() == null | restaurante.getNome().isEmpty()) {
@@ -95,13 +92,13 @@ public class RestauranteService {
         }
 
         formasPagamento.forEach(formaPagamento -> {
-            FormaPagamento pagamento = formaPagamentoService.findById(formaPagamento.getId());
+            var pagamento = formaPagamentoService.filtrarPorID(formaPagamento.getId());
 
-            if (pagamento.getId() == null) {
+            if (pagamento.get().getId() == null) {
                 throw new EntidadeIntegridadeException("Código da forma de pagamento é obrigatoria");
-            } else if (pagamento == null) {
+            } else if (pagamento.isEmpty()) {
                 throw new EntidadeIntegridadeException(String.format("Forma de pagamento de código %d não escontrada",
-                        pagamento.getId()));
+                        pagamento.get().getId()));
             }
         });
 

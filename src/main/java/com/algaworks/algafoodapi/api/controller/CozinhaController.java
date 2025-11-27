@@ -22,43 +22,49 @@ public class CozinhaController {
     private CozinhaService cozinhaService;
 
     @GetMapping("/listar")
-    public List<Cozinha> listar() {
-        return cozinhaService.findAll();
+    public List<Cozinha> buscarTodas() {
+        try {
+            return cozinhaService.buscarTodas();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @GetMapping("/por-nome")
+    public List<Cozinha> filtrarPorNome(@RequestParam String nome) {
+        try {
+            return cozinhaService.filtrarPorNome(nome);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Cozinha> buscarPorId(@PathVariable Long id) {
+    public ResponseEntity<?> filtrarPorId(@PathVariable Long id) {
         try {
-            Optional<Cozinha> cozinha = cozinhaService.findById(id);
-
-            if(cozinha.isPresent()) {
-                return ResponseEntity.ok(cozinha.get());
-            }
-
-            return ResponseEntity.notFound().build();
+            var cozinha = cozinhaService.filtrarPorId(id);
+            return ResponseEntity.ok(cozinha.get());
         } catch (EntidadeNaoEncontradaException e) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Cozinha inserirNova(@RequestBody Cozinha cozinha) {
-        return cozinhaService.insert(cozinha);
+    public ResponseEntity<?> inserirNova(@RequestBody Cozinha cozinha) {
+        try {
+            var cozinhaSalva = cozinhaService.inserirOuAtualizar(cozinha);
+            return ResponseEntity.status(HttpStatus.CREATED).body(cozinhaSalva);
+        } catch (EntidadeIntegridadeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Cozinha cozinhaAtualizada) {
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Cozinha cozinha) {
         try {
-            Cozinha cozinhaAtual = cozinhaService.findById(id)
-                    .orElseThrow(() -> new EntidadeNaoEncontradaException(
-                            String.format("Cozinha de código %d não encontrada", id)
-                    ));
-
-            BeanUtils.copyProperties(cozinhaAtualizada, cozinhaAtual, "id");
-
-            Cozinha cozinhaSalva = cozinhaService.update(cozinhaAtual);
-
+            var cozinhaAtual = cozinhaService.filtrarPorId(id);
+            BeanUtils.copyProperties(cozinha, cozinhaAtual.get(), "id");
+            Cozinha cozinhaSalva = cozinhaService.inserirOuAtualizar(cozinhaAtual.get());
             return ResponseEntity.ok(cozinhaSalva);
         } catch (EntidadeNaoEncontradaException e) {
             return ResponseEntity.notFound().build();

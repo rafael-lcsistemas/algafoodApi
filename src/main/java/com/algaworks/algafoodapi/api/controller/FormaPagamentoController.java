@@ -21,21 +21,28 @@ public class FormaPagamentoController {
     private FormaPagamentoService formaPagamentoService;
 
     @GetMapping("/listar")
-    public List<FormaPagamento> listar(){
+    public List<FormaPagamento> buscarTodas(){
         try {
-            formaPagamentoService.findAll();
+            return formaPagamentoService.buscarTodas();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
 
-        return formaPagamentoService.findAll();
+    @GetMapping("/por-nome")
+    public List<FormaPagamento> filtrarPorNome(@RequestParam String nome) {
+        try {
+            return formaPagamentoService.filtrarPorNome(nome);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> buscarPorId(@PathVariable Long id) {
+    public ResponseEntity<?> filtrarPorId(@PathVariable Long id) {
         try {
-            FormaPagamento formaPagamento = formaPagamentoService.findById(id);
-            return ResponseEntity.ok(formaPagamento);
+            var formaPagamento = formaPagamentoService.filtrarPorID(id);
+            return ResponseEntity.ok(formaPagamento.get());
         } catch (EntidadeNaoEncontradaException e) {
             return ResponseEntity.notFound().build();
         }
@@ -44,7 +51,7 @@ public class FormaPagamentoController {
     @PostMapping
     public ResponseEntity<?> inserir(@RequestBody FormaPagamento formaPagamento) {
         try {
-            formaPagamento = formaPagamentoService.insert(formaPagamento);
+            formaPagamento = formaPagamentoService.inserirOuAtualizar(formaPagamento);
             return ResponseEntity.status(201).body(formaPagamento);
         } catch (EntidadeIntegridadeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -54,9 +61,9 @@ public class FormaPagamentoController {
     @PutMapping("/{id}")
     public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody FormaPagamento formaPagamentoAtualizado) {
         try {
-            FormaPagamento formaPagamentoParaAtualizar = formaPagamentoService.findById(id);
-            BeanUtils.copyProperties(formaPagamentoAtualizado, formaPagamentoParaAtualizar, "id");
-            FormaPagamento formaPagamentoSalvo = formaPagamentoService.update(formaPagamentoParaAtualizar);
+            var formaPagamentoParaAtualizar = formaPagamentoService.filtrarPorID(id);
+            BeanUtils.copyProperties(formaPagamentoAtualizado, formaPagamentoParaAtualizar.get(), "id");
+            var formaPagamentoSalvo = formaPagamentoService.inserirOuAtualizar(formaPagamentoParaAtualizar.get());
 
             return ResponseEntity.ok(formaPagamentoSalvo);
         } catch (EntidadeNaoEncontradaException e) {
@@ -69,7 +76,7 @@ public class FormaPagamentoController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> remover(@PathVariable Long id) {
         try {
-            formaPagamentoService.delete(id);
+            formaPagamentoService.remove(id);
             return ResponseEntity.ok().build();
         } catch (EntidadeNaoEncontradaException e) {
             return ResponseEntity.notFound().build();
