@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Embeddable
-public class RestauranteEndereco {
+public class Endereco {
 
     @Column(name = "endereco_cep")
     private String cep;
@@ -25,9 +25,9 @@ public class RestauranteEndereco {
     @JoinColumn(name = "endereco_id_cidade")
     private Cidade cidade;
 
-    public RestauranteEndereco() {}
+    public Endereco() {}
 
-    public RestauranteEndereco(String cep, String logradouro, String numero, String complemento, String bairro, Cidade cidade) {
+    public Endereco(String cep, String logradouro, String numero, String complemento, String bairro, Cidade cidade) {
         this.cep = cep;
         this.logradouro = logradouro;
         this.numero = numero;
@@ -87,7 +87,7 @@ public class RestauranteEndereco {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        RestauranteEndereco that = (RestauranteEndereco) o;
+        Endereco that = (Endereco) o;
         return Objects.equals(cep, that.cep) && Objects.equals(logradouro, that.logradouro) && Objects.equals(numero, that.numero) && Objects.equals(complemento, that.complemento) && Objects.equals(bairro, that.bairro) && Objects.equals(cidade, that.cidade);
     }
 
