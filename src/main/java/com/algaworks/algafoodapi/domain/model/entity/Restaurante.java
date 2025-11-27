@@ -1,6 +1,7 @@
 package com.algaworks.algafoodapi.domain.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -22,7 +23,8 @@ public class Restaurante {
     private String nome;
 
     private BigDecimal taxaFrete;
- 
+
+//    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_cozinha", nullable = false)
     private Cozinha cozinha;
@@ -30,6 +32,17 @@ public class Restaurante {
     @JsonIgnore
     @Embedded
     private RestauranteEndereco endereco;
+
+//    @JsonIgnore
+    @ManyToMany
+    @JoinTable(name = "restaurante_forma_pagamento",
+            joinColumns = @JoinColumn(name = "id_restaurante"),
+            inverseJoinColumns = @JoinColumn(name = "id_forma_pagamento"))
+    private List<FormaPagamento> formasPagamento = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "restaurante")
+    private List<Produto> produtos = new ArrayList<>();
 
     @JsonIgnore
     @CreationTimestamp
@@ -40,17 +53,6 @@ public class Restaurante {
     @UpdateTimestamp
     @Column(nullable = false, columnDefinition = "TIMESTAMP")
     private LocalDateTime dataAlteracao;
-
-    @JsonIgnore
-    @ManyToMany
-    @JoinTable(name = "restaurante_forma_pagamento",
-            joinColumns = @JoinColumn(name = "id_restaurante"),
-            inverseJoinColumns = @JoinColumn(name = "id_forma_pagamento"))
-    private List<FormaPagamento> formasPagamento = new ArrayList<>();
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "restaurante")
-    private List<Produto> produtos = new ArrayList<>();
 
     public Restaurante() {
     }
