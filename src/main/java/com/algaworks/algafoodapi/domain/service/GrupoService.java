@@ -26,7 +26,7 @@ public class GrupoService {
     }
 
     public List<Grupo> filtrarPorNome(String nome) {
-        return grupoRepository.findByDescricaoContaining(nome);
+        return grupoRepository.findByNomeContaining(nome);
     }
 
     public Optional<Grupo> buscarPorId(Long id) {
@@ -40,7 +40,7 @@ public class GrupoService {
     }
 
     public Grupo inserirOuAtualizar(Grupo grupo) {
-        if (grupo.getDescricao() == null || grupo.getDescricao().trim().isEmpty()) {
+        if (grupo.getNome() == null || grupo.getNome().trim().isEmpty()) {
             throw new EntidadeIntegridadeException(
                     "Descrição do grupo inválida. Por favor, verifique e tente novamente."
             );

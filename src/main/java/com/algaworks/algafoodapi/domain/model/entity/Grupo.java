@@ -1,6 +1,10 @@
 package com.algaworks.algafoodapi.domain.model.entity;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -12,8 +16,16 @@ public class Grupo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String descricao;
+    @Column(nullable = false, length = 100)
+    private String nome;
+
+    private Boolean ativo;
+
+    @CreationTimestamp
+    private LocalDateTime datahoraCadastro;
+
+    @UpdateTimestamp
+    private LocalDateTime datahoraAlteracao;
 
     @ManyToMany
     @JoinTable(name = "grupo_permissao",
@@ -24,9 +36,10 @@ public class Grupo {
     public Grupo() {
     }
 
-    public Grupo(Long id, String descricao, List<Permissao> permissoes) {
+    public Grupo(Long id, String nome, Boolean ativo, List<Permissao> permissoes) {
         this.id = id;
-        this.descricao = descricao;
+        this.nome = nome;
+        this.ativo = ativo;
         this.permissoes = permissoes;
     }
 
@@ -38,12 +51,28 @@ public class Grupo {
         this.id = id;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public String getNome() {
+        return nome;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public Boolean getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
+    }
+
+    public LocalDateTime getDatahoraAlteracao() {
+        return datahoraAlteracao;
+    }
+
+    public LocalDateTime getDatahoraCadastro() {
+        return datahoraCadastro;
     }
 
     public List<Permissao> getPermissoes() {
@@ -68,6 +97,6 @@ public class Grupo {
 
     @Override
     public String toString() {
-        return "Grupo: " + id + " / " + descricao + " / Permissões: " + permissoes;
+        return "Grupo: " + id + " / " + nome + " / Permissões: " + permissoes;
     }
 }

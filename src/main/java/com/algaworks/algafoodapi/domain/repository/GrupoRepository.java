@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface GrupoRepository extends JpaRepository<Grupo, Long> {
 
-    List<Grupo> findByDescricaoContaining(String nome);
+    List<Grupo> findByNomeContaining(String nome);
 }

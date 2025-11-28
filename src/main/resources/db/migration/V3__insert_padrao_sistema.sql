@@ -8,4 +8,7 @@ INSERT INTO usuario(id, nome, email, senha, ativo, datahora_cadastro, datahora_a
 VALUES (1, 'ADMIN', 'admin@admin.com.br', '123456', true, UTC_TIMESTAMP(), UTC_TIMESTAMP());
 
 INSERT INTO cozinha(id, nome, ativo, datahora_cadastro, datahora_alteracao)
-VALUES (1, 'PADRAO', true, UTC_TIMESTAMP(), UTC_TIMESTAMP())
+VALUES (1, 'PADRAO', true, UTC_TIMESTAMP(), UTC_TIMESTAMP());
+
+INSERT INTO grupo(id, nome, ativo, datahora_cadastro, datahora_alteracao)
+VALUES (1, 'MASTER', true, UTC_TIMESTAMP(), UTC_TIMESTAMP())

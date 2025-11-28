@@ -55,8 +55,11 @@ CREATE TABLE forma_pagamento
 
 CREATE TABLE grupo
 (
-    id        BIGINT AUTO_INCREMENT NOT NULL,
-    descricao VARCHAR(150)          NOT NULL,
+    id                 BIGINT AUTO_INCREMENT NOT NULL,
+    nome               VARCHAR(100)          NOT NULL,
+    ativo              BIT(1)                NULL,
+    datahora_cadastro  datetime              NULL,
+    datahora_alteracao datetime              NULL,
     CONSTRAINT pk_grupo PRIMARY KEY (id)
 ) engine = InnoDB
   default charset = utf8mb4;
