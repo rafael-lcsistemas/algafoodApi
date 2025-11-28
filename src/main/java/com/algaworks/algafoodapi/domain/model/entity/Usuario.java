@@ -2,6 +2,7 @@ package com.algaworks.algafoodapi.domain.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -16,15 +17,22 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String nome;
 
+    @Column(length = 100, unique = true)
     private String email;
 
+    @Column(length = 30)
     private String senha;
 
+    private Boolean ativo;
+
     @CreationTimestamp
-    private LocalDateTime dataCadastro;
+    private LocalDateTime datahoraCadastro;
+
+    @UpdateTimestamp
+    private LocalDateTime datahoraAlteracao;
 
     @ManyToMany
     @JoinTable(name = "usuario_grupo",
@@ -34,12 +42,12 @@ public class Usuario {
 
     public Usuario() {}
 
-    public Usuario(Long id, String nome, String email, String senha, LocalDateTime dataCadastro, List<Grupo> grupos) {
+    public Usuario(Long id, String nome, String email, String senha, Boolean ativo, List<Grupo> grupos) {
         this.id = id;
         this.nome = nome;
         this.email = email;
         this.senha = senha;
-        this.dataCadastro = dataCadastro;
+        this.ativo = ativo;
         this.grupos = grupos;
     }
 
@@ -75,12 +83,20 @@ public class Usuario {
         this.senha = senha;
     }
 
-    public LocalDateTime getDataCadastro() {
-        return dataCadastro;
+    public Boolean getAtivo() {
+        return ativo;
     }
 
-    public void setDataCadastro(LocalDateTime dataCadastro) {
-        this.dataCadastro = dataCadastro;
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
+    }
+
+    public LocalDateTime getDatahoraCadastro() {
+        return datahoraCadastro;
+    }
+
+    public LocalDateTime getDatahoraAlteracao() {
+        return datahoraAlteracao;
     }
 
     public List<Grupo> getGrupos() {

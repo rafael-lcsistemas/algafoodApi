@@ -116,11 +116,13 @@ CREATE TABLE restaurante_forma_pagamento
 
 CREATE TABLE usuario
 (
-    id            BIGINT AUTO_INCREMENT NOT NULL,
-    nome          VARCHAR(150)          NOT NULL,
-    email         VARCHAR(50)           NULL,
-    senha         VARCHAR(50)           NULL,
-    data_cadastro datetime              NULL,
+    id                 BIGINT AUTO_INCREMENT NOT NULL,
+    nome               VARCHAR(100)          NOT NULL,
+    email              VARCHAR(100)          NULL,
+    senha              VARCHAR(30)           NULL,
+    ativo              BIT(1)                NULL,
+    datahora_cadastro  datetime              NULL,
+    datahora_alteracao datetime              NULL,
     CONSTRAINT pk_usuario PRIMARY KEY (id)
 ) engine = InnoDB
   default charset = utf8mb4;
