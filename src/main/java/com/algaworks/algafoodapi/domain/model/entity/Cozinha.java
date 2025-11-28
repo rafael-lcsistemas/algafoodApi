@@ -1,8 +1,11 @@
 package com.algaworks.algafoodapi.domain.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -14,10 +17,16 @@ public class Cozinha {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String nome;
 
     private Boolean ativo;
+
+    @CreationTimestamp
+    private LocalDateTime datahoraCadastro;
+
+    @UpdateTimestamp
+    private LocalDateTime datahoraAlteracao;
 
     @JsonIgnore
     @OneToMany(mappedBy = "cozinha")
@@ -54,6 +63,14 @@ public class Cozinha {
 
     public void setAtivo(Boolean ativo) {
         this.ativo = ativo;
+    }
+
+    public LocalDateTime getDatahoraCadastro() {
+        return datahoraCadastro;
+    }
+
+    public LocalDateTime getDatahoraAlteracao() {
+        return datahoraAlteracao;
     }
 
     public List<Restaurante> getRestaurantes() {
