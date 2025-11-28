@@ -19,12 +19,21 @@ public class Restaurante {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String nome;
 
     private BigDecimal taxaFrete;
 
-//    @JsonIgnore
+    private Boolean ativo;
+
+    @CreationTimestamp
+    @Column(nullable = false, columnDefinition = "TIMESTAMP")
+    private LocalDateTime datahoraCadastro;
+
+    @UpdateTimestamp
+    @Column(nullable = false, columnDefinition = "TIMESTAMP")
+    private LocalDateTime datahoraAlteracao;
+
     @ManyToOne
     @JoinColumn(name = "id_cozinha", nullable = false)
     private Cozinha cozinha;
@@ -33,7 +42,6 @@ public class Restaurante {
     @Embedded
     private RestauranteEndereco endereco;
 
-//    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "restaurante_forma_pagamento",
             joinColumns = @JoinColumn(name = "id_restaurante"),
@@ -44,28 +52,17 @@ public class Restaurante {
     @OneToMany(mappedBy = "restaurante")
     private List<Produto> produtos = new ArrayList<>();
 
-    @JsonIgnore
-    @CreationTimestamp
-    @Column(nullable = false, columnDefinition = "TIMESTAMP")
-    private LocalDateTime dataCadastro;
-
-    @JsonIgnore
-    @UpdateTimestamp
-    @Column(nullable = false, columnDefinition = "TIMESTAMP")
-    private LocalDateTime dataAlteracao;
-
     public Restaurante() {
     }
 
-    public Restaurante(Long id, String nome, BigDecimal taxaFrete, Cozinha cozinha, List<FormaPagamento> formasPagamento, RestauranteEndereco endereco, LocalDateTime dataCadastro, LocalDateTime dataAlteracao, List<Produto> produtos) {
+    public Restaurante(Long id, String nome, BigDecimal taxaFrete, Boolean ativo, Cozinha cozinha, List<FormaPagamento> formasPagamento, RestauranteEndereco endereco, List<Produto> produtos) {
         this.id = id;
         this.nome = nome;
         this.taxaFrete = taxaFrete;
+        this.ativo = ativo;
         this.cozinha = cozinha;
         this.formasPagamento = formasPagamento;
         this.endereco = endereco;
-        this.dataCadastro = dataCadastro;
-        this.dataAlteracao = dataAlteracao;
         this.produtos = produtos;
     }
 
@@ -91,6 +88,22 @@ public class Restaurante {
 
     public void setTaxaFrete(BigDecimal taxaFrete) {
         this.taxaFrete = taxaFrete;
+    }
+
+    public Boolean getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
+    }
+
+    public LocalDateTime getDatahoraCadastro() {
+        return datahoraCadastro;
+    }
+
+    public LocalDateTime getDatahoraAlteracao() {
+        return datahoraAlteracao;
     }
 
     public Cozinha getCozinha() {
@@ -123,22 +136,6 @@ public class Restaurante {
 
     public void setProdutos(List<Produto> produtos) {
         this.produtos = produtos;
-    }
-
-    public LocalDateTime getDataCadastro() {
-        return dataCadastro;
-    }
-
-    public void setDataCadastro(LocalDateTime dataCadastro) {
-        this.dataCadastro = dataCadastro;
-    }
-
-    public LocalDateTime getDataAlteracao() {
-        return dataAlteracao;
-    }
-
-    public void setDataAlteracao(LocalDateTime dataAlteracao) {
-        this.dataAlteracao = dataAlteracao;
     }
 
     @Override

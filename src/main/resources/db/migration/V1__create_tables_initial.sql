@@ -100,16 +100,17 @@ CREATE TABLE produto
 CREATE TABLE restaurante
 (
     id                   BIGINT AUTO_INCREMENT NOT NULL,
-    nome                 VARCHAR(150)          NOT NULL,
+    nome                 VARCHAR(100)          NOT NULL,
     taxa_frete           DECIMAL               NULL,
+    ativo                BIT(1)                NULL,
+    datahora_cadastro    timestamp             NOT NULL,
+    datahora_alteracao   timestamp             NOT NULL,
     id_cozinha           BIGINT                NOT NULL,
-    data_cadastro        timestamp             NOT NULL,
-    data_alteracao       timestamp             NOT NULL,
-    endereco_cep         VARCHAR(150)          NULL,
-    endereco_logradouro  VARCHAR(150)          NULL,
-    endereco_numero      VARCHAR(150)          NULL,
-    endereco_complemento VARCHAR(150)          NULL,
-    endereco_bairro      VARCHAR(150)          NULL,
+    endereco_cep         VARCHAR(255)          NULL,
+    endereco_logradouro  VARCHAR(255)          NULL,
+    endereco_numero      VARCHAR(255)          NULL,
+    endereco_complemento VARCHAR(255)          NULL,
+    endereco_bairro      VARCHAR(255)          NULL,
     endereco_id_cidade   BIGINT                NULL,
     CONSTRAINT pk_restaurante PRIMARY KEY (id)
 ) engine = InnoDB
