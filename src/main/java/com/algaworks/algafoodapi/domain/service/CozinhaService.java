@@ -40,7 +40,7 @@ public class CozinhaService {
     public Optional<Cozinha> filtrarPorId(Long id) {
         Optional<Cozinha> cozinha = cozinhaRepository.findById(id);
 
-        if(cozinha.isEmpty()) {
+        if (cozinha.isEmpty()) {
             throw new EntidadeNaoEncontradaException(String.format("Cozinha de código %d não encontrada", id));
         }
 
@@ -67,11 +67,9 @@ public class CozinhaService {
         try {
             cozinhaRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    String.format("Cozinha de código %d não encontrada", id));
+            throw new EntidadeNaoEncontradaException(String.format("Cozinha de código %d não encontrada", id));
         } catch (DataIntegrityViolationException e) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT,
-                    String.format("Cozinha de código %d não pode ser removida, pois está em uso", id));
+            throw new EntidadeEmUsoException(String.format("Cozinha de código %d não pode ser removida, pois está em uso", id));
         }
     }
 }
