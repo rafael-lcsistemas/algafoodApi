@@ -4,6 +4,7 @@ import com.algaworks.algafoodapi.domain.model.entity.Endereco;
 import com.algaworks.algafoodapi.domain.model.entity.FormaPagamento;
 import com.algaworks.algafoodapi.domain.model.entity.Restaurante;
 import com.algaworks.algafoodapi.domain.model.entity.Usuario;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -32,18 +33,22 @@ public class Pedido {
     @Column(nullable = false)
     private BigDecimal subtotal;
 
+//    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_usuario", nullable = false)
     private Usuario usuarioPedido;
 
+//    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_restaurante", nullable = false)
     private Restaurante restaurante;
 
+//    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_formaPagamento", nullable = false)
     private FormaPagamento formaPagamento;
 
+    @JsonIgnore
     @Embedded
     private Endereco enderecoEntrega;
 
@@ -61,6 +66,7 @@ public class Pedido {
 
     private LocalDateTime datahoraEntrega;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PedidoDet> itensPedido = new ArrayList<>();
 
