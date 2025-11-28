@@ -33,11 +33,9 @@ CREATE TABLE cidade
 
 CREATE TABLE cozinha
 (
-    id                 BIGINT AUTO_INCREMENT NOT NULL,
-    nome               VARCHAR(100)          NOT NULL,
-    ativo              BIT(1)                NULL,
-    datahora_cadastro  datetime              NULL,
-    datahora_alteracao datetime              NULL,
+    id    BIGINT AUTO_INCREMENT NOT NULL,
+    nome  VARCHAR(150)          NOT NULL,
+    ativo BIT(1)                NOT NULL,
     CONSTRAINT pk_cozinha PRIMARY KEY (id)
 ) engine = InnoDB
   default charset = utf8mb4;
