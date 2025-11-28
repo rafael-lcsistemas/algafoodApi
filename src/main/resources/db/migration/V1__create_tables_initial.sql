@@ -64,19 +64,22 @@ CREATE TABLE grupo
 ) engine = InnoDB
   default charset = utf8mb4;
 
+CREATE TABLE permissao
+(
+    id                 BIGINT AUTO_INCREMENT NOT NULL,
+    nome               VARCHAR(100)          NOT NULL,
+    descricao          VARCHAR(100)          NOT NULL,
+    ativo              BIT(1)                NULL,
+    datahora_cadastro  datetime              NULL,
+    datahora_alteracao datetime              NULL,
+    CONSTRAINT pk_permissao PRIMARY KEY (id)
+) engine = InnoDB
+  default charset = utf8mb4;
+
 CREATE TABLE grupo_permissao
 (
     id_grupo     BIGINT NOT NULL,
     id_permissao BIGINT NOT NULL
-) engine = InnoDB
-  default charset = utf8mb4;
-
-CREATE TABLE permissao
-(
-    id        BIGINT AUTO_INCREMENT NOT NULL,
-    nome      VARCHAR(150)          NOT NULL,
-    descricao VARCHAR(150)          NOT NULL,
-    CONSTRAINT pk_permissao PRIMARY KEY (id)
 ) engine = InnoDB
   default charset = utf8mb4;
 

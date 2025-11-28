@@ -11,4 +11,16 @@ INSERT INTO cozinha(id, nome, ativo, datahora_cadastro, datahora_alteracao)
 VALUES (1, 'PADRAO', true, UTC_TIMESTAMP(), UTC_TIMESTAMP());
 
 INSERT INTO grupo(id, nome, ativo, datahora_cadastro, datahora_alteracao)
-VALUES (1, 'MASTER', true, UTC_TIMESTAMP(), UTC_TIMESTAMP())
+VALUES (1, 'MASTER', true, UTC_TIMESTAMP(), UTC_TIMESTAMP());
+
+INSERT INTO permissao(id, nome, descricao, ativo, datahora_cadastro, datahora_alteracao)
+VALUES (1, 'LOGIN', 'Permite realizar login no sistema', 1, UTC_TIMESTAMP(), UTC_TIMESTAMP()),
+       (2, 'CADASTRAR', 'Permite cadastrar novos registros no sistema', 1, UTC_TIMESTAMP(), UTC_TIMESTAMP()),
+       (3, 'CONSULTAR', 'Permite consultar dados no sistema', 1, UTC_TIMESTAMP(), UTC_TIMESTAMP()),
+       (4, 'ATUALIZAR', 'Permite atualizar registros existentes', 1, UTC_TIMESTAMP(), UTC_TIMESTAMP());
+
+INSERT INTO grupo_permissao(id_grupo, id_permissao)
+VALUES (1, 1), (1, 2), (1, 3), (1, 4);
+
+INSERT INTO usuario_grupo(id_usuario, id_grupo)
+VALUES (1, 1);

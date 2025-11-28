@@ -1,6 +1,10 @@
 package com.algaworks.algafoodapi.domain.model.entity;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -10,17 +14,27 @@ public class Permissao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String nome;
 
-    @JoinColumn(nullable = false)
+    @Column(nullable = false, length = 100)
     private String descricao;
 
-    public Permissao() {}
+    private Boolean ativo;
 
-    public Permissao(String nome, String descricao) {
+    @CreationTimestamp
+    private LocalDateTime datahoraCadastro;
+
+    @UpdateTimestamp
+    private LocalDateTime datahoraAlteracao;
+
+    public Permissao() {
+    }
+
+    public Permissao(String nome, String descricao, Boolean ativo) {
         this.nome = nome;
         this.descricao = descricao;
+        this.ativo = ativo;
     }
 
     public Long getId() {
@@ -45,6 +59,22 @@ public class Permissao {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public Boolean getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
+    }
+
+    public LocalDateTime getDatahoraCadastro() {
+        return datahoraCadastro;
+    }
+
+    public LocalDateTime getDatahoraAlteracao() {
+        return datahoraAlteracao;
     }
 
     @Override
