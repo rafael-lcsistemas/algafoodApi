@@ -1,6 +1,10 @@
 package com.algaworks.algafoodapi.domain.model.entity;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -10,14 +14,24 @@ public class FormaPagamento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, length = 100)
     private String nome;
+
+    private Boolean ativo;
+
+    @CreationTimestamp
+    private LocalDateTime datahoraCadastro;
+
+    @UpdateTimestamp
+    private LocalDateTime datahoraAlteracao;
 
     public FormaPagamento() {
     }
 
-    public FormaPagamento(Long id, String nome) {
+    public FormaPagamento(Long id, String nome, Boolean ativo) {
         this.id = id;
         this.nome = nome;
+        this.ativo = ativo;
     }
 
     public Long getId() {
@@ -34,6 +48,22 @@ public class FormaPagamento {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public Boolean getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
+    }
+
+    public LocalDateTime getDatahoraCadastro() {
+        return datahoraCadastro;
+    }
+
+    public LocalDateTime getDatahoraAlteracao() {
+        return datahoraAlteracao;
     }
 
     @Override

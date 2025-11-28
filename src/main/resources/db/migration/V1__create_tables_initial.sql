@@ -42,8 +42,11 @@ CREATE TABLE cozinha
 
 CREATE TABLE forma_pagamento
 (
-    id   BIGINT AUTO_INCREMENT NOT NULL,
-    nome VARCHAR(150)          NULL,
+    id                 BIGINT AUTO_INCREMENT NOT NULL,
+    nome               VARCHAR(100)          NOT NULL,
+    ativo              BIT(1)                NULL,
+    datahora_cadastro  datetime              NULL,
+    datahora_alteracao datetime              NULL,
     CONSTRAINT pk_formapagamento PRIMARY KEY (id)
 ) engine = InnoDB
   default charset = utf8mb4;
