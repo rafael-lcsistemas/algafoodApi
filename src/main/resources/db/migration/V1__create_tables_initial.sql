@@ -1,18 +1,33 @@
-CREATE TABLE cidade
+CREATE TABLE pais
 (
-    id        BIGINT AUTO_INCREMENT NOT NULL,
-    nome      VARCHAR(150)          NOT NULL,
-    id_estado BIGINT                NULL,
-    CONSTRAINT pk_cidade PRIMARY KEY (id)
+    id                 BIGINT AUTO_INCREMENT NOT NULL,
+    nome               VARCHAR(100)          NOT NULL,
+    datahora_cadastro  datetime              NULL,
+    datahora_alteracao datetime              NULL,
+    CONSTRAINT pk_pais PRIMARY KEY (id)
 ) engine = InnoDB
   default charset = utf8mb4;
 
 CREATE TABLE estado
 (
-    id   BIGINT AUTO_INCREMENT NOT NULL,
-    nome VARCHAR(150)          NOT NULL,
-    uf   VARCHAR(5)            NOT NULL,
+    id                 BIGINT AUTO_INCREMENT NOT NULL,
+    uf                 VARCHAR(5)            NOT NULL,
+    nome               VARCHAR(100)          NOT NULL,
+    datahora_cadastro  datetime              NULL,
+    datahora_alteracao datetime              NULL,
     CONSTRAINT pk_estado PRIMARY KEY (id)
+) engine = InnoDB
+  default charset = utf8mb4;
+
+CREATE TABLE cidade
+(
+    id                 BIGINT AUTO_INCREMENT NOT NULL,
+    id_estado          BIGINT                NULL,
+    nome               VARCHAR(100)          NOT NULL,
+    datahora_cadastro  datetime              NULL,
+    datahora_alteracao datetime              NULL,
+    ativo              BIT(1)                NULL,
+    CONSTRAINT pk_cidade PRIMARY KEY (id)
 ) engine = InnoDB
   default charset = utf8mb4;
 

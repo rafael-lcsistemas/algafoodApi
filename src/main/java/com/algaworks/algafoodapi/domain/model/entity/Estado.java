@@ -1,6 +1,9 @@
 package com.algaworks.algafoodapi.domain.model.entity;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -10,16 +13,24 @@ public class Estado {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String nome;
-
-    @Column(nullable = false)
+    @Column(nullable = false, length = 5)
     private String uf;
 
-    public Estado() {}
+    @Column(nullable = false, length = 100)
+    private String nome;
 
-    public Estado(Long id, String nome, String uf) {
+    @CreationTimestamp
+    private LocalDateTime datahoraCadastro;
+
+    @CreationTimestamp
+    private LocalDateTime datahoraAlteracao;
+
+    public Estado() {
+    }
+
+    public Estado(Long id, String uf, String nome) {
         this.id = id;
+        this.uf = uf;
         this.nome = nome;
     }
 
@@ -31,6 +42,14 @@ public class Estado {
         this.id = id;
     }
 
+    public String getUf() {
+        return uf;
+    }
+
+    public void setUf(String uf) {
+        this.uf = uf;
+    }
+
     public String getNome() {
         return nome;
     }
@@ -39,12 +58,12 @@ public class Estado {
         this.nome = nome;
     }
 
-    public String getUf() {
-        return uf;
+    public LocalDateTime getDatahoraCadastro() {
+        return datahoraCadastro;
     }
 
-    public void setUf(String uf) {
-        this.uf = uf;
+    public LocalDateTime getDatahoraAlteracao() {
+        return datahoraAlteracao;
     }
 
     @Override

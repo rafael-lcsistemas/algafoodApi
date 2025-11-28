@@ -24,11 +24,9 @@ public class Pais {
     public Pais() {
     }
 
-    public Pais(Long id, String nome, LocalDateTime datahoraCadastro, LocalDateTime datahoraAlteracao) {
+    public Pais(Long id, String nome) {
         this.id = id;
         this.nome = nome;
-        this.datahoraCadastro = datahoraCadastro;
-        this.datahoraAlteracao = datahoraAlteracao;
     }
 
     public Long getId() {
@@ -51,16 +49,8 @@ public class Pais {
         return datahoraCadastro;
     }
 
-    public void setDatahoraCadastro(LocalDateTime datahoraCadastro) {
-        this.datahoraCadastro = datahoraCadastro;
-    }
-
     public LocalDateTime getDatahoraAlteracao() {
         return datahoraAlteracao;
-    }
-
-    public void setDatahoraAlteracao(LocalDateTime datahoraAlteracao) {
-        this.datahoraAlteracao = datahoraAlteracao;
     }
 
     @Override

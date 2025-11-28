@@ -1,6 +1,9 @@
 package com.algaworks.algafoodapi.domain.model.entity;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -10,19 +13,28 @@ public class Cidade {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JoinColumn(nullable = false)
-    private String nome;
-
     @ManyToOne
     @JoinColumn(name = "id_estado")
     private Estado estado;
 
+    @Column(nullable = false, length = 100)
+    private String nome;
+
+    @CreationTimestamp
+    private LocalDateTime datahoraCadastro;
+
+    @CreationTimestamp
+    private LocalDateTime datahoraAlteracao;
+
+    private Boolean ativo;
+
     public Cidade() {}
 
-    public Cidade(Long id, String nome, Estado estado) {
+    public Cidade(Long id, Estado estado, String nome, Boolean ativo) {
         this.id = id;
-        this.nome = nome;
         this.estado = estado;
+        this.nome = nome;
+        this.ativo = ativo;
     }
 
     public Long getId() {
