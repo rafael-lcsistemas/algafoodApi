@@ -1,7 +1,6 @@
 package com.algaworks.algafoodapi.domain.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -40,7 +39,7 @@ public class Restaurante {
 
     @JsonIgnore
     @Embedded
-    private RestauranteEndereco endereco;
+    private Endereco endereco;
 
     @ManyToMany
     @JoinTable(name = "restaurante_forma_pagamento",
@@ -55,7 +54,7 @@ public class Restaurante {
     public Restaurante() {
     }
 
-    public Restaurante(Long id, String nome, BigDecimal taxaFrete, Boolean ativo, Cozinha cozinha, List<FormaPagamento> formasPagamento, RestauranteEndereco endereco, List<Produto> produtos) {
+    public Restaurante(Long id, String nome, BigDecimal taxaFrete, Boolean ativo, Cozinha cozinha, List<FormaPagamento> formasPagamento, Endereco endereco, List<Produto> produtos) {
         this.id = id;
         this.nome = nome;
         this.taxaFrete = taxaFrete;
@@ -122,11 +121,11 @@ public class Restaurante {
         this.formasPagamento = formasPagamento;
     }
 
-    public RestauranteEndereco getEndereco() {
+    public Endereco getEndereco() {
         return endereco;
     }
 
-    public void setEndereco(RestauranteEndereco endereco) {
+    public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
     }
 
