@@ -1,5 +1,7 @@
 package com.algaworks.algafoodapi.api.controller;
 
+import com.algaworks.algafoodapi.domain.exceptions.EntidadeNaoEncontradaException;
+import com.algaworks.algafoodapi.domain.exceptions.NegocioException;
 import com.algaworks.algafoodapi.domain.model.entity.Cozinha;
 import com.algaworks.algafoodapi.domain.service.CozinhaService;
 import org.springframework.beans.BeanUtils;
@@ -39,7 +41,12 @@ public class CozinhaController {
     public Cozinha update(@PathVariable Long id, @RequestBody Cozinha cozinha) {
         var cozinhaAtual = cozinhaService.filtrarPorId(id);
         BeanUtils.copyProperties(cozinha, cozinhaAtual, "id");
-        return cozinhaService.inserirOuAtualizar(cozinhaAtual);
+
+        try {
+            return cozinhaService.inserirOuAtualizar(cozinhaAtual);
+        } catch (EntidadeNaoEncontradaException e) {
+            throw new NegocioException(e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")
