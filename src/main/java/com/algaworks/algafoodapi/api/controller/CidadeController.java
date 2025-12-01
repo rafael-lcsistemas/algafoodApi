@@ -19,58 +19,34 @@ public class CidadeController {
     private CidadeService cidadeService;
 
     @GetMapping("/listar")
-    public List<Cidade> listar() {
-        try {
-            return cidadeService.findAll();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public List<Cidade> filtrarTodas() {
+        return cidadeService.filtrarTodas();
+    }
+
+    @GetMapping("/por-nome")
+    public List<Cidade> filtrarPorNome(@RequestParam String nome) {
+        return cidadeService.filtrarPorNome(nome);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> buscarPorId(@PathVariable Long id) {
-        try {
-            Cidade cidade = cidadeService.findById(id);
-            return ResponseEntity.ok(cidade);
-        } catch (EntidadeNaoEncontradaException e) {
-            return ResponseEntity.notFound().build();
-        }
+    public Cidade filtrarPorId(@PathVariable Long id) {
+        return cidadeService.filtrarPorId(id);
     }
 
     @PostMapping
-    public ResponseEntity<?> inserir(@RequestBody Cidade cidade) {
-        try {
-            Cidade cidadeNova = cidadeService.insert(cidade);
-            return ResponseEntity.status(201).body(cidadeNova);
-        } catch (EntidadeIntegridadeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public Cidade inserir(@RequestBody Cidade cidade) {
+        return cidadeService.inserirOuAtualizar(cidade);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody Cidade cidadeAtualizada) {
-        try {
-            Cidade cidadeAtual = cidadeService.findById(id);
-            BeanUtils.copyProperties(cidadeAtualizada, cidadeAtual, "id");
-            Cidade cidadeSalva = cidadeService.update(cidadeAtual);
-
-            return ResponseEntity.ok(cidadeSalva);
-        } catch (EntidadeNaoEncontradaException e) {
-            return ResponseEntity.notFound().build();
-        } catch (EntidadeIntegridadeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public Cidade atualizar(@PathVariable Long id, @RequestBody Cidade cidade) {
+        Cidade cidadeAtual = cidadeService.filtrarPorId(id);
+        BeanUtils.copyProperties(cidade, cidadeAtual, "id");
+        return cidadeService.inserirOuAtualizar(cidadeAtual);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> remover(@PathVariable Long id) {
-        try {
-            cidadeService.delete(id);
-            return ResponseEntity.ok().build();
-        } catch (EntidadeNaoEncontradaException e) {
-            return ResponseEntity.notFound().build();
-        } catch (EntidadeIntegridadeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public void remover(@PathVariable Long id) {
+        cidadeService.remove(id);
     }
 }

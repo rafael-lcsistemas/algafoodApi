@@ -20,53 +20,29 @@ public class PermissaoController {
     private PermissaoService permissaoService;
 
     @GetMapping("/listar")
-    public List<Permissao> listar() {
+    public List<Permissao> buscarTodas() {
         return permissaoService.buscarTodas();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> buscarPorId(@PathVariable Long id) {
-        try {
-            var permissao = permissaoService.buscarPorId(id);
-            return ResponseEntity.ok(permissao.get());
-        } catch (EntidadeNaoEncontradaException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    @GetMapping("/por-nome")
+    public List<Permissao> filtrarPorNome(@RequestParam String nome) {
+        return permissaoService.filtroPorNome(nome);
     }
 
-    @GetMapping("/por-nome")
-    public List<Permissao> buscarPorNome(@RequestParam String nome) {
-        try {
-            return permissaoService.filtroPorNome(nome);
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
-        }
+    @GetMapping("/{id}")
+    public Permissao filtrarPorId(@PathVariable Long id) {
+        return permissaoService.filtrarPorId(id);
     }
 
     @PostMapping
-    public ResponseEntity<?> salvarNova(@RequestBody Permissao permissaoNova) {
-        try {
-            permissaoNova = permissaoService.inserirNova(permissaoNova);
-            return ResponseEntity.status(HttpStatus.CREATED).body(permissaoNova);
-        } catch (EntidadeIntegridadeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public Permissao inserir(@RequestBody Permissao permissao) {
+        return permissaoService.inserirOuAtualizar(permissao);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody Permissao permissao) {
-        try {
-            var permissaoAtual = permissaoService.buscarPorId(id);
-
-            if (permissaoAtual.isEmpty()) {
-                return ResponseEntity.notFound().build();
-            }
-
-            BeanUtils.copyProperties(permissao, permissaoAtual.get(), "id");
-            Permissao permissaoSalva = permissaoService.atualizar(permissaoAtual.get());
-            return ResponseEntity.ok(permissaoSalva);
-        } catch (EntidadeIntegridadeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public Permissao atualizar(@PathVariable Long id, @RequestBody Permissao permissao) {
+        var permissaoAtual = permissaoService.filtrarPorId(id);
+        BeanUtils.copyProperties(permissao, permissaoAtual, "id");
+        return permissaoService.inserirOuAtualizar(permissaoAtual);
     }
 }

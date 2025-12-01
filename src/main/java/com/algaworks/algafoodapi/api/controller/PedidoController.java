@@ -20,32 +20,21 @@ public class PedidoController {
 
     @GetMapping("/listar")
     public List<Pedido> buscarTodos() {
-        try {
-            return pedidoService.buscarTodos();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        return pedidoService.buscarTodos();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> filtrarPorID(@PathVariable Long id) {
-        try {
-            var pedido = pedidoService.filtrarPorID(id);
-            return ResponseEntity.ok(pedido.get());
-        } catch (EntidadeNaoEncontradaException e) {
-           return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    public Pedido filtrarPorID(@PathVariable Long id) {
+        return pedidoService.filtrarPorID(id);
     }
 
     @PostMapping
-    public ResponseEntity<?> inserir(@RequestBody Pedido pedido) {
-        try {
-            var pedidoSalvo = pedidoService.inserirOuAtualizar(pedido);
-            return ResponseEntity.status(HttpStatus.CREATED).body(pedidoSalvo);
-        } catch (EntidadeNaoEncontradaException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        } catch (EntidadeIntegridadeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public Pedido inserir(@RequestBody Pedido pedido) {
+        return pedidoService.inserirOuAtualizar(pedido);
+    }
+
+    @PutMapping
+    public Pedido cancelarPedido(@RequestParam Long id) {
+        return pedidoService.cancelarPedido(id);
     }
 }

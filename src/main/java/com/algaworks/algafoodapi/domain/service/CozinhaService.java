@@ -8,12 +8,9 @@ import com.algaworks.algafoodapi.domain.repository.CozinhaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CozinhaService {
@@ -37,14 +34,9 @@ public class CozinhaService {
         }
     }
 
-    public Optional<Cozinha> filtrarPorId(Long id) {
-        Optional<Cozinha> cozinha = cozinhaRepository.findById(id);
-
-        if (cozinha.isEmpty()) {
-            throw new EntidadeNaoEncontradaException(String.format("Cozinha de código %d não encontrada", id));
-        }
-
-        return cozinha;
+    public Cozinha filtrarPorId(Long id) {
+        return cozinhaRepository.findById(id).orElseThrow(() ->
+                new EntidadeNaoEncontradaException(String.format("Cozinha de código %d não encontrada", id)));
     }
 
     public Cozinha inserirOuAtualizar(Cozinha cozinha) {
@@ -58,8 +50,8 @@ public class CozinhaService {
 
         try {
             return cozinhaRepository.save(cozinha);
-        } catch (EntidadeIntegridadeException e) {
-            throw new EntidadeIntegridadeException("Não foi possivel salvar cozinha, verifique os dados e tente novamente");
+        } catch (Exception e) {
+            throw new RuntimeException("Não foi possivel salvar cozinha, verifique os dados e tente novamente");
         }
     }
 

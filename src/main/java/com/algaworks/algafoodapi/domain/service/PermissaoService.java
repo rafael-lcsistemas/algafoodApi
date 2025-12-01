@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PermissaoService {
@@ -17,36 +16,28 @@ public class PermissaoService {
     private PermissaoRepository permissaoRepository;
 
     public List<Permissao> buscarTodas() {
-        return permissaoRepository.findAll();
+        try {
+            return permissaoRepository.findAll();
+        } catch (Exception e) {
+            throw new RuntimeException("Erro inesperado ao buscar todas as permissões");
+        }
     }
 
     public List<Permissao> filtroPorNome(String nome) {
-        return permissaoRepository.findByNomeContaining(nome);
+        try {
+            return permissaoRepository.findByNomeContaining(nome);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro inesperado ao buscar as permissões por nome");
+        }
     }
 
-    public Optional<Permissao> buscarPorId(Long id) {
-        Optional<Permissao> permissao = permissaoRepository.findById(id);
-
-        if (permissao.isEmpty()) {
-            throw new EntidadeNaoEncontradaException(String.format("Permissão do código %d não encontrada", id));
-        }
-
-        return permissao;
+    public Permissao filtrarPorId(Long id) {
+        return permissaoRepository.findById(id).orElseThrow(() ->
+                new EntidadeNaoEncontradaException(String.format("Permissão do código %d não encontrada", id)));
     }
 
-    public Permissao inserirNova(Permissao permissao) {
-        if (permissao.getNome() == null || permissao.getNome().isEmpty()) {
-            throw new EntidadeIntegridadeException("Nome da permissão inválido, por favor, verifique e tente novamente.");
-        }
+    public Permissao inserirOuAtualizar(Permissao permissao) {
 
-        if (permissao.getDescricao().isEmpty()) {
-            throw new EntidadeIntegridadeException("Descrição da permissão inválida, por favor, verifique e tente novamente.");
-        }
-
-        return permissaoRepository.save(permissao);
-    }
-
-    public Permissao atualizar(Permissao permissao) {
         if (permissao.getNome() == null || permissao.getNome().isEmpty()) {
             throw new EntidadeIntegridadeException("Nome da permissão inválido, por favor, verifique e tente novamente.");
         }

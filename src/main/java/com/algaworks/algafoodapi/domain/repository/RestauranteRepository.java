@@ -18,11 +18,5 @@ public interface RestauranteRepository extends CustomJpaRepository<Restaurante, 
 
     List<Restaurante> findByTaxaFreteBetween(BigDecimal taxaMinima, BigDecimal taxaMaxima);
 
-    List<Restaurante> consultarPorNome(String nome, Long cozinhaId);
-
-    Optional<Restaurante> findFirstByNomeContaining(String nome);
-
-    List<Restaurante> findTop2ByNome(String nome);
-
-    Integer countByCozinhaNome(String nome);
+    List<Restaurante> findByNomeContaining(String nome);
 }

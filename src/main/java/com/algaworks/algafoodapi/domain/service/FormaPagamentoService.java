@@ -6,6 +6,8 @@ import com.algaworks.algafoodapi.domain.exceptions.EntidadeIntegridadeException;
 import com.algaworks.algafoodapi.domain.exceptions.EntidadeNaoEncontradaException;
 import com.algaworks.algafoodapi.domain.repository.FormaPagamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,25 +20,24 @@ public class FormaPagamentoService {
     private FormaPagamentoRepository formaPagamentoRepository;
 
     public List<FormaPagamento> buscarTodas() {
-        return formaPagamentoRepository.findAll();
+        try {
+            return formaPagamentoRepository.findAll();
+        } catch (Exception e) {
+            throw new RuntimeException("Erro inesperado ao buscar todas as formas de pagamento");
+        }
     }
 
     public List<FormaPagamento> filtrarPorNome(String nome) {
-        return formaPagamentoRepository.findByNomeContaining(nome);
+        try {
+            return formaPagamentoRepository.findByNomeContaining(nome);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro inesperado ao buscar formas de pagamento por nome");
+        }
     }
 
-    public Optional<FormaPagamento> filtrarPorID(Long id) {
-        if (id == null) {
-            throw new EntidadeIntegridadeException("ID da busca não pode ser nulo");
-        }
-
-        var formaPagamento = formaPagamentoRepository.findById(id);
-
-        if (formaPagamento.isEmpty()) {
-            throw new EntidadeNaoEncontradaException(String.format("Forma de pagamento do código %d não encontrada", id));
-        }
-
-        return formaPagamento;
+    public FormaPagamento filtrarPorID(Long id) {
+        return formaPagamentoRepository.findById(id).orElseThrow(() ->
+                new EntidadeNaoEncontradaException(String.format("Forma de pagamento do código %d não encontrada", id)));
     }
 
     public FormaPagamento inserirOuAtualizar(FormaPagamento formaPagamento) {
@@ -54,9 +55,9 @@ public class FormaPagamentoService {
     public void remove(Long id) {
         try {
             formaPagamentoRepository.deleteById(id);
-        } catch (EntidadeNaoEncontradaException e) {
+        } catch (EmptyResultDataAccessException e) {
             throw new EntidadeNaoEncontradaException(String.format("Forma de pagamento de código %d não encontrada", id));
-        } catch (EntidadeEmUsoException e) {
+        } catch (DataIntegrityViolationException e) {
             throw new EntidadeEmUsoException(String.format("Forma de pagamento de código %d não pode ser removida, pois está em uso", id));
         }
     }

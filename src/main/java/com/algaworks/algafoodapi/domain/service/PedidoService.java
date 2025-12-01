@@ -1,6 +1,5 @@
 package com.algaworks.algafoodapi.domain.service;
 
-import com.algaworks.algafoodapi.domain.exceptions.EntidadeIntegridadeException;
 import com.algaworks.algafoodapi.domain.exceptions.EntidadeNaoEncontradaException;
 import com.algaworks.algafoodapi.domain.model.entity.pedido.Pedido;
 import com.algaworks.algafoodapi.domain.model.entity.pedido.StatusPedido;
@@ -8,6 +7,8 @@ import com.algaworks.algafoodapi.domain.repository.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,30 +31,22 @@ public class PedidoService {
         try {
             return pedidoRepository.findAll();
         } catch (Exception e) {
-            throw new RuntimeException("Erro inesperado ao buscar pedidos");
+            throw new RuntimeException("Erro inesperado ao buscar todos os pedidos");
         }
     }
 
-    public Optional<Pedido> filtrarPorID(Long id) {
-        var pedido = pedidoRepository.findById(id);
-
-        if (pedido.isEmpty()) {
-            throw new EntidadeNaoEncontradaException(String.format("Pedido do código %d não encontrado", id));
-        }
-
-        return pedido;
+    public Pedido filtrarPorID(Long id) {
+        return pedidoRepository.findById(id).orElseThrow(() ->
+                new EntidadeNaoEncontradaException(String.format("Pedido do código %d não encontrado", id)));
     }
 
     public Pedido inserirOuAtualizar(Pedido pedido) {
 
-        var usuario = usuarioService.filtrarPorID(pedido.getUsuarioPedido().getId())
-                .orElseThrow(() -> new EntidadeIntegridadeException("Usuário inválido."));
+        var usuario = usuarioService.filtrarPorID(pedido.getUsuarioPedido().getId());
 
-        var pagamento = formaPagamentoService.filtrarPorID(pedido.getFormaPagamento().getId())
-                .orElseThrow(() -> new EntidadeIntegridadeException("Forma de pagamento inválida."));
+        var pagamento = formaPagamentoService.filtrarPorID(pedido.getFormaPagamento().getId());
 
-        var restaurante = restauranteService.findById(pedido.getRestaurante().getId())
-                .orElseThrow(() -> new EntidadeIntegridadeException("Restaurante inválido."));
+        var restaurante = restauranteService.filtrarPorID(pedido.getRestaurante().getId());
 
         pedido.setUsuarioPedido(usuario);
         pedido.setFormaPagamento(pagamento);
@@ -62,4 +55,12 @@ public class PedidoService {
         return pedidoRepository.save(pedido);
     }
 
+    public Pedido cancelarPedido(Long id) {
+        var pedido = filtrarPorID(id);
+
+        pedido.setStatusPedido(StatusPedido.CANCELADO);
+        pedido.setDatahoraCancelamento(LocalDateTime.now());
+
+        return pedidoRepository.save(pedido);
+    }
 }

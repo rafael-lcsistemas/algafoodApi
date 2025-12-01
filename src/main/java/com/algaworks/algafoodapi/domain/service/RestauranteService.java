@@ -26,25 +26,28 @@ public class RestauranteService {
     @Autowired
     private FormaPagamentoService formaPagamentoService;
 
-    public List<Restaurante> findAll() {
+    public List<Restaurante> filtrarTodas() {
         try {
             return restauranteRepository.findAll();
         } catch (RuntimeException e) {
-            throw new RuntimeException("Erro ao buscar restaurantes");
+            throw new RuntimeException("Erro ao buscar todos os restaurantes");
         }
     }
 
-    public Optional<Restaurante> findById(Long id) {
-        Optional<Restaurante> restaurante = restauranteRepository.findById(id);
-
-        if (restaurante.isEmpty()) {
-            throw new EntidadeNaoEncontradaException(String.format("Restaurante do código %d não encontrado", id));
+    public List<Restaurante> filtrarPorNome(String nome) {
+        try {
+            return restauranteRepository.findByNomeContaining(nome);
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Erro ao buscar restaurantes por nome");
         }
-
-        return restaurante;
     }
 
-    public Restaurante insert(Restaurante restaurante) {
+    public Restaurante filtrarPorID(Long id) {
+        return restauranteRepository.findById(id).orElseThrow(() ->
+                new EntidadeNaoEncontradaException(String.format("Restaurante do código %d não encontrado", id)));
+    }
+
+    public Restaurante inserirOuAtualizar(Restaurante restaurante) {
         if (restaurante == null) {
             throw new RuntimeException("Erro inesperado ao inserir restaurante");
         }
@@ -53,57 +56,15 @@ public class RestauranteService {
             throw new EntidadeNaoEncontradaException("O nome do restaurante não pode ser vazia ou nula");
         }
 
-        Optional<Cozinha> cozinha = cozinhaService.filtrarPorId(restaurante.getCozinha().getId());
-
-        if (cozinha.isEmpty()) {
-            throw new EntidadeNaoEncontradaException(String.format("Cozinha do código %d não encontrada",
-                    restaurante.getCozinha().getId()));
-        }
+        var cozinha = cozinhaService.filtrarPorId(restaurante.getCozinha().getId());
 
         List<FormaPagamento> formasPagamentoCompletas = restaurante.getFormasPagamento()
                 .stream()
-                .map(fp -> formaPagamentoService.filtrarPorID(fp.getId())
-                        .orElseThrow(() -> new EntidadeNaoEncontradaException(
-                                String.format("Forma de pagamento do código %d não encontrada", fp.getId())
-                        ))
-                ).collect(Collectors.toList());
+                .map(fp ->
+                        formaPagamentoService.filtrarPorID(fp.getId())).collect(Collectors.toList());
 
-
-
-        restaurante.setCozinha(cozinha.get());
+        restaurante.setCozinha(cozinha);
         restaurante.setFormasPagamento(formasPagamentoCompletas);
-
-        return restauranteRepository.save(restaurante);
-    }
-
-    public Restaurante update(Restaurante restaurante) {
-        Optional<Cozinha> cozinha = cozinhaService.filtrarPorId(restaurante.getCozinha().getId());
-        List<FormaPagamento> formasPagamento = restaurante.getFormasPagamento();
-
-        if (restaurante.getNome() == null | restaurante.getNome().isEmpty()) {
-            throw new EntidadeIntegridadeException("O nome do restaurante não pode ser vazio ou nulo");
-        }
-
-        if (restaurante.getCozinha().getId() == null) {
-            throw new EntidadeIntegridadeException("Código da cozinha é obrigatoria");
-        } else if (cozinha.isEmpty()) {
-            throw new EntidadeIntegridadeException(String.format("Cozinha de código %d não escontrada",
-                    restaurante.getCozinha().getId()));
-        }
-
-        formasPagamento.forEach(formaPagamento -> {
-            var pagamento = formaPagamentoService.filtrarPorID(formaPagamento.getId());
-
-            if (pagamento.get().getId() == null) {
-                throw new EntidadeIntegridadeException("Código da forma de pagamento é obrigatoria");
-            } else if (pagamento.isEmpty()) {
-                throw new EntidadeIntegridadeException(String.format("Forma de pagamento de código %d não escontrada",
-                        pagamento.get().getId()));
-            }
-        });
-
-        restaurante.setCozinha(cozinha.get());
-        restaurante.setFormasPagamento(formasPagamento);
 
         return restauranteRepository.save(restaurante);
     }

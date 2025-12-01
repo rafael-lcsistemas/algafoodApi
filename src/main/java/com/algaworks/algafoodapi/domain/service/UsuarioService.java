@@ -23,24 +23,28 @@ public class UsuarioService {
     private GrupoService grupoService;
 
     public List<Usuario> listarTodos() {
-        return usuarioRepository.findAll();
+        try {
+            return usuarioRepository.findAll();
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao buscar todos os restaurantes");
+        }
     }
 
     public List<Usuario> filtrarPorNome(String nome) {
-        return usuarioRepository.findByNomeContaining(nome);
+        try {
+            return usuarioRepository.findByNomeContaining(nome);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao buscar restaurantes por nome");
+        }
     }
 
-    public Optional<Usuario> filtrarPorID(Long id) {
-        var usuarioSearch = usuarioRepository.findById(id);
-
-        if (usuarioSearch.isEmpty()) {
-            throw new EntidadeNaoEncontradaException(String.format("Usuário não encontrado, código de busca %d", id));
-        }
-
-        return usuarioSearch;
+    public Usuario filtrarPorID(Long id) {
+        return usuarioRepository.findById(id).orElseThrow(() ->
+                new EntidadeNaoEncontradaException(String.format("Usuário não encontrado, código de busca %d", id)));
     }
 
     public Usuario iserirOuAtualizar(Usuario usuario) {
+
         if (usuario.getNome() == null || usuario.getNome().trim().isEmpty()) {
             throw new EntidadeIntegridadeException(
                     "Nome do usuário inválido. Por favor, verifique e tente novamente."
@@ -56,11 +60,7 @@ public class UsuarioService {
         List<Grupo> gruposValidados = new ArrayList<>();
 
         for (Grupo p : usuario.getGrupos()) {
-            Grupo grp = grupoService.buscarPorId(p.getId())
-                    .orElseThrow(() -> new EntidadeNaoEncontradaException(
-                            "Grupo não encontrado: ID " + p.getId()
-                    ));
-
+            Grupo grp = grupoService.filtrarPorId(p.getId());
             gruposValidados.add(grp);
         }
 

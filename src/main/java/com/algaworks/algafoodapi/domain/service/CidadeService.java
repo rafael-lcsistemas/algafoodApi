@@ -1,11 +1,13 @@
 package com.algaworks.algafoodapi.domain.service;
 
+import com.algaworks.algafoodapi.domain.exceptions.EntidadeEmUsoException;
 import com.algaworks.algafoodapi.domain.model.entity.Cidade;
-import com.algaworks.algafoodapi.domain.model.entity.Estado;
 import com.algaworks.algafoodapi.domain.exceptions.EntidadeIntegridadeException;
 import com.algaworks.algafoodapi.domain.exceptions.EntidadeNaoEncontradaException;
 import com.algaworks.algafoodapi.domain.repository.CidadeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,74 +21,53 @@ public class CidadeService {
     @Autowired
     private EstadoService estadoService;
 
-    public List<Cidade> findAll() {
-       try {
+    public List<Cidade> filtrarTodas() {
+        try {
             return cidadeRepository.findAll();
         } catch (RuntimeException e) {
-            throw new RuntimeException("Erro inesperado ao buscar cidades");
+            throw new RuntimeException("Erro inesperado ao buscar todas as cidades");
         }
     }
 
-    public Cidade findById(Long id) {
-        if(id == null) {
-            throw new EntidadeIntegridadeException("Código da cidade não pode ser nulo");
+    public List<Cidade> filtrarPorNome(String nome) {
+        try {
+            return cidadeRepository.findByNomeContaining(nome);
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Erro inesperado ao buscar cidades por nome");
         }
-
-        Cidade cidade = cidadeRepository.findById(id);
-
-        if(cidade == null) {
-            throw  new EntidadeNaoEncontradaException(String.format("Cidade do código %d não encontrado", id));
-        }
-
-        return cidade;
     }
 
-    public Cidade insert(Cidade cidade) {
-        if(cidade == null) {
-            throw new EntidadeIntegridadeException("Erro inesperado. Cidade não pode ser nula.");
-        }
+    public Cidade filtrarPorId(Long id) {
+        return cidadeRepository.findById(id).orElseThrow(() ->
+                new EntidadeNaoEncontradaException(String.format("Cidade do código %d não encontrado", id)));
+    }
 
-        if(cidade.getNome().isEmpty() | cidade.getNome() == null) {
+    public Cidade inserirOuAtualizar(Cidade cidade) {
+        if (cidade.getNome() == null || cidade.getNome().isEmpty()) {
             throw new EntidadeIntegridadeException("Nome da Cidade está inválido, por favor, verifique e tente novamente");
         }
 
-        Estado estado = estadoService.findById(cidade.getEstado().getId());
-
-        if(estado == null) {
-            throw new EntidadeIntegridadeException("Erro inesperado. Estado não pode ser nulo.");
+        if (cidade.getEstado() == null || cidade.getEstado().getId() == null) {
+            throw new EntidadeIntegridadeException("É necessário informar um Estado para a Cidade");
         }
 
+        var estado = estadoService.filtrarPorID(cidade.getEstado().getId());
         cidade.setEstado(estado);
 
-        return cidadeRepository.insert(cidade);
+        try {
+            return cidadeRepository.save(cidade);
+        } catch (Exception e) {
+            throw new RuntimeException("Não foi possivel salvar essa Cidade. Por favor, verifique os dados e tente novamente");
+        }
     }
 
-    public Cidade update(Cidade cidade) {
-        if(cidade == null) {
-            throw new EntidadeIntegridadeException("Erro inesperado ao atualizar Cidade, verique os dados e tente novamente.");
+    public void remove(Long id) {
+        try {
+            cidadeRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new EntidadeNaoEncontradaException(String.format("Cidade de código %d não encontrada", id));
+        } catch (DataIntegrityViolationException e) {
+            throw new EntidadeEmUsoException(String.format("Cidade de código %d não pode ser removida, pois está em uso", id));
         }
-
-        if(cidade.getNome().isEmpty() | cidade.getNome() == null) {
-            throw new EntidadeIntegridadeException("Cidade com o nome inválido, por favor, verifique e tente novamente.");
-        }
-
-        Estado estado = estadoService.findById(cidade.getEstado().getId());
-        cidade.setEstado(estado);
-
-        return cidadeRepository.update(cidade);
-    }
-
-    public void delete(Long id) {
-        if(id == null) {
-            throw new EntidadeIntegridadeException("Id não pode ser nulo.");
-        }
-
-        Cidade cidade = findById(id);
-
-        if(cidade == null) {
-            throw new EntidadeNaoEncontradaException("Cidade não encontrada");
-        }
-
-        cidadeRepository.delete(cidade.getId());
     }
 }

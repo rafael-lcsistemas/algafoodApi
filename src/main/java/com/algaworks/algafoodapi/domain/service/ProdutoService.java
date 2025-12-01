@@ -3,14 +3,12 @@ package com.algaworks.algafoodapi.domain.service;
 import com.algaworks.algafoodapi.domain.exceptions.EntidadeIntegridadeException;
 import com.algaworks.algafoodapi.domain.exceptions.EntidadeNaoEncontradaException;
 import com.algaworks.algafoodapi.domain.model.entity.Produto;
-import com.algaworks.algafoodapi.domain.model.entity.Restaurante;
 import com.algaworks.algafoodapi.domain.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProdutoService {
@@ -18,25 +16,25 @@ public class ProdutoService {
     @Autowired
     private ProdutoRepository produtoRepository;
 
-    @Autowired
-    private RestauranteService restauranteService;
-
     public List<Produto> listarTodos() {
-        return produtoRepository.findAll();
+        try {
+            return produtoRepository.findAll();
+        } catch (Exception e) {
+            throw new RuntimeException("Erro inesperado ao buscar todos os produtos");
+        }
     }
 
     public List<Produto> filtrarPorNome(String nome) {
-        return produtoRepository.findByNomeContaining(nome);
+        try {
+            return produtoRepository.findByNomeContaining(nome);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro inesperado ao buscar produtos por nome");
+        }
     }
 
-    public Optional<Produto> filtrarPorId(Long id) {
-        var produto = produtoRepository.findById(id);
-
-        if (produto.isEmpty()) {
-            throw new EntidadeNaoEncontradaException(String.format("Produto do código %d não encontado", id));
-        }
-
-        return produto;
+    public Produto filtrarPorId(Long id) {
+        return produtoRepository.findById(id).orElseThrow(() ->
+                new EntidadeNaoEncontradaException(String.format("Produto do código %d não encontado", id)));
     }
 
     public Produto inserirOuAtualizar(Produto produto) {

@@ -30,38 +30,19 @@ public class GrupoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> filtrarPorId(@PathVariable Long id) {
-        try {
-            var grupo = grupoService.buscarPorId(id);
-            return ResponseEntity.ok(grupo.get());
-        } catch (EntidadeNaoEncontradaException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    public Grupo filtrarPorId(@PathVariable Long id) {
+        return grupoService.filtrarPorId(id);
     }
 
     @PostMapping
-    public ResponseEntity<?> inserir(@RequestBody Grupo grupo) {
-        try {
-            var grupoNovo = grupoService.inserirOuAtualizar(grupo);
-            return ResponseEntity.status(201).body(grupoNovo);
-        } catch (EntidadeNaoEncontradaException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        } catch (EntidadeIntegridadeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+    public Grupo inserir(@RequestBody Grupo grupo) {
+        return grupoService.inserirOuAtualizar(grupo);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody Grupo grupo) {
-        try {
-            var grupoAtual = grupoService.buscarPorId(id);
-            BeanUtils.copyProperties(grupo, grupoAtual.get(), "id");
-            var grupoSalvo = grupoService.inserirOuAtualizar(grupoAtual.get());
-            return ResponseEntity.status(201).body(grupoSalvo);
-        } catch (EntidadeNaoEncontradaException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        } catch (EntidadeIntegridadeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+    public Grupo atualizar(@PathVariable Long id, @RequestBody Grupo grupo) {
+        var grupoAtual = grupoService.filtrarPorId(id);
+        BeanUtils.copyProperties(grupo, grupoAtual, "id");
+        return grupoService.inserirOuAtualizar(grupoAtual);
     }
 }
