@@ -1,9 +1,7 @@
 package com.algaworks.algafoodapi.domain.service;
 
+import com.algaworks.algafoodapi.domain.exceptions.*;
 import com.algaworks.algafoodapi.domain.model.entity.Estado;
-import com.algaworks.algafoodapi.domain.exceptions.EntidadeEmUsoException;
-import com.algaworks.algafoodapi.domain.exceptions.EntidadeIntegridadeException;
-import com.algaworks.algafoodapi.domain.exceptions.EntidadeNaoEncontradaException;
 import com.algaworks.algafoodapi.domain.repository.EstadoRepository;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +21,7 @@ public class EstadoService {
         try {
             return estadoRepository.findAll();
         } catch (Exception e) {
-            throw new RuntimeException("Erro inesperado ao buscar todos os Estados");
+            throw new NegocioException("Erro inesperado ao buscar todos os Estados");
         }
     }
 
@@ -31,22 +29,22 @@ public class EstadoService {
         try {
             return estadoRepository.findByNomeContaining(nome);
         } catch (Exception e) {
-            throw new RuntimeException("Erro inesperado ao buscar os Estados por nome");
+            throw new NegocioException("Erro inesperado ao buscar os Estados por nome");
         }
     }
 
     public Estado filtrarPorID(Long id) {
         return estadoRepository.findById(id).orElseThrow(() ->
-                new EntidadeNaoEncontradaException(String.format("Estado do código %d não encontrado", id)));
+                new EstadoNaoEncontradaException(id));
     }
 
     public Estado inserirOuAtualizar(Estado estado) {
         if (estado.getNome() == null || estado.getNome().isEmpty()) {
-            throw new EntidadeIntegridadeException("Estado com o nome inválido");
+            throw new NegocioException("Estado com o nome inválido");
         }
 
-        if (estado.getUf().isEmpty() | estado.getUf() == null) {
-            throw new EntidadeIntegridadeException("Estado com o a UF inválida");
+        if ( estado.getUf() == null || estado.getUf().isEmpty()) {
+            throw new NegocioException("Estado com o a UF inválida");
         }
 
         return estadoRepository.save(estado);
@@ -56,7 +54,7 @@ public class EstadoService {
         try {
             estadoRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
-            throw new EntidadeNaoEncontradaException(String.format("Estado de código %d não encontrado", id));
+            throw new EstadoNaoEncontradaException(id, e);
         } catch (DataIntegrityViolationException | ConstraintViolationException e) {
             throw new EntidadeEmUsoException(String.format("Estado de código %d não pode ser removido, pois está em uso", id));
         }
