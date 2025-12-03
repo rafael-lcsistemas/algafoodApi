@@ -1,13 +1,11 @@
 package com.algaworks.algafoodapi.api.controller;
 
-import com.algaworks.algafoodapi.domain.exceptions.EntidadeIntegridadeException;
 import com.algaworks.algafoodapi.domain.exceptions.EntidadeNaoEncontradaException;
+import com.algaworks.algafoodapi.domain.exceptions.NegocioException;
 import com.algaworks.algafoodapi.domain.model.entity.Grupo;
 import com.algaworks.algafoodapi.domain.service.GrupoService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,6 +41,11 @@ public class GrupoController {
     public Grupo atualizar(@PathVariable Long id, @RequestBody Grupo grupo) {
         var grupoAtual = grupoService.filtrarPorId(id);
         BeanUtils.copyProperties(grupo, grupoAtual, "id");
-        return grupoService.inserirOuAtualizar(grupoAtual);
+
+        try {
+            return grupoService.inserirOuAtualizar(grupoAtual);
+        } catch (EntidadeNaoEncontradaException e) {
+            throw new NegocioException(e.getMessage() + " ----> ");
+        }
     }
 }

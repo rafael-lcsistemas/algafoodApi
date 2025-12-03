@@ -43,11 +43,16 @@ public class EstadoService {
             throw new NegocioException("Estado com o nome inválido");
         }
 
-        if ( estado.getUf() == null || estado.getUf().isEmpty()) {
+        if (estado.getUf() == null || estado.getUf().isEmpty()) {
             throw new NegocioException("Estado com o a UF inválida");
         }
 
-        return estadoRepository.save(estado);
+        try {
+            return estadoRepository.save(estado);
+        } catch (Exception e) {
+            throw new NegocioException(
+                    "Não foi possivel salvar esse Estado. Por favor, verifique os dados e tente novamente", e);
+        }
     }
 
     public void remove(Long id) {
