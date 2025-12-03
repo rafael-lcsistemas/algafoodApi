@@ -1,6 +1,11 @@
 package com.algaworks.algafoodapi.domain.service;
 
 import com.algaworks.algafoodapi.domain.exceptions.EntidadeNaoEncontradaException;
+import com.algaworks.algafoodapi.domain.exceptions.NegocioException;
+import com.algaworks.algafoodapi.domain.exceptions.PedidoNaoEncontradaException;
+import com.algaworks.algafoodapi.domain.model.entity.FormaPagamento;
+import com.algaworks.algafoodapi.domain.model.entity.Restaurante;
+import com.algaworks.algafoodapi.domain.model.entity.Usuario;
 import com.algaworks.algafoodapi.domain.model.entity.pedido.Pedido;
 import com.algaworks.algafoodapi.domain.model.entity.pedido.StatusPedido;
 import com.algaworks.algafoodapi.domain.repository.PedidoRepository;
@@ -8,9 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PedidoService {
@@ -31,29 +34,44 @@ public class PedidoService {
         try {
             return pedidoRepository.findAll();
         } catch (Exception e) {
-            throw new RuntimeException("Erro inesperado ao buscar todos os pedidos");
+            throw new NegocioException("Erro inesperado ao buscar todos os pedidos");
         }
     }
 
     public Pedido filtrarPorID(Long id) {
         return pedidoRepository.findById(id).orElseThrow(() ->
-                new EntidadeNaoEncontradaException(String.format("Pedido do código %d não encontrado", id)));
+                new PedidoNaoEncontradaException(id));
     }
 
     public Pedido inserirOuAtualizar(Pedido pedido) {
+        try {
+            Usuario usuario = usuarioService.filtrarPorID(
+                    pedido.getUsuarioPedido().getId()
+            );
 
-        var usuario = usuarioService.filtrarPorID(pedido.getUsuarioPedido().getId());
+            FormaPagamento pagamento = formaPagamentoService.filtrarPorID(
+                    pedido.getFormaPagamento().getId()
+            );
 
-        var pagamento = formaPagamentoService.filtrarPorID(pedido.getFormaPagamento().getId());
+            Restaurante restaurante = restauranteService.filtrarPorID(
+                    pedido.getRestaurante().getId()
+            );
 
-        var restaurante = restauranteService.filtrarPorID(pedido.getRestaurante().getId());
+            pedido.setUsuarioPedido(usuario);
+            pedido.setFormaPagamento(pagamento);
+            pedido.setRestaurante(restaurante);
 
-        pedido.setUsuarioPedido(usuario);
-        pedido.setFormaPagamento(pagamento);
-        pedido.setRestaurante(restaurante);
+            return pedidoRepository.save(pedido);
 
-        return pedidoRepository.save(pedido);
+        } catch (EntidadeNaoEncontradaException e) {
+            throw new NegocioException(e.getMessage());
+        } catch (Exception e) {
+            throw new NegocioException(
+                    "Erro inesperado ao salvar pedido. Por favor, verifique os dados e tente novamente.", e
+            );
+        }
     }
+
 
     public Pedido cancelarPedido(Long id) {
         var pedido = filtrarPorID(id);
