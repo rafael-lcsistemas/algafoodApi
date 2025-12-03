@@ -2,6 +2,7 @@ package com.algaworks.algafoodapi.api.controller;
 
 import com.algaworks.algafoodapi.domain.exceptions.EntidadeIntegridadeException;
 import com.algaworks.algafoodapi.domain.exceptions.EntidadeNaoEncontradaException;
+import com.algaworks.algafoodapi.domain.exceptions.NegocioException;
 import com.algaworks.algafoodapi.domain.model.entity.Usuario;
 import com.algaworks.algafoodapi.domain.service.UsuarioService;
 import org.springframework.beans.BeanUtils;
@@ -44,6 +45,11 @@ UsuarioController {
     public Usuario atualizar(@PathVariable Long id, @RequestBody Usuario usuario) {
         var usuarioAtual = usuarioService.filtrarPorID(id);
         BeanUtils.copyProperties(usuario, usuarioAtual, "id", "dataCadastro");
-        return usuarioService.iserirOuAtualizar(usuarioAtual);
+
+        try {
+            return usuarioService.iserirOuAtualizar(usuarioAtual);
+        } catch (EntidadeNaoEncontradaException e) {
+            throw new NegocioException(e.getMessage());
+        }
     }
 }
