@@ -47,20 +47,4 @@ public class ApiExceptionHanlder extends ResponseEntityExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.CONFLICT).body(problema);
     }
-
-    @Override
-    protected ResponseEntity<Object> handleHttpMediaTypeNotSupported(
-            HttpMediaTypeNotSupportedException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-
-        List<MediaType> mediaTypes = ex.getSupportedMediaTypes();
-        if (!CollectionUtils.isEmpty(mediaTypes)) {
-            headers.setAccept(mediaTypes);
-        }
-
-        Problema problema = new Problema();
-        problema.setDataHora(LocalDateTime.now());
-        problema.setMensagem("Tipo de entrada do arquivo não suportado.");
-
-        return handleExceptionInternal(ex, problema, headers, status, request);
-    }
 }
