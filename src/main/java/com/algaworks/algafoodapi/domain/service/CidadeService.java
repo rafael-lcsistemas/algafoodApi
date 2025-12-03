@@ -2,8 +2,8 @@ package com.algaworks.algafoodapi.domain.service;
 
 import com.algaworks.algafoodapi.domain.exceptions.CidadeNaoEncontradaException;
 import com.algaworks.algafoodapi.domain.exceptions.EntidadeEmUsoException;
+import com.algaworks.algafoodapi.domain.exceptions.NegocioException;
 import com.algaworks.algafoodapi.domain.model.entity.Cidade;
-import com.algaworks.algafoodapi.domain.exceptions.EntidadeIntegridadeException;
 import com.algaworks.algafoodapi.domain.repository.CidadeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -25,7 +25,7 @@ public class CidadeService {
         try {
             return cidadeRepository.findAll();
         } catch (RuntimeException e) {
-            throw new RuntimeException("Erro inesperado ao buscar todas as cidades");
+            throw new NegocioException("Erro inesperado ao buscar todas as cidades");
         }
     }
 
@@ -33,7 +33,7 @@ public class CidadeService {
         try {
             return cidadeRepository.findByNomeContaining(nome);
         } catch (RuntimeException e) {
-            throw new RuntimeException("Erro inesperado ao buscar cidades por nome");
+            throw new NegocioException("Erro inesperado ao buscar cidades por nome");
         }
     }
 
@@ -44,11 +44,11 @@ public class CidadeService {
 
     public Cidade inserirOuAtualizar(Cidade cidade) {
         if (cidade.getNome() == null || cidade.getNome().isEmpty()) {
-            throw new EntidadeIntegridadeException("Nome da Cidade está inválido, por favor, verifique e tente novamente");
+            throw new NegocioException("Nome da Cidade está inválido, por favor, verifique e tente novamente");
         }
 
         if (cidade.getEstado() == null || cidade.getEstado().getId() == null) {
-            throw new EntidadeIntegridadeException("É necessário informar um Estado para a Cidade");
+            throw new NegocioException("É necessário informar um Estado para a Cidade");
         }
 
         var estado = estadoService.filtrarPorID(cidade.getEstado().getId());
@@ -57,7 +57,8 @@ public class CidadeService {
         try {
             return cidadeRepository.save(cidade);
         } catch (Exception e) {
-            throw new RuntimeException("Não foi possivel salvar essa Cidade. Por favor, verifique os dados e tente novamente");
+            throw new NegocioException(
+                    "Não foi possivel salvar essa Cidade. Por favor, verifique os dados e tente novamente", e);
         }
     }
 
@@ -65,7 +66,7 @@ public class CidadeService {
         try {
             cidadeRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
-            throw new CidadeNaoEncontradaException(id);
+            throw new CidadeNaoEncontradaException(id, e);
         } catch (DataIntegrityViolationException e) {
             throw new EntidadeEmUsoException(String.format("Cidade de código %d não pode ser removida, pois está em uso", id));
         }
