@@ -1,5 +1,6 @@
 package com.algaworks.algafoodapi.api.controller;
 
+import com.algaworks.algafoodapi.domain.exceptions.NegocioException;
 import com.algaworks.algafoodapi.domain.model.entity.Restaurante;
 import com.algaworks.algafoodapi.domain.exceptions.EntidadeIntegridadeException;
 import com.algaworks.algafoodapi.domain.exceptions.EntidadeNaoEncontradaException;
@@ -43,7 +44,12 @@ public class RestauranteController {
     @PutMapping("/{id}")
     public Restaurante atualizar(@PathVariable Long id, @RequestBody Restaurante restaurante) {
         var restauranteAtual = restauranteService.filtrarPorID(id);
-        BeanUtils.copyProperties(restaurante, restauranteAtual, "id", "formasPagamento", "endereco", "dataCadastro");
-        return restauranteService.inserirOuAtualizar(restauranteAtual);
+        BeanUtils.copyProperties(restaurante, restauranteAtual, "id", "endereco", "dataCadastro");
+
+        try {
+            return restauranteService.inserirOuAtualizar(restauranteAtual);
+        } catch (EntidadeIntegridadeException e) {
+            throw new NegocioException(e.getMessage());
+        }
     }
 }
