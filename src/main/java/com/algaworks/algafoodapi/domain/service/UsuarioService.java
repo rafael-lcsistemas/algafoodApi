@@ -1,6 +1,5 @@
 package com.algaworks.algafoodapi.domain.service;
 
-import com.algaworks.algafoodapi.domain.exceptions.EntidadeIntegridadeException;
 import com.algaworks.algafoodapi.domain.exceptions.EntidadeNaoEncontradaException;
 import com.algaworks.algafoodapi.domain.exceptions.NegocioException;
 import com.algaworks.algafoodapi.domain.exceptions.UsuarioNaoEncontradaException;
@@ -45,17 +44,17 @@ public class UsuarioService {
     public Usuario iserirOuAtualizar(Usuario usuario) {
 
         if (usuario.getNome() == null || usuario.getNome().trim().isEmpty()) {
-            throw new EntidadeIntegridadeException("Nome do usuário está inválido. Por favor, verifique e tente novamente.");
+            throw new NegocioException("Nome do usuário está inválido. Por favor, verifique e tente novamente.");
         }
 
         if (usuario.getAtivo() == null) {
-            throw new EntidadeIntegridadeException("O status do usuário está inválido. Por favor, verifique e tente novamente.");
+            throw new NegocioException("O status do usuário está inválido. Por favor, verifique e tente novamente.");
         }
 
         var existsGrupos = usuario.getGrupos().size() > 0;
 
         if (!existsGrupos) {
-            throw new EntidadeIntegridadeException("É preciso informar pelo menos um grupo para este usuário");
+            throw new NegocioException("É preciso informar pelo menos um grupo para este usuário");
         }
 
         try {
