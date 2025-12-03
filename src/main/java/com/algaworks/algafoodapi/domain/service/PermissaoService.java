@@ -1,7 +1,7 @@
 package com.algaworks.algafoodapi.domain.service;
 
-import com.algaworks.algafoodapi.domain.exceptions.EntidadeIntegridadeException;
-import com.algaworks.algafoodapi.domain.exceptions.EntidadeNaoEncontradaException;
+import com.algaworks.algafoodapi.domain.exceptions.NegocioException;
+import com.algaworks.algafoodapi.domain.exceptions.PermissaoNaoEncontradaException;
 import com.algaworks.algafoodapi.domain.model.entity.Permissao;
 import com.algaworks.algafoodapi.domain.repository.PermissaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ public class PermissaoService {
         try {
             return permissaoRepository.findAll();
         } catch (Exception e) {
-            throw new RuntimeException("Erro inesperado ao buscar todas as permissões");
+            throw new NegocioException("Erro inesperado ao buscar todas as permissões");
         }
     }
 
@@ -27,25 +27,34 @@ public class PermissaoService {
         try {
             return permissaoRepository.findByNomeContaining(nome);
         } catch (Exception e) {
-            throw new RuntimeException("Erro inesperado ao buscar as permissões por nome");
+            throw new NegocioException("Erro inesperado ao buscar as permissões por nome");
         }
     }
 
     public Permissao filtrarPorId(Long id) {
         return permissaoRepository.findById(id).orElseThrow(() ->
-                new EntidadeNaoEncontradaException(String.format("Permissão do código %d não encontrada", id)));
+                new PermissaoNaoEncontradaException(id));
     }
 
     public Permissao inserirOuAtualizar(Permissao permissao) {
 
         if (permissao.getNome() == null || permissao.getNome().isEmpty()) {
-            throw new EntidadeIntegridadeException("Nome da permissão inválido, por favor, verifique e tente novamente.");
+            throw new NegocioException("Nome da permissão inválido, por favor, verifique e tente novamente.");
         }
 
-        if (permissao.getDescricao().isEmpty()) {
-            throw new EntidadeIntegridadeException("Descrição da permissão inválida, por favor, verifique e tente novamente.");
+        if (permissao.getDescricao() == null || permissao.getDescricao().isEmpty()) {
+            throw new NegocioException("Descrição da permissão inválida, por favor, verifique e tente novamente.");
         }
 
-        return permissaoRepository.save(permissao);
+        if (permissao.getAtivo() == null) {
+            throw new NegocioException("Status da permissão inválida.Por favor, verifique e tente novamente.");
+        }
+
+        try {
+            return permissaoRepository.save(permissao);
+        } catch (Exception e) {
+            throw new NegocioException(
+                    "Não foi possivel salvar essa permissão. Por favor, verifique os dados e tente novamente", e);
+        }
     }
 }

@@ -2,6 +2,7 @@ package com.algaworks.algafoodapi.api.controller;
 
 import com.algaworks.algafoodapi.domain.exceptions.EntidadeIntegridadeException;
 import com.algaworks.algafoodapi.domain.exceptions.EntidadeNaoEncontradaException;
+import com.algaworks.algafoodapi.domain.exceptions.NegocioException;
 import com.algaworks.algafoodapi.domain.model.entity.Permissao;
 import com.algaworks.algafoodapi.domain.service.PermissaoService;
 import org.springframework.beans.BeanUtils;
@@ -43,6 +44,11 @@ public class PermissaoController {
     public Permissao atualizar(@PathVariable Long id, @RequestBody Permissao permissao) {
         var permissaoAtual = permissaoService.filtrarPorId(id);
         BeanUtils.copyProperties(permissao, permissaoAtual, "id");
-        return permissaoService.inserirOuAtualizar(permissaoAtual);
+
+        try {
+            return permissaoService.inserirOuAtualizar(permissaoAtual);
+        } catch (EntidadeNaoEncontradaException e) {
+            throw new NegocioException(e.getMessage());
+        }
     }
 }
