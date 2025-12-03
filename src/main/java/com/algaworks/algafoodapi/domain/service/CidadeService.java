@@ -1,9 +1,9 @@
 package com.algaworks.algafoodapi.domain.service;
 
+import com.algaworks.algafoodapi.domain.exceptions.CidadeNaoEncontradaException;
 import com.algaworks.algafoodapi.domain.exceptions.EntidadeEmUsoException;
 import com.algaworks.algafoodapi.domain.model.entity.Cidade;
 import com.algaworks.algafoodapi.domain.exceptions.EntidadeIntegridadeException;
-import com.algaworks.algafoodapi.domain.exceptions.EntidadeNaoEncontradaException;
 import com.algaworks.algafoodapi.domain.repository.CidadeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -39,7 +39,7 @@ public class CidadeService {
 
     public Cidade filtrarPorId(Long id) {
         return cidadeRepository.findById(id).orElseThrow(() ->
-                new EntidadeNaoEncontradaException(String.format("Cidade do código %d não encontrado", id)));
+                new CidadeNaoEncontradaException(id));
     }
 
     public Cidade inserirOuAtualizar(Cidade cidade) {
@@ -65,7 +65,7 @@ public class CidadeService {
         try {
             cidadeRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
-            throw new EntidadeNaoEncontradaException(String.format("Cidade de código %d não encontrada", id));
+            throw new CidadeNaoEncontradaException(id);
         } catch (DataIntegrityViolationException e) {
             throw new EntidadeEmUsoException(String.format("Cidade de código %d não pode ser removida, pois está em uso", id));
         }
