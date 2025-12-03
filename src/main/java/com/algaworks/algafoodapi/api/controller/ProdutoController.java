@@ -1,5 +1,7 @@
 package com.algaworks.algafoodapi.api.controller;
 
+import com.algaworks.algafoodapi.domain.exceptions.EntidadeNaoEncontradaException;
+import com.algaworks.algafoodapi.domain.exceptions.NegocioException;
 import com.algaworks.algafoodapi.domain.model.entity.Produto;
 import com.algaworks.algafoodapi.domain.service.ProdutoService;
 import org.springframework.beans.BeanUtils;
@@ -39,6 +41,11 @@ public class ProdutoController {
     public Produto atualizar(@PathVariable Long id, @RequestBody Produto produto) {
         var produtoAtual = produtoService.filtrarPorId(id);
         BeanUtils.copyProperties(produto, produtoAtual, "id", "dataCadastro");
-        return produtoService.inserirOuAtualizar(produtoAtual);
+
+        try {
+            return produtoService.inserirOuAtualizar(produtoAtual);
+        } catch (EntidadeNaoEncontradaException e) {
+            throw new NegocioException(e.getMessage());
+        }
     }
 }
