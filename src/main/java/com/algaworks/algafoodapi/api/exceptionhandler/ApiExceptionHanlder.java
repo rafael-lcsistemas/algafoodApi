@@ -33,12 +33,24 @@ public class ApiExceptionHanlder extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(NegocioException.class)
     public ResponseEntity<?> handleNegocioException(NegocioException ex, WebRequest request) {
-        return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        ProblemType problemType = ProblemType.DADOS_INVALIDOS;
+        String detail = ex.getMessage();
+
+        Problem problem = createProblemBuilder(status, problemType, detail).build();
+
+        return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
     }
 
     @ExceptionHandler(EntidadeEmUsoException.class)
     public ResponseEntity<?> handleEntidadeEmUso(EntidadeEmUsoException ex, WebRequest request) {
-        return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+        HttpStatus status = HttpStatus.CONFLICT;
+        ProblemType problemType = ProblemType.ENTIDADE_EM_USO;
+        String detail = ex.getMessage();
+
+        Problem problem = createProblemBuilder(status, problemType, detail).build();
+
+        return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
     }
 
     @Override
@@ -46,19 +58,19 @@ public class ApiExceptionHanlder extends ResponseEntityExceptionHandler {
             Exception ex, @Nullable Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
 
         if (body == null) {
-            body = new Problem(
-                    status.value(),
-                    request.getDescription(false),
-                    status.getReasonPhrase(),
-                    "Error",
-                    LocalDateTime.now());
+            body = Problem.builder()
+                    .status(status.value())
+                    .title(status.getReasonPhrase())
+                    .detail(ex.getMessage())
+                    .timestamp(LocalDateTime.now())
+                    .build();
         } else if (body instanceof String) {
-            body = new Problem(
-                    status.value(),
-                    request.getDescription(false),
-                    body.toString(),
-                    "Error",
-                    LocalDateTime.now());
+            body = Problem.builder()
+                    .status(status.value())
+                    .title(body.toString())
+                    .detail(ex.getMessage())
+                    .timestamp(LocalDateTime.now())
+                    .build();
         }
 
         return new ResponseEntity<>(body, headers, status);

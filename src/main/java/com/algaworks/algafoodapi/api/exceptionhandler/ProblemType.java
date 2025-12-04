@@ -2,7 +2,9 @@ package com.algaworks.algafoodapi.api.exceptionhandler;
 
 public enum ProblemType {
 
-    ENTIDADE_NAO_ENCONTRADA("Entidade não encontrada", "/entidade-nao-encontrada");
+    ENTIDADE_NAO_ENCONTRADA("Entidade não encontrada", "/entidade-nao-encontrada"),
+    ENTIDADE_EM_USO("Entidade em uso", "/entidade-em-uso"),
+    DADOS_INVALIDOS("Dados inválidos", "/dados-invalidos");
 
     private String title;
     private String uri;
