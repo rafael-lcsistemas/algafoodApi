@@ -24,8 +24,8 @@ public class ApiExceptionHanlder extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleHttpMessageNotReadable(
             HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
 
-        ProblemType problemType = ProblemType.REQUISICAO_INCOMPLETA;
-        String detail = "Corpo da requisição está inválido ou incompleto. Por favor, verifique os campos e tente novamente.";
+        ProblemType problemType = ProblemType.REQUISICAO_INVALIDA;
+        String detail = "Corpo da requisição está inválido/incompleto. Por favor, verifique os campos e tente novamente.";
 
         Problem problem = createProblemBuilder(status, problemType, detail).build();
 
