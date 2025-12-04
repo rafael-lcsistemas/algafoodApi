@@ -4,6 +4,8 @@ import com.algaworks.algafoodapi.domain.exceptions.EntidadeEmUsoException;
 import com.algaworks.algafoodapi.domain.exceptions.EntidadeNaoEncontradaException;
 import com.algaworks.algafoodapi.domain.exceptions.NegocioException;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,8 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @ControllerAdvice
@@ -24,8 +28,14 @@ public class ApiExceptionHanlder extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleHttpMessageNotReadable(
             HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
 
+        Throwable rootCause = ExceptionUtils.getRootCause(ex);
+
+        if(rootCause instanceof InvalidFormatException) {
+            return handleInvalidFormatException((InvalidFormatException) rootCause, headers, status, request);
+        }
+
         ProblemType problemType = ProblemType.REQUISICAO_INVALIDA;
-        String detail = "Corpo da requisição está inválido/incompleto. Por favor, verifique os campos e tente novamente.";
+        String detail = "Corpo da requisição está inválido. Por favor, verifique os erros de sintaxes e tente novamente.";
 
         Problem problem = createProblemBuilder(status, problemType, detail).build();
 
@@ -87,6 +97,21 @@ public class ApiExceptionHanlder extends ResponseEntityExceptionHandler {
         }
 
         return new ResponseEntity<>(body, headers, status);
+    }
+
+    private ResponseEntity<Object> handleInvalidFormatException(
+            InvalidFormatException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+
+        String path = ex.getPath().stream().map(ref -> ref.getFieldName()).collect(Collectors.joining("."));
+
+        ProblemType problemType = ProblemType.REQUISICAO_INVALIDA;
+        String detail = String.format("A propriedade '%s' recebeu um valor '%s' do tipo %s incompatível. " +
+                        "Por favor, efetue a correção com um valor do tipo '%s' compatível.",
+                path, ex.getValue(), ex.getValue().getClass().getSimpleName(), ex.getTargetType().getSimpleName());
+
+        Problem problem = createProblemBuilder(status, problemType, detail).build();
+
+        return handleExceptionInternal(ex, problem, headers, status, request);
     }
 
     private Problem.ProblemBuilder createProblemBuilder(HttpStatus status, ProblemType problemType, String detail) {
