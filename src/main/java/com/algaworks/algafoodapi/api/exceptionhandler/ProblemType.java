@@ -2,6 +2,7 @@ package com.algaworks.algafoodapi.api.exceptionhandler;
 
 public enum ProblemType {
 
+    REQUISICAO_INCOMPLETA("Requisição incompleta", "/requisicao-incompleta"),
     ENTIDADE_NAO_ENCONTRADA("Entidade não encontrada", "/entidade-nao-encontrada"),
     ENTIDADE_EM_USO("Entidade em uso", "/entidade-em-uso"),
     DADOS_INVALIDOS("Dados inválidos", "/dados-invalidos");
