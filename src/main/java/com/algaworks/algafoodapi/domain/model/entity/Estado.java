@@ -1,9 +1,12 @@
 package com.algaworks.algafoodapi.domain.model.entity;
 
+import com.algaworks.algafoodapi.Groups;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -11,15 +14,16 @@ import java.util.Objects;
 @Entity
 public class Estado {
 
+    @NotNull(groups = Groups.EstadoId.class)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+    @NotBlank
     @Column(nullable = false, length = 5)
     private String uf;
 
-    @NotNull
+    @NotBlank
     @Column(nullable = false, length = 100)
     private String nome;
 

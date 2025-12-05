@@ -1,11 +1,17 @@
 package com.algaworks.algafoodapi.domain.model.entity;
 
+import com.algaworks.algafoodapi.Groups;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
+import javax.validation.groups.ConvertGroup;
+import javax.validation.groups.Default;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -19,12 +25,15 @@ public class Restaurante {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+    @NotBlank
     @Column(nullable = false, length = 100)
     private String nome;
 
+    @PositiveOrZero
     private BigDecimal taxaFrete;
 
+    @NotNull
+    @Column(nullable = false)
     private Boolean ativo;
 
     @CreationTimestamp
@@ -35,6 +44,8 @@ public class Restaurante {
     @Column(nullable = false, columnDefinition = "TIMESTAMP")
     private LocalDateTime datahoraAlteracao;
 
+    @Valid
+    @ConvertGroup(from = Default.class, to = Groups.CozinhaId.class)
     @NotNull
     @ManyToOne
     @JoinColumn(name = "id_cozinha", nullable = false)
@@ -44,6 +55,8 @@ public class Restaurante {
     @Embedded
     private Endereco endereco;
 
+    @Valid
+    @ConvertGroup(from = Default.class, to = Groups.FormaPagamentoId.class)
     @NotNull
     @ManyToMany
     @JoinTable(name = "restaurante_forma_pagamento",

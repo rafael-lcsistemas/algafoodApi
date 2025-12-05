@@ -39,7 +39,7 @@ public class CidadeController {
     }
 
     @PutMapping("/{id}")
-    public Cidade atualizar(@PathVariable Long id, @RequestBody Cidade cidade) {
+    public Cidade atualizar(@PathVariable Long id, @RequestBody @Valid Cidade cidade) {
         Cidade cidadeAtual = cidadeService.filtrarPorId(id);
         BeanUtils.copyProperties(cidade, cidadeAtual, "id");
 

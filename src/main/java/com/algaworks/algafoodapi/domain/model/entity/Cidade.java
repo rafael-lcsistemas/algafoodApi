@@ -1,9 +1,14 @@
 package com.algaworks.algafoodapi.domain.model.entity;
 
+import com.algaworks.algafoodapi.Groups;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.groups.ConvertGroup;
+import javax.validation.groups.Default;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -14,14 +19,20 @@ public class Cidade {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
+    @Column(nullable = false, length = 100)
+    private String nome;
+
     @NotNull
+    @Column(nullable = false)
+    private Boolean ativo;
+
+    @Valid
+    @NotNull
+    @ConvertGroup(from = Default.class, to = Groups.EstadoId.class)
     @ManyToOne
     @JoinColumn(name = "id_estado")
     private Estado estado;
-
-    @NotNull
-    @Column(nullable = false, length = 100)
-    private String nome;
 
     @CreationTimestamp
     private LocalDateTime datahoraCadastro;
@@ -29,15 +40,13 @@ public class Cidade {
     @CreationTimestamp
     private LocalDateTime datahoraAlteracao;
 
-    private Boolean ativo;
-
     public Cidade() {}
 
-    public Cidade(Long id, Estado estado, String nome, Boolean ativo) {
+    public Cidade(Long id, String nome, Boolean ativo, Estado estado) {
         this.id = id;
-        this.estado = estado;
         this.nome = nome;
         this.ativo = ativo;
+        this.estado = estado;
     }
 
     public Long getId() {
@@ -54,6 +63,14 @@ public class Cidade {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public Boolean getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
     }
 
     public Estado getEstado() {

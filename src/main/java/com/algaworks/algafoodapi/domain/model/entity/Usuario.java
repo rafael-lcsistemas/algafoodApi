@@ -1,11 +1,17 @@
 package com.algaworks.algafoodapi.domain.model.entity;
 
+import com.algaworks.algafoodapi.Groups;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.groups.ConvertGroup;
+import javax.validation.groups.Default;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,16 +24,19 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+    @NotBlank
     @Column(nullable = false, length = 100)
     private String nome;
 
+    @Email
     @Column(length = 100, unique = true)
     private String email;
 
     @Column(length = 30)
     private String senha;
 
+    @NotNull
+    @Column(nullable = false)
     private Boolean ativo;
 
     @CreationTimestamp
@@ -36,6 +45,9 @@ public class Usuario {
     @UpdateTimestamp
     private LocalDateTime datahoraAlteracao;
 
+    @Valid
+    @ConvertGroup(from = Default.class, to = Groups.GrupoId.class)
+    @NotNull
     @ManyToMany
     @JoinTable(name = "usuario_grupo",
             joinColumns = @JoinColumn(name = "id_usuario"),

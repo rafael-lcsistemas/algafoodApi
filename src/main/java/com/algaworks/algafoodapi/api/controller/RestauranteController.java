@@ -6,6 +6,7 @@ import com.algaworks.algafoodapi.domain.exceptions.EntidadeNaoEncontradaExceptio
 import com.algaworks.algafoodapi.domain.service.RestauranteService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -34,6 +35,7 @@ public class RestauranteController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public Restaurante inserir(@RequestBody @Valid Restaurante restaurante) {
         return restauranteService.inserirOuAtualizar(restaurante);
     }

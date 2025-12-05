@@ -1,10 +1,15 @@
 package com.algaworks.algafoodapi.domain.model.entity;
 
+import com.algaworks.algafoodapi.Groups;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.groups.ConvertGroup;
+import javax.validation.groups.Default;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,14 +18,17 @@ import java.util.Objects;
 @Entity
 public class Grupo {
 
+    @NotNull(groups = {Groups.PermissaoId.class, Groups.GrupoId.class})
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+    @NotBlank
     @Column(nullable = false, length = 100)
     private String nome;
 
+    @NotNull
+    @Column(nullable = false)
     private Boolean ativo;
 
     @CreationTimestamp
@@ -29,6 +37,9 @@ public class Grupo {
     @UpdateTimestamp
     private LocalDateTime datahoraAlteracao;
 
+    @Valid
+    @ConvertGroup(from = Default.class, to = Groups.PermissaoId.class)
+    @NotNull
     @ManyToMany
     @JoinTable(name = "grupo_permissao",
             joinColumns = @JoinColumn(name = "id_grupo"),
