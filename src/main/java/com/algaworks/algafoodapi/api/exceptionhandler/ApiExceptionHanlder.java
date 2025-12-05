@@ -30,10 +30,6 @@ public class ApiExceptionHanlder extends ResponseEntityExceptionHandler {
             "Ocorreu um erro interno inesperado no sistema. Tente novamente e se o problema persistir, "
                     + "entre em contato com o administrador do sistema.";
 
-    private static final String MSG_GENERICA_RECURSO_CONSUMIDOR_FINAL =
-            "Recurso não encontrado no sistema. Tente novamente e se o problema persistir, "
-                    + "entre em contato com o administrador do sistema.";
-
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(
             Exception ex, @Nullable Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
@@ -105,7 +101,7 @@ public class ApiExceptionHanlder extends ResponseEntityExceptionHandler {
         String detail = ex.getMessage();
 
         Problem problem = createProblemBuilder(status, problemType, detail)
-                .userMessage(MSG_GENERICA_RECURSO_CONSUMIDOR_FINAL)
+                .userMessage(detail)
                 .build();
 
         return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
