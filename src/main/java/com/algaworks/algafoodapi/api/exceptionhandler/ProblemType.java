@@ -3,9 +3,10 @@ package com.algaworks.algafoodapi.api.exceptionhandler;
 public enum ProblemType {
 
     REQUISICAO_INVALIDA("Requisição inválida", "/requisicao-invalida"),
-    ENTIDADE_NAO_ENCONTRADA("Entidade não encontrada", "/entidade-nao-encontrada"),
+    RECURSO_NAO_ENCONTRADO("Recurso não encontrado", "/recurso-nao-encontrado"),
     ENTIDADE_EM_USO("Entidade em uso", "/entidade-em-uso"),
-    DADOS_INVALIDOS("Dados inválidos", "/dados-invalidos");
+    DADOS_INVALIDOS("Dados inválidos", "/dados-invalidos"),
+    PARAMENTRO_INVALIDO("Parâmentro invalido", "/parametro-invalido");
 
     private String title;
     private String uri;
