@@ -8,13 +8,15 @@ public class Problem {
     private String type;
     private String title;
     private String detail;
+    private String userMessage;
     private LocalDateTime timestamp;
 
-    public Problem(Integer status, String type, String title, String detail, LocalDateTime timestamp) {
+    public Problem(Integer status, String type, String title, String detail, String userMessage, LocalDateTime timestamp) {
         this.status = status;
         this.type = type;
         this.title = title;
         this.detail = detail;
+        this.userMessage = userMessage;
         this.timestamp = timestamp;
     }
 
@@ -50,6 +52,14 @@ public class Problem {
         this.detail = detail;
     }
 
+    public String getUserMessage() {
+        return userMessage;
+    }
+
+    public void setUserMessage(String userMessage) {
+        this.userMessage = userMessage;
+    }
+
     public LocalDateTime getTimestamp() {
         return timestamp;
     }
@@ -63,6 +73,7 @@ public class Problem {
         private String type;
         private String title;
         private String detail;
+        private String userMessage;
         private LocalDateTime timestamp;
 
         public ProblemBuilder status(Integer status) {
@@ -85,13 +96,18 @@ public class Problem {
             return this;
         }
 
+        public ProblemBuilder userMessage(String userMessage) {
+            this.userMessage = userMessage;
+            return this;
+        }
+
         public ProblemBuilder timestamp(LocalDateTime timestamp) {
             this.timestamp = timestamp;
             return this;
         }
 
         public Problem build() {
-            return new Problem(status, type, title, detail, timestamp);
+            return new Problem(status, type, title, detail, userMessage, timestamp);
         }
     }
 
