@@ -1,6 +1,8 @@
 package com.algaworks.algafoodapi.api.exceptionhandler;
 
+import java.lang.reflect.Field;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class Problem {
 
@@ -10,14 +12,16 @@ public class Problem {
     private String detail;
     private String userMessage;
     private LocalDateTime timestamp;
+    private List<ProblemField> fields;
 
-    public Problem(Integer status, String type, String title, String detail, String userMessage, LocalDateTime timestamp) {
+    public Problem(Integer status, String type, String title, String detail, String userMessage, LocalDateTime timestamp, List<ProblemField> fields) {
         this.status = status;
         this.type = type;
         this.title = title;
         this.detail = detail;
         this.userMessage = userMessage;
         this.timestamp = timestamp;
+        this.fields = fields;
     }
 
     public Integer getStatus() {
@@ -68,6 +72,14 @@ public class Problem {
         this.timestamp = timestamp;
     }
 
+    public List<ProblemField> getFields() {
+        return fields;
+    }
+
+    public void setFields(List<ProblemField> fields) {
+        this.fields = fields;
+    }
+
     public static class ProblemBuilder {
         private Integer status;
         private String type;
@@ -75,6 +87,7 @@ public class Problem {
         private String detail;
         private String userMessage;
         private LocalDateTime timestamp;
+        private List<ProblemField> fields;
 
         public ProblemBuilder status(Integer status) {
             this.status = status;
@@ -106,8 +119,13 @@ public class Problem {
             return this;
         }
 
+        public ProblemBuilder fields(List<ProblemField> fields) {
+            this.fields = fields;
+            return this;
+        }
+
         public Problem build() {
-            return new Problem(status, type, title, detail, userMessage, timestamp);
+            return new Problem(status, type, title, detail, userMessage, timestamp, fields);
         }
     }
 
