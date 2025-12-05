@@ -116,7 +116,7 @@ public class ApiExceptionHanlder extends ResponseEntityExceptionHandler {
         System.out.println(detail);
 
         Problem problem = createProblemBuilder(status, problemType, detail)
-                .userMessage("Dados informados estão inválidos. Por favor, verifique e tente novamente.")
+                .userMessage(detail)
                 .build();
 
         return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
