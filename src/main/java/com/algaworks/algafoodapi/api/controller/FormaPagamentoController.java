@@ -6,6 +6,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -31,12 +32,12 @@ public class FormaPagamentoController {
     }
 
     @PostMapping
-    public FormaPagamento inserir(@RequestBody FormaPagamento formaPagamento) {
+    public FormaPagamento inserir(@RequestBody @Valid FormaPagamento formaPagamento) {
         return formaPagamentoService.inserirOuAtualizar(formaPagamento);
     }
 
     @PutMapping("/{id}")
-    public FormaPagamento atualizar(@PathVariable Long id, @RequestBody FormaPagamento formaPagamento) {
+    public FormaPagamento atualizar(@PathVariable Long id, @RequestBody @Valid FormaPagamento formaPagamento) {
         var formaPagamentoAtual = formaPagamentoService.filtrarPorID(id);
         BeanUtils.copyProperties(formaPagamento, formaPagamentoAtual, "id");
         return formaPagamentoService.inserirOuAtualizar(formaPagamentoAtual);

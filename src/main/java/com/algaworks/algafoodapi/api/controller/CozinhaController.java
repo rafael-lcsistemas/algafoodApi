@@ -8,6 +8,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -33,12 +34,12 @@ public class CozinhaController {
     }
 
     @PostMapping
-    public Cozinha inserirNova(@RequestBody Cozinha cozinha) {
+    public Cozinha inserirNova(@RequestBody @Valid Cozinha cozinha) {
         return cozinhaService.inserirOuAtualizar(cozinha);
     }
 
     @PutMapping("/{id}")
-    public Cozinha update(@PathVariable Long id, @RequestBody Cozinha cozinha) {
+    public Cozinha update(@PathVariable Long id, @RequestBody @Valid Cozinha cozinha) {
         var cozinhaAtual = cozinhaService.filtrarPorId(id);
         BeanUtils.copyProperties(cozinha, cozinhaAtual, "id");
 

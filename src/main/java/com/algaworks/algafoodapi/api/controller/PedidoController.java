@@ -5,6 +5,7 @@ import com.algaworks.algafoodapi.domain.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -25,7 +26,7 @@ public class PedidoController {
     }
 
     @PostMapping
-    public Pedido inserir(@RequestBody Pedido pedido) {
+    public Pedido inserir(@RequestBody @Valid Pedido pedido) {
         return pedidoService.inserirOuAtualizar(pedido);
     }
 

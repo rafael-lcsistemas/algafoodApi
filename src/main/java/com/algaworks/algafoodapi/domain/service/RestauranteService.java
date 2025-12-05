@@ -48,31 +48,15 @@ public class RestauranteService {
 
     public Restaurante inserirOuAtualizar(Restaurante restaurante) {
 
-        if (restaurante.getNome() == null || restaurante.getNome().isEmpty()) {
-            throw new NegocioException("O nome do restaurante esta inválido. Por favor, verifique e tente novamente.");
-        }
+        var cozinha = cozinhaService.filtrarPorId(restaurante.getCozinha().getId());
 
-        if (restaurante.getAtivo() == null) {
-            throw new NegocioException("O status do restaurante esta inválido. Por favor, verifique e tente novamente.");
-        }
+        List<FormaPagamento> formasPagamentoCompletas = restaurante.getFormasPagamento()
+                .stream()
+                .map(fp ->
+                        formaPagamentoService.filtrarPorID(fp.getId())).collect(Collectors.toList());
 
-
-        try {
-            var cozinha = cozinhaService.filtrarPorId(restaurante.getCozinha().getId());
-
-            List<FormaPagamento> formasPagamentoCompletas = restaurante.getFormasPagamento()
-                    .stream()
-                    .map(fp ->
-                            formaPagamentoService.filtrarPorID(fp.getId())).collect(Collectors.toList());
-
-            restaurante.setCozinha(cozinha);
-            restaurante.setFormasPagamento(formasPagamentoCompletas);
-            return restauranteRepository.save(restaurante);
-        } catch (EntidadeNaoEncontradaException e) {
-            throw new NegocioException(e.getMessage());
-        } catch (Exception e) {
-            throw new NegocioException(
-                    "Erro inesperado ao salvar restaurante. Por favor, verifique os dados e tente novamente.", e);
-        }
+        restaurante.setCozinha(cozinha);
+        restaurante.setFormasPagamento(formasPagamentoCompletas);
+        return restauranteRepository.save(restaurante);
     }
 }

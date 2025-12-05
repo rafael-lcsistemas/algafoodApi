@@ -8,6 +8,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -33,12 +34,12 @@ public class GrupoController {
     }
 
     @PostMapping
-    public Grupo inserir(@RequestBody Grupo grupo) {
+    public Grupo inserir(@RequestBody @Valid Grupo grupo) {
         return grupoService.inserirOuAtualizar(grupo);
     }
 
     @PutMapping("/{id}")
-    public Grupo atualizar(@PathVariable Long id, @RequestBody Grupo grupo) {
+    public Grupo atualizar(@PathVariable Long id, @RequestBody @Valid Grupo grupo) {
         var grupoAtual = grupoService.filtrarPorId(id);
         BeanUtils.copyProperties(grupo, grupoAtual, "id");
 

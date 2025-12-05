@@ -6,6 +6,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -31,12 +32,12 @@ public class EstadoController {
     }
 
     @PostMapping
-    public Estado inserir(@RequestBody Estado estado) {
+    public Estado inserir(@RequestBody @Valid Estado estado) {
         return estadoService.inserirOuAtualizar(estado);
     }
 
     @PutMapping("/{id}")
-    public Estado atualizar(@PathVariable Long id, @RequestBody Estado estado) {
+    public Estado atualizar(@PathVariable Long id, @RequestBody @Valid Estado estado) {
         var estadoAtual = estadoService.filtrarPorID(id);
         BeanUtils.copyProperties(estado, estadoAtual, "id");
         return estadoService.inserirOuAtualizar(estadoAtual);

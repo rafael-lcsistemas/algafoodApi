@@ -43,34 +43,21 @@ public class UsuarioService {
 
     public Usuario iserirOuAtualizar(Usuario usuario) {
 
-        if (usuario.getNome() == null || usuario.getNome().trim().isEmpty()) {
-            throw new NegocioException("Nome do usuário está inválido. Por favor, verifique e tente novamente.");
-        }
-
-        if (usuario.getAtivo() == null) {
-            throw new NegocioException("O status do usuário está inválido. Por favor, verifique e tente novamente.");
-        }
-
         var existsGrupos = usuario.getGrupos().size() > 0;
 
         if (!existsGrupos) {
             throw new NegocioException("É preciso informar pelo menos um grupo para este usuário");
         }
 
-        try {
-            List<Grupo> gruposValidados = new ArrayList<>();
+        List<Grupo> gruposValidados = new ArrayList<>();
 
-            for (Grupo p : usuario.getGrupos()) {
-                Grupo grp = grupoService.filtrarPorId(p.getId());
-                gruposValidados.add(grp);
-            }
-
-            usuario.setGrupos(gruposValidados);
-            return usuarioRepository.save(usuario);
-        } catch (EntidadeNaoEncontradaException e) {
-            throw new NegocioException(e.getMessage());
-        } catch (Exception e) {
-            throw new NegocioException("Não foi possível salvar esse usuário. Por favor, verifique os dados e tente novamente.");
+        for (Grupo p : usuario.getGrupos()) {
+            Grupo grp = grupoService.filtrarPorId(p.getId());
+            gruposValidados.add(grp);
         }
+
+        usuario.setGrupos(gruposValidados);
+        return usuarioRepository.save(usuario);
+
     }
 }

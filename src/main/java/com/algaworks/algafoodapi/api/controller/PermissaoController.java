@@ -8,6 +8,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -33,12 +34,12 @@ public class PermissaoController {
     }
 
     @PostMapping
-    public Permissao inserir(@RequestBody Permissao permissao) {
+    public Permissao inserir(@RequestBody @Valid Permissao permissao) {
         return permissaoService.inserirOuAtualizar(permissao);
     }
 
     @PutMapping("/{id}")
-    public Permissao atualizar(@PathVariable Long id, @RequestBody Permissao permissao) {
+    public Permissao atualizar(@PathVariable Long id, @RequestBody @Valid Permissao permissao) {
         var permissaoAtual = permissaoService.filtrarPorId(id);
         BeanUtils.copyProperties(permissao, permissaoAtual, "id");
 

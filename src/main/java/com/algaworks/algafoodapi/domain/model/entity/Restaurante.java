@@ -5,6 +5,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ public class Restaurante {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     @Column(nullable = false, length = 100)
     private String nome;
 
@@ -33,6 +35,7 @@ public class Restaurante {
     @Column(nullable = false, columnDefinition = "TIMESTAMP")
     private LocalDateTime datahoraAlteracao;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "id_cozinha", nullable = false)
     private Cozinha cozinha;
@@ -41,6 +44,7 @@ public class Restaurante {
     @Embedded
     private Endereco endereco;
 
+    @NotNull
     @ManyToMany
     @JoinTable(name = "restaurante_forma_pagamento",
             joinColumns = @JoinColumn(name = "id_restaurante"),

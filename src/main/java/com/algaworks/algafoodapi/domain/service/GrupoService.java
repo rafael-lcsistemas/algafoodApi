@@ -43,24 +43,13 @@ public class GrupoService {
     }
 
     public Grupo inserirOuAtualizar(Grupo grupo) {
-
-        if (grupo.getNome() == null || grupo.getNome().trim().isEmpty()) {
-            throw new NegocioException("Descrição do grupo inválida. Por favor, verifique e tente novamente.");
-        }
-
-        if(grupo.getAtivo() == null) {
-            throw new NegocioException("Status do grupo inválido. Por favor, verifique e tente novamente.");
-        }
-
+        
         List<Permissao> permissoesValidas = new ArrayList<>();
 
         for (Permissao p : grupo.getPermissoes()) {
-            try {
-                Permissao perm = permissaoService.filtrarPorId(p.getId());
-                permissoesValidas.add(perm);
-            } catch (PermissaoNaoEncontradaException e) {
-                throw new NegocioException(e.getMessage());
-            }
+
+            Permissao perm = permissaoService.filtrarPorId(p.getId());
+            permissoesValidas.add(perm);
         }
 
         grupo.setPermissoes(permissoesValidas);

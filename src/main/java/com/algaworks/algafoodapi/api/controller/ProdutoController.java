@@ -8,6 +8,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -33,12 +34,12 @@ public class ProdutoController {
     }
 
     @PostMapping
-    public Produto inserir(@RequestBody Produto produto) {
+    public Produto inserir(@RequestBody @Valid Produto produto) {
         return produtoService.inserirOuAtualizar(produto);
     }
 
     @PutMapping("/{id}")
-    public Produto atualizar(@PathVariable Long id, @RequestBody Produto produto) {
+    public Produto atualizar(@PathVariable Long id, @RequestBody @Valid Produto produto) {
         var produtoAtual = produtoService.filtrarPorId(id);
         BeanUtils.copyProperties(produto, produtoAtual, "id", "dataCadastro");
 

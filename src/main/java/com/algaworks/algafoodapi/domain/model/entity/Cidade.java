@@ -3,6 +3,7 @@ package com.algaworks.algafoodapi.domain.model.entity;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -13,10 +14,12 @@ public class Cidade {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "id_estado")
     private Estado estado;
 
+    @NotNull
     @Column(nullable = false, length = 100)
     private String nome;
 

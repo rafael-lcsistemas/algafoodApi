@@ -8,6 +8,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -33,12 +34,12 @@ public class RestauranteController {
     }
 
     @PostMapping
-    public Restaurante inserir(@RequestBody Restaurante restaurante) {
+    public Restaurante inserir(@RequestBody @Valid Restaurante restaurante) {
         return restauranteService.inserirOuAtualizar(restaurante);
     }
 
     @PutMapping("/{id}")
-    public Restaurante atualizar(@PathVariable Long id, @RequestBody Restaurante restaurante) {
+    public Restaurante atualizar(@PathVariable Long id, @RequestBody @Valid Restaurante restaurante) {
         var restauranteAtual = restauranteService.filtrarPorID(id);
         BeanUtils.copyProperties(restaurante, restauranteAtual, "id", "endereco", "dataCadastro");
 

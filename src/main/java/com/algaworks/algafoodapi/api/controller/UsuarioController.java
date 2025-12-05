@@ -8,6 +8,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -34,12 +35,12 @@ UsuarioController {
     }
 
     @PostMapping
-    public Usuario inserir(@RequestBody Usuario usuario) {
+    public Usuario inserir(@RequestBody @Valid Usuario usuario) {
         return usuarioService.iserirOuAtualizar(usuario);
     }
 
     @PutMapping("/{id}")
-    public Usuario atualizar(@PathVariable Long id, @RequestBody Usuario usuario) {
+    public Usuario atualizar(@PathVariable Long id, @RequestBody @Valid Usuario usuario) {
         var usuarioAtual = usuarioService.filtrarPorID(id);
         BeanUtils.copyProperties(usuario, usuarioAtual, "id", "dataCadastro");
 

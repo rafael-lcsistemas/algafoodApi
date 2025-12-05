@@ -38,14 +38,6 @@ public class FormaPagamentoService {
     }
 
     public FormaPagamento inserirOuAtualizar(FormaPagamento formaPagamento) {
-        if (formaPagamento.getNome() == null || formaPagamento.getNome().isEmpty()) {
-            throw new NegocioException("Forma de pagamento nome inválido. Por favor, verifique e tente novamente");
-        }
-
-        if(formaPagamento.getAtivo() == null) {
-            throw new NegocioException("Forma de pagamento com status inválido. Por favor, verifique e tente novamente");
-        }
-
         return formaPagamentoRepository.save(formaPagamento);
     }
 

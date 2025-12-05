@@ -43,23 +43,10 @@ public class CidadeService {
     }
 
     public Cidade inserirOuAtualizar(Cidade cidade) {
-        if (cidade.getNome() == null || cidade.getNome().isEmpty()) {
-            throw new NegocioException("Nome da Cidade está inválido, por favor, verifique e tente novamente");
-        }
-
-        if (cidade.getEstado() == null || cidade.getEstado().getId() == null) {
-            throw new NegocioException("É necessário informar um Estado para a Cidade");
-        }
-
         var estado = estadoService.filtrarPorID(cidade.getEstado().getId());
         cidade.setEstado(estado);
 
-        try {
-            return cidadeRepository.save(cidade);
-        } catch (Exception e) {
-            throw new NegocioException(
-                    "Não foi possivel salvar essa Cidade. Por favor, verifique os dados e tente novamente", e);
-        }
+        return cidadeRepository.save(cidade);
     }
 
     public void remove(Long id) {

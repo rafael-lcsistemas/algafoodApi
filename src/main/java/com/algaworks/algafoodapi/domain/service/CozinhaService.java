@@ -38,19 +38,7 @@ public class CozinhaService {
     }
 
     public Cozinha inserirOuAtualizar(Cozinha cozinha) {
-        if (cozinha.getNome().isEmpty() || cozinha.getNome() == null) {
-            throw new NegocioException("Cozinha não pode ter o nome vazio ou nulo");
-        }
-
-        if (cozinha.getAtivo() == null) {
-            throw new NegocioException("Necessario informar o status da cozinha");
-        }
-
-        try {
-            return cozinhaRepository.save(cozinha);
-        } catch (Exception e) {
-            throw new NegocioException("Não foi possivel salvar cozinha, verifique os dados e tente novamente");
-        }
+        return cozinhaRepository.save(cozinha);
     }
 
     public void remove(Long id) {

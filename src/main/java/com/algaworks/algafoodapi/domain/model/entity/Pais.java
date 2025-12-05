@@ -3,6 +3,7 @@ package com.algaworks.algafoodapi.domain.model.entity;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
@@ -12,6 +13,7 @@ public class Pais {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     @Column(nullable = false, length = 100)
     private String nome;
 

@@ -38,24 +38,6 @@ public class ProdutoService {
     }
 
     public Produto inserirOuAtualizar(Produto produto) {
-
-        if (produto.getNome() == null || produto.getNome().trim().isEmpty()) {
-            throw new NegocioException("Nome do produto inválido. Por favor, verifique e tente novamente.");
-        }
-
-        if (produto.getPreco() == null || produto.getPreco().equals(BigDecimal.ZERO)) {
-            throw new NegocioException("Preço do produto inválido. Por favor, verifique e tente novamente.");
-        }
-
-        if (produto.getAtivo() == null) {
-            throw new NegocioException("O status do produto está inválido. Por favor, verifique e tente novamente.");
-        }
-
-        try {
-            return produtoRepository.save(produto);
-        } catch (Exception e) {
-            throw new NegocioException(
-                    "Não foi possivel salvar esse produto. Por favor, verifique os dados e tente novamente", e);
-        }
+        return produtoRepository.save(produto);
     }
 }
