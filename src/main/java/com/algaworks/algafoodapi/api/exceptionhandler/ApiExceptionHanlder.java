@@ -54,7 +54,7 @@ public class ApiExceptionHanlder extends ResponseEntityExceptionHandler {
 
         ProblemType problemType = ProblemType.RECURSO_NAO_ENCONTRADO;
         String detail = String.format(
-                "Não conseguimos localizar o recurso que foi passado %s. Por favor, verifique e tente novamente.",
+                "Não conseguimos localizar o recurso %s que foi passado. Por favor, verifique e tente novamente.",
                 ex.getRequestURL());
 
         Problem problem = createProblemBuilder(status, problemType, detail).build();
