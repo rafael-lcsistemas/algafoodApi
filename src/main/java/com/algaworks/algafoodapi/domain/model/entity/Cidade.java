@@ -1,6 +1,6 @@
 package com.algaworks.algafoodapi.domain.model.entity;
 
-import com.algaworks.algafoodapi.Groups;
+import com.algaworks.algafoodapi.core.validation.Groups;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
