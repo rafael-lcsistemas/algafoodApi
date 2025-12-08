@@ -1,6 +1,7 @@
 package com.algaworks.algafoodapi.domain.model.entity;
 
 import com.algaworks.algafoodapi.core.validation.Groups;
+import com.algaworks.algafoodapi.core.validation.Multiplo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -29,7 +30,9 @@ public class Restaurante {
     @Column(nullable = false, length = 100)
     private String nome;
 
-    @PositiveOrZero
+    @NotNull
+    @Multiplo(numero = 12)
+    @Column(nullable = false)
     private BigDecimal taxaFrete;
 
     @NotNull
