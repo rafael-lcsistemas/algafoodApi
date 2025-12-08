@@ -12,16 +12,16 @@ public class Problem {
     private String detail;
     private String userMessage;
     private LocalDateTime timestamp;
-    private List<ProblemField> fields;
+    private List<Object> objects;
 
-    public Problem(Integer status, String type, String title, String detail, String userMessage, LocalDateTime timestamp, List<ProblemField> fields) {
+    public Problem(Integer status, String type, String title, String detail, String userMessage, LocalDateTime timestamp, List<Object> objects) {
         this.status = status;
         this.type = type;
         this.title = title;
         this.detail = detail;
         this.userMessage = userMessage;
         this.timestamp = timestamp;
-        this.fields = fields;
+        this.objects = objects;
     }
 
     public Integer getStatus() {
@@ -72,12 +72,12 @@ public class Problem {
         this.timestamp = timestamp;
     }
 
-    public List<ProblemField> getFields() {
-        return fields;
+    public List<Object> getObjects() {
+        return objects;
     }
 
-    public void setFields(List<ProblemField> fields) {
-        this.fields = fields;
+    public void setObjects(List<Object> objects) {
+        this.objects = objects;
     }
 
     public static class ProblemBuilder {
@@ -87,7 +87,7 @@ public class Problem {
         private String detail;
         private String userMessage;
         private LocalDateTime timestamp;
-        private List<ProblemField> fields;
+        private List<Object> objects;
 
         public ProblemBuilder status(Integer status) {
             this.status = status;
@@ -119,13 +119,13 @@ public class Problem {
             return this;
         }
 
-        public ProblemBuilder fields(List<ProblemField> fields) {
-            this.fields = fields;
+        public ProblemBuilder objects(List<Object> objects) {
+            this.objects = objects;
             return this;
         }
 
         public Problem build() {
-            return new Problem(status, type, title, detail, userMessage, timestamp, fields);
+            return new Problem(status, type, title, detail, userMessage, timestamp, objects);
         }
     }
 
