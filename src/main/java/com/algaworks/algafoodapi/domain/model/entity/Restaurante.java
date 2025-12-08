@@ -1,7 +1,7 @@
 package com.algaworks.algafoodapi.domain.model.entity;
 
 import com.algaworks.algafoodapi.core.validation.Groups;
-import com.algaworks.algafoodapi.core.validation.Multiplo;
+import com.algaworks.algafoodapi.core.validation.ValorZeroIncluiDescricao;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@ValorZeroIncluiDescricao(valorField = "taxaFrete", descricaoField = "nome", descricaoObtigatoria = "Frete grátis")
 @Entity
 public class Restaurante {
 
@@ -31,7 +32,7 @@ public class Restaurante {
     private String nome;
 
     @NotNull
-    @Multiplo(numero = 12)
+    @PositiveOrZero
     @Column(nullable = false)
     private BigDecimal taxaFrete;
 
