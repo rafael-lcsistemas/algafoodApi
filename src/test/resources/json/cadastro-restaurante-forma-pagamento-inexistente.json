@@ -1,0 +1,13 @@
+{
+  "nome": "Paraense",
+  "ativo": false,
+  "taxaFrete": 10.00,
+  "cozinha": {
+    "id": 1
+  },
+  "formasPagamento": [
+    {
+      "id": 100
+    }
+  ]
+}
