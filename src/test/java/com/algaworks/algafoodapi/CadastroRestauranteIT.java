@@ -1,6 +1,7 @@
 package com.algaworks.algafoodapi;
 
 import com.algaworks.algafoodapi.domain.model.entity.Cozinha;
+import com.algaworks.algafoodapi.domain.model.entity.FormaPagamento;
 import com.algaworks.algafoodapi.domain.model.entity.Restaurante;
 import com.algaworks.algafoodapi.domain.repository.CozinhaRepository;
 import com.algaworks.algafoodapi.domain.repository.FormaPagamentoRepository;
@@ -149,15 +150,19 @@ public class CadastroRestauranteIT {
         cozinha.setNome("Padaria");
         cozinha.setAtivo(true);
 
-        cozinhaRepository.save(cozinha);
+        cozinha = cozinhaRepository.save(cozinha);
+
+        FormaPagamento formaPagamento = new FormaPagamento();
+        formaPagamento.setNome("Sem pagamento");
+        formaPagamento.setAtivo(true);
+
+        formaPagamento = formaPagamentoRepository.save(formaPagamento);
 
         Restaurante restaurante = new Restaurante();
         restaurante.setNome("Aurora do Pará - Frete Grátis");
         restaurante.setTaxaFrete(BigDecimal.ZERO);
         restaurante.setAtivo(true);
         restaurante.setCozinha(cozinha);
-
-        var formaPagamento = formaPagamentoRepository.findById(idExistente).orElseThrow();
         restaurante.getFormasPagamento().add(formaPagamento);
 
         restauranteRepository.save(restaurante);

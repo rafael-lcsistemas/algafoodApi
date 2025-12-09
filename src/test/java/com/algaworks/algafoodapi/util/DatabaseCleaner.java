@@ -65,7 +65,6 @@ public class DatabaseCleaner {
         tableNames.remove("flyway_schema_history");
         tableNames.remove("cidade");
         tableNames.remove("estado");
-        tableNames.remove("forma_pagamento");
 
         return tableNames;
     }
