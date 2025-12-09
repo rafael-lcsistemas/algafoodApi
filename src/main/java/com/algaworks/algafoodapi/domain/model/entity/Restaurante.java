@@ -2,7 +2,6 @@ package com.algaworks.algafoodapi.domain.model.entity;
 
 import com.algaworks.algafoodapi.core.validation.Groups;
 import com.algaworks.algafoodapi.core.validation.ValorZeroIncluiDescricao;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -55,7 +54,6 @@ public class Restaurante {
     @JoinColumn(name = "id_cozinha", nullable = false)
     private Cozinha cozinha;
 
-    @JsonIgnore
     @Embedded
     private Endereco endereco;
 
@@ -68,7 +66,6 @@ public class Restaurante {
             inverseJoinColumns = @JoinColumn(name = "id_forma_pagamento"))
     private List<FormaPagamento> formasPagamento = new ArrayList<>();
 
-    @JsonIgnore
     @OneToMany(mappedBy = "restaurante")
     private List<Produto> produtos = new ArrayList<>();
 
