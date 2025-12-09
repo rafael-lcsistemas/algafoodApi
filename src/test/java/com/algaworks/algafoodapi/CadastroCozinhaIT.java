@@ -15,6 +15,13 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.util.ResourceUtils;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -23,10 +30,10 @@ public class CadastroCozinhaIT {
 
     /*
      *
-     * @Test == Informa que o metodo será executado na ação de TESTE
-     * @Ignore == Ignora a execução do TESTE
-     * @LocalServerPort == Pega o numero da porta virtual criada pelo servidor no momento da execução
-     * @Before == Executar o metodo setUp() por primeiro antes dos testes
+     * @Test ----------------> Informa que o metodo será executado na ação de TESTE
+     * @Ignore --------------> Ignora a execução do TESTE
+     * @LocalServerPort -----> Pega o numero da porta virtual criada pelo servidor no momento da execução
+     * @Before --------------> Executar o metodo setUp() por primeiro antes dos testes
      *
      */
 
@@ -38,6 +45,8 @@ public class CadastroCozinhaIT {
 
     @Autowired
     private DatabaseCleaner databaseCleaner;
+
+    private static final Long idInexistente = 10L;
 
     @Before
     public void setUp() {
@@ -90,15 +99,41 @@ public class CadastroCozinhaIT {
     public void deveRetornarStatus201_QuandoCadastrarCozinha() {
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
 
+        File json = new File("src/test/resources/json/cadastro-cozinha.json");
+
         RestAssured.given()
                 .basePath("/cozinhas")
-                .body("{\"nome\": \"Nova Cozinha\", \"ativo\": true}")
+                .body(json)
                 .contentType(ContentType.JSON)
                 .accept(ContentType.JSON)
                 .when()
                 .post()
                 .then()
                 .statusCode(HttpStatus.CREATED.value());
+    }
+
+    @Test
+    public void deveRetoarnarStatus200_QuandoFiltrarUmaCozinhaPorId() {
+        RestAssured.given()
+                .basePath("/cozinhas")
+                .pathParam("id", 1L)
+                .accept(ContentType.JSON)
+                .when()
+                .get("/{id}")
+                .then()
+                .statusCode(HttpStatus.OK.value());
+    }
+
+    @Test
+    public void deveRetoarnarStatus404_QuandoFiltrarUmaCozinhaPorIdInexistente() {
+        RestAssured.given()
+                .basePath("/cozinhas")
+                .pathParam("id", idInexistente)
+                .accept(ContentType.JSON)
+                .when()
+                .get("/{id}")
+                .then()
+                .statusCode(HttpStatus.NOT_FOUND.value());
     }
 
     private void prepararDadosIniciaisDeTeste() {
