@@ -6,6 +6,7 @@ import com.algaworks.algafoodapi.domain.model.entity.Cozinha;
 import com.algaworks.algafoodapi.domain.service.CozinhaService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -34,6 +35,7 @@ public class CozinhaController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public Cozinha inserirNova(@RequestBody @Valid Cozinha cozinha) {
         return cozinhaService.inserirOuAtualizar(cozinha);
     }
