@@ -1,11 +1,12 @@
 package com.algaworks.algafoodapi;
 
+import com.algaworks.algafoodapi.domain.model.entity.Cozinha;
+import com.algaworks.algafoodapi.domain.repository.CozinhaRepository;
+import com.algaworks.algafoodapi.util.DatabaseCleaner;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import org.flywaydb.core.Flyway;
 import org.hamcrest.Matchers;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,19 +22,22 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class CadastroCozinhaIT {
 
     /*
-    *
-    * @Test == Informa que o metodo será executado na ação de TESTE
-    * @Ignore == Ignora a execução do TESTE
-    * @LocalServerPort == Pega o numero da porta virtual criada pelo servidor no momento da execução
-    * @Before == Executar o metodo setUp() por primeiro antes dos testes
-    *
-    */
+     *
+     * @Test == Informa que o metodo será executado na ação de TESTE
+     * @Ignore == Ignora a execução do TESTE
+     * @LocalServerPort == Pega o numero da porta virtual criada pelo servidor no momento da execução
+     * @Before == Executar o metodo setUp() por primeiro antes dos testes
+     *
+     */
 
     @LocalServerPort
     private int port;
 
     @Autowired
-    private Flyway flyway;
+    private CozinhaRepository cozinhaRepository;
+
+    @Autowired
+    private DatabaseCleaner databaseCleaner;
 
     @Before
     public void setUp() {
@@ -41,8 +45,9 @@ public class CadastroCozinhaIT {
         RestAssured.basePath = "/cozinhas/listar";
         RestAssured.port = port;
 
-        flyway.clean();
-        flyway.migrate();
+        databaseCleaner.clearTables();
+
+        prepararDadosIniciaisDeTeste();
     }
 
     @Test
@@ -94,5 +99,13 @@ public class CadastroCozinhaIT {
                 .post()
                 .then()
                 .statusCode(HttpStatus.CREATED.value());
+    }
+
+    private void prepararDadosIniciaisDeTeste() {
+        Cozinha cozinha = new Cozinha();
+        cozinha.setNome("PADRAO");
+        cozinha.setAtivo(true);
+
+        cozinhaRepository.save(cozinha);
     }
 }
