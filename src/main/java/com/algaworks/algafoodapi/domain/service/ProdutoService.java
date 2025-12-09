@@ -6,6 +6,7 @@ import com.algaworks.algafoodapi.domain.model.entity.Produto;
 import com.algaworks.algafoodapi.domain.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -37,6 +38,7 @@ public class ProdutoService {
                 new ProdutoNaoEncontradaException(id));
     }
 
+    @Transactional
     public Produto inserirOuAtualizar(Produto produto) {
         return produtoRepository.save(produto);
     }

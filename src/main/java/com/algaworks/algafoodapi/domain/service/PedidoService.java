@@ -11,6 +11,7 @@ import com.algaworks.algafoodapi.domain.model.entity.pedido.StatusPedido;
 import com.algaworks.algafoodapi.domain.repository.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -43,6 +44,7 @@ public class PedidoService {
                 new PedidoNaoEncontradaException(id));
     }
 
+    @Transactional
     public Pedido inserirOuAtualizar(Pedido pedido) {
         try {
             Usuario usuario = usuarioService.filtrarPorID(
@@ -72,7 +74,7 @@ public class PedidoService {
         }
     }
 
-
+    @Transactional
     public Pedido cancelarPedido(Long id) {
         var pedido = filtrarPorID(id);
 

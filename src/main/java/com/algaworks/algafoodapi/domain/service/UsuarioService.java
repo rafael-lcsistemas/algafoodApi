@@ -8,6 +8,7 @@ import com.algaworks.algafoodapi.domain.model.entity.Usuario;
 import com.algaworks.algafoodapi.domain.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +42,7 @@ public class UsuarioService {
         return usuarioRepository.findById(id).orElseThrow(() -> new UsuarioNaoEncontradaException(id));
     }
 
+    @Transactional
     public Usuario iserirOuAtualizar(Usuario usuario) {
 
         var existsGrupos = usuario.getGrupos().size() > 0;

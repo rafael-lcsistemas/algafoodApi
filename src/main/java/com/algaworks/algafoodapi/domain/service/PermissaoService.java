@@ -6,6 +6,7 @@ import com.algaworks.algafoodapi.domain.model.entity.Permissao;
 import com.algaworks.algafoodapi.domain.repository.PermissaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -36,6 +37,7 @@ public class PermissaoService {
                 new PermissaoNaoEncontradaException(id));
     }
 
+    @Transactional
     public Permissao inserirOuAtualizar(Permissao permissao) {
         return permissaoRepository.save(permissao);
     }
