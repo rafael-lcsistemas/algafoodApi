@@ -48,15 +48,26 @@ public class RestauranteService {
 
     public Restaurante inserirOuAtualizar(Restaurante restaurante) {
 
-        var cozinha = cozinhaService.filtrarPorId(restaurante.getCozinha().getId());
+        try {
+            var cozinha = cozinhaService.filtrarPorId(restaurante.getCozinha().getId());
+            restaurante.setCozinha(cozinha);
+        } catch (EntidadeNaoEncontradaException e) {
+            throw new NegocioException(e.getMessage());
+        }
 
-        List<FormaPagamento> formasPagamentoCompletas = restaurante.getFormasPagamento()
-                .stream()
-                .map(fp ->
-                        formaPagamentoService.filtrarPorID(fp.getId())).collect(Collectors.toList());
 
-        restaurante.setCozinha(cozinha);
-        restaurante.setFormasPagamento(formasPagamentoCompletas);
+        try {
+            List<FormaPagamento> formasPagamentoCompletas = restaurante.getFormasPagamento()
+                    .stream()
+                    .map(fp ->
+                            formaPagamentoService.filtrarPorID(fp.getId())).collect(Collectors.toList());
+
+            restaurante.setFormasPagamento(formasPagamentoCompletas);
+        } catch (EntidadeNaoEncontradaException e) {
+            throw new NegocioException(e.getMessage());
+        }
+
+
         return restauranteRepository.save(restaurante);
     }
 }
