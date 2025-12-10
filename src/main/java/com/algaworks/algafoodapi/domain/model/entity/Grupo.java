@@ -29,7 +29,7 @@ public class Grupo {
 
     @NotNull
     @Column(nullable = false)
-    private Boolean ativo;
+    private Boolean status;
 
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "TIMESTAMP")
@@ -51,10 +51,10 @@ public class Grupo {
     public Grupo() {
     }
 
-    public Grupo(Long id, String nome, Boolean ativo, List<Permissao> permissoes) {
+    public Grupo(Long id, String nome, Boolean status, List<Permissao> permissoes) {
         this.id = id;
         this.nome = nome;
-        this.ativo = ativo;
+        this.status = status;
         this.permissoes = permissoes;
     }
 
@@ -74,12 +74,12 @@ public class Grupo {
         this.nome = nome;
     }
 
-    public Boolean getAtivo() {
-        return ativo;
+    public Boolean getStatus() {
+        return status;
     }
 
-    public void setAtivo(Boolean ativo) {
-        this.ativo = ativo;
+    public void setStatus(Boolean ativo) {
+        this.status = ativo;
     }
 
     public OffsetDateTime getDatahoraAlteracao() {

@@ -24,7 +24,7 @@ public class FormaPagamento {
 
     @NotNull
     @Column(nullable = false)
-    private Boolean ativo;
+    private Boolean status;
 
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "TIMESTAMP")
@@ -37,10 +37,10 @@ public class FormaPagamento {
     public FormaPagamento() {
     }
 
-    public FormaPagamento(Long id, String nome, Boolean ativo) {
+    public FormaPagamento(Long id, String nome, Boolean status) {
         this.id = id;
         this.nome = nome;
-        this.ativo = ativo;
+        this.status = status;
     }
 
     public Long getId() {
@@ -59,12 +59,12 @@ public class FormaPagamento {
         this.nome = nome;
     }
 
-    public Boolean getAtivo() {
-        return ativo;
+    public Boolean getStatus() {
+        return status;
     }
 
-    public void setAtivo(Boolean ativo) {
-        this.ativo = ativo;
+    public void setStatus(Boolean ativo) {
+        this.status = ativo;
     }
 
     public OffsetDateTime getDatahoraCadastro() {

@@ -26,7 +26,7 @@ CREATE TABLE cidade
     nome               VARCHAR(100)          NOT NULL,
     datahora_cadastro  datetime              NULL,
     datahora_alteracao datetime              NULL,
-    ativo              BIT(1)                NULL,
+    status             BIT(1)                NULL,
     CONSTRAINT pk_cidade PRIMARY KEY (id)
 ) engine = InnoDB
   default charset = utf8mb4;
@@ -35,7 +35,7 @@ CREATE TABLE cozinha
 (
     id                 BIGINT AUTO_INCREMENT NOT NULL,
     nome               VARCHAR(100)          NOT NULL,
-    ativo              BIT(1)                NULL,
+    status              BIT(1)                NULL,
     datahora_cadastro  datetime              NULL,
     datahora_alteracao datetime              NULL,
     CONSTRAINT pk_cozinha PRIMARY KEY (id)
@@ -46,7 +46,7 @@ CREATE TABLE forma_pagamento
 (
     id                 BIGINT AUTO_INCREMENT NOT NULL,
     nome               VARCHAR(100)          NOT NULL,
-    ativo              BIT(1)                NULL,
+    status             BIT(1)                NULL,
     datahora_cadastro  datetime              NULL,
     datahora_alteracao datetime              NULL,
     CONSTRAINT pk_formapagamento PRIMARY KEY (id)
@@ -57,7 +57,7 @@ CREATE TABLE grupo
 (
     id                 BIGINT AUTO_INCREMENT NOT NULL,
     nome               VARCHAR(100)          NOT NULL,
-    ativo              BIT(1)                NULL,
+    status             BIT(1)                NULL,
     datahora_cadastro  datetime              NULL,
     datahora_alteracao datetime              NULL,
     CONSTRAINT pk_grupo PRIMARY KEY (id)
@@ -69,7 +69,7 @@ CREATE TABLE permissao
     id                 BIGINT AUTO_INCREMENT NOT NULL,
     nome               VARCHAR(100)          NOT NULL,
     descricao          VARCHAR(100)          NOT NULL,
-    ativo              BIT(1)                NULL,
+    status             BIT(1)                NULL,
     datahora_cadastro  datetime              NULL,
     datahora_alteracao datetime              NULL,
     CONSTRAINT pk_permissao PRIMARY KEY (id)
@@ -89,7 +89,7 @@ CREATE TABLE produto
     nome           VARCHAR(150)          NOT NULL,
     descricao      VARCHAR(150)          NULL,
     preco          DECIMAL               NOT NULL,
-    ativo          BIT(1)                NOT NULL,
+    status         BIT(1)                NOT NULL,
     id_restaurante BIGINT                NULL,
     data_cadastro  timestamp             NOT NULL,
     data_alteracao timestamp             NOT NULL,
@@ -129,7 +129,7 @@ CREATE TABLE usuario
     nome               VARCHAR(100)          NOT NULL,
     email              VARCHAR(100)          NULL,
     senha              VARCHAR(30)           NULL,
-    ativo              BIT(1)                NULL,
+    status             BIT(1)                NOT NULL,
     datahora_cadastro  datetime              NULL,
     datahora_alteracao datetime              NULL,
     CONSTRAINT pk_usuario PRIMARY KEY (id)

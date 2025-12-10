@@ -284,7 +284,7 @@ values (13, 'AM', 'Amazonas', now(), now()),
        (17, 'TO', 'Tocantins', now(), now()),
        (99, 'EX', 'Exterior', now(), now());
 
-INSERT INTO cidade (id, id_estado, nome, datahora_cadastro, datahora_alteracao, ativo)
+INSERT INTO cidade (id, id_estado, nome, datahora_cadastro, datahora_alteracao, status)
 VALUES (1100015, 11, 'Alta Floresta DOeste', now(), now(), true),
        (1100023, 11, 'Ariquemes', now(), now(), true),
        (1100031, 11, 'Cabixi', now(), now(), true),
@@ -1117,7 +1117,7 @@ VALUES (1100015, 11, 'Alta Floresta DOeste', now(), now(), true),
        (2208502, 22, 'Porto', now(), now(), true),
        (2208551, 22, 'Porto Alegre do Piaui', now(), now(), true),
        (2208601, 22, 'Prata do Piaui', now(), now(), true);
-INSERT INTO cidade (id, id_estado, nome, datahora_cadastro, datahora_alteracao, ativo)
+INSERT INTO cidade (id, id_estado, nome, datahora_cadastro, datahora_alteracao, status)
 VALUES (2208650, 22, 'Queimada Nova', now(), now(), true),
        (2208700, 22, 'Redencao do Gurgueia', now(), now(), true),
        (2208809, 22, 'Regeneracao', now(), now(), true),
@@ -1973,7 +1973,7 @@ VALUES (2208650, 22, 'Queimada Nova', now(), now(), true),
        (2703403, 27, 'Jacare dos Homens', now(), now(), true),
        (2703502, 27, 'Jacuipe', now(), now(), true),
        (2703601, 27, 'Japaratinga', now(), now(), true);
-INSERT INTO cidade (id, id_estado, nome, datahora_cadastro, datahora_alteracao, ativo)
+INSERT INTO cidade (id, id_estado, nome, datahora_cadastro, datahora_alteracao, status)
 VALUES (2703700, 27, 'Jaramataia', now(), now(), true),
        (2703759, 27, 'Jequia da Praia', now(), now(), true),
        (2703809, 27, 'Joaquim Gomes', now(), now(), true),
@@ -2825,7 +2825,7 @@ VALUES (2703700, 27, 'Jaramataia', now(), now(), true),
        (3126406, 31, 'Fortuna de Minas', now(), now(), true),
        (3126505, 31, 'Francisco Badaro', now(), now(), true),
        (3126604, 31, 'Francisco Dumont', now(), now(), true);
-INSERT INTO cidade (id, id_estado, nome, datahora_cadastro, datahora_alteracao, ativo)
+INSERT INTO cidade (id, id_estado, nome, datahora_cadastro, datahora_alteracao, status)
 VALUES (3126703, 31, 'Francisco Sa', now(), now(), true),
        (3126752, 31, 'Franciscopolis', now(), now(), true),
        (3126802, 31, 'Frei Gaspar', now(), now(), true),
@@ -3671,7 +3671,7 @@ VALUES (3126703, 31, 'Francisco Sa', now(), now(), true),
        (3510104, 35, 'Candido Rodrigues', now(), now(), true),
        (3510153, 35, 'Canitar', now(), now(), true),
        (3510203, 35, 'Capao Bonito', now(), now(), true);
-INSERT INTO cidade (id, id_estado, nome, datahora_cadastro, datahora_alteracao, ativo)
+INSERT INTO cidade (id, id_estado, nome, datahora_cadastro, datahora_alteracao, status)
 VALUES (3510302, 35, 'Capela do Alto', now(), now(), true),
        (3510401, 35, 'Capivari', now(), now(), true),
        (3510500, 35, 'Caraguatatuba', now(), now(), true),
@@ -4526,7 +4526,7 @@ VALUES (3510302, 35, 'Capela do Alto', now(), now(), true),
        (4123709, 41, 'Santa Isabel do Ivai', now(), now(), true),
        (4123808, 41, 'Santa Izabel do Oeste', now(), now(), true),
        (4123824, 41, 'Santa Lucia', now(), now(), true);
-INSERT INTO cidade (id, id_estado, nome, datahora_cadastro, datahora_alteracao, ativo)
+INSERT INTO cidade (id, id_estado, nome, datahora_cadastro, datahora_alteracao, status)
 VALUES (4123857, 41, 'Santa Maria do Oeste', now(), now(), true),
        (4123907, 41, 'Santa Mariana', now(), now(), true),
        (4123956, 41, 'Santa Monica', now(), now(), true),
@@ -5372,7 +5372,7 @@ VALUES (4123857, 41, 'Santa Maria do Oeste', now(), now(), true),
        (4322558, 43, 'Vanini', now(), now(), true),
        (4322608, 43, 'Venancio Aires', now(), now(), true),
        (4322707, 43, 'Vera Cruz', now(), now(), true);
-INSERT INTO cidade (id, id_estado, nome, datahora_cadastro, datahora_alteracao, ativo)
+INSERT INTO cidade (id, id_estado, nome, datahora_cadastro, datahora_alteracao, status)
 VALUES (4322806, 43, 'Veranopolis', now(), now(), true),
        (4322855, 43, 'Vespasiano Correa', now(), now(), true),
        (4322905, 43, 'Viadutos', now(), now(), true),

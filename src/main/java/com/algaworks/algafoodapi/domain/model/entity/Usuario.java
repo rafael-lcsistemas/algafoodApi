@@ -36,7 +36,7 @@ public class Usuario {
 
     @NotNull
     @Column(nullable = false)
-    private Boolean ativo;
+    private Boolean status;
 
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "TIMESTAMP")
@@ -57,12 +57,12 @@ public class Usuario {
 
     public Usuario() {}
 
-    public Usuario(Long id, String nome, String email, String senha, Boolean ativo, List<Grupo> grupos) {
+    public Usuario(Long id, String nome, String email, String senha, Boolean status, List<Grupo> grupos) {
         this.id = id;
         this.nome = nome;
         this.email = email;
         this.senha = senha;
-        this.ativo = ativo;
+        this.status = status;
         this.grupos = grupos;
     }
 
@@ -98,12 +98,12 @@ public class Usuario {
         this.senha = senha;
     }
 
-    public Boolean getAtivo() {
-        return ativo;
+    public Boolean getStatus() {
+        return status;
     }
 
-    public void setAtivo(Boolean ativo) {
-        this.ativo = ativo;
+    public void setStatus(Boolean ativo) {
+        this.status = ativo;
     }
 
     public OffsetDateTime getDatahoraCadastro() {

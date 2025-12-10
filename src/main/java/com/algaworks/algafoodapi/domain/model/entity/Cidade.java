@@ -25,7 +25,7 @@ public class Cidade {
 
     @NotNull
     @Column(nullable = false)
-    private Boolean ativo;
+    private Boolean status;
 
     @Valid
     @NotNull
@@ -44,10 +44,10 @@ public class Cidade {
 
     public Cidade() {}
 
-    public Cidade(Long id, String nome, Boolean ativo, Estado estado) {
+    public Cidade(Long id, String nome, Boolean status, Estado estado) {
         this.id = id;
         this.nome = nome;
-        this.ativo = ativo;
+        this.status = status;
         this.estado = estado;
     }
 
@@ -67,12 +67,12 @@ public class Cidade {
         this.nome = nome;
     }
 
-    public Boolean getAtivo() {
-        return ativo;
+    public Boolean getStatus() {
+        return status;
     }
 
-    public void setAtivo(Boolean ativo) {
-        this.ativo = ativo;
+    public void setStatus(Boolean ativo) {
+        this.status = ativo;
     }
 
     public Estado getEstado() {

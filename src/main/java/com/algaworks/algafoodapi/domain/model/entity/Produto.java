@@ -30,7 +30,7 @@ public class Produto {
 
     @NotNull
     @Column(nullable = false)
-    private Boolean ativo;
+    private Boolean status;
 
     @JsonIgnore
     @ManyToOne
@@ -48,12 +48,12 @@ public class Produto {
     public Produto() {
     }
 
-    public Produto(Long id, String nome, String descricao, BigDecimal preco, Boolean ativo, Restaurante restaurante) {
+    public Produto(Long id, String nome, String descricao, BigDecimal preco, Boolean status, Restaurante restaurante) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
         this.preco = preco;
-        this.ativo = ativo;
+        this.status = status;
         this.restaurante = restaurante;
     }
 
@@ -89,12 +89,12 @@ public class Produto {
         this.preco = preco;
     }
 
-    public Boolean getAtivo() {
-        return ativo;
+    public Boolean getStatus() {
+        return status;
     }
 
-    public void setAtivo(Boolean ativo) {
-        this.ativo = ativo;
+    public void setStatus(Boolean ativo) {
+        this.status = ativo;
     }
 
     public Restaurante getRestaurante() {

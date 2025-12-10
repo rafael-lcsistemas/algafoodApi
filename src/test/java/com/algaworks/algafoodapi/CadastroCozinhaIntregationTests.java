@@ -26,7 +26,7 @@ public class CadastroCozinhaIntregationTests {
         // Cenário
         Cozinha cozinha = new Cozinha();
         cozinha.setNome("Italiana");
-        cozinha.setAtivo(true);
+        cozinha.setStatus(true);
 
         // Ação
         cozinha = cozinhaService.inserirOuAtualizar(cozinha);
@@ -41,7 +41,7 @@ public class CadastroCozinhaIntregationTests {
         // Cenário
         Cozinha cozinha = new Cozinha();
         cozinha.setNome(null);
-        cozinha.setAtivo(null);
+        cozinha.setStatus(null);
 
         // Ação
         cozinha = cozinhaService.inserirOuAtualizar(cozinha);
@@ -55,7 +55,7 @@ public class CadastroCozinhaIntregationTests {
         // Cenário
         Cozinha cozinha = new Cozinha();
         cozinha.setNome("Indiana");
-        cozinha.setAtivo(null);
+        cozinha.setStatus(null);
 
         // Ação
         cozinha = cozinhaService.inserirOuAtualizar(cozinha);

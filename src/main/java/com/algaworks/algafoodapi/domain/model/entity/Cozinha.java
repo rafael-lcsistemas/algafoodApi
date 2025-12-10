@@ -1,5 +1,6 @@
 package com.algaworks.algafoodapi.domain.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -20,7 +21,7 @@ public class Cozinha {
     private String nome;
 
     @Column(nullable = false)
-    private Boolean ativo;
+    private Boolean status;
 
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "TIMESTAMP")
@@ -30,16 +31,17 @@ public class Cozinha {
     @Column(nullable = false, columnDefinition = "TIMESTAMP")
     private OffsetDateTime datahoraAlteracao;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "cozinha")
     private List<Restaurante> restaurantes = new ArrayList<>();
 
     public Cozinha() {
     }
 
-    public Cozinha(Long id, String nome, Boolean ativo) {
+    public Cozinha(Long id, String nome, Boolean status) {
         this.id = id;
         this.nome = nome;
-        this.ativo = ativo;
+        this.status = status;
     }
 
     public Long getId() {
@@ -58,12 +60,12 @@ public class Cozinha {
         this.nome = nome;
     }
 
-    public Boolean getAtivo() {
-        return ativo;
+    public Boolean getStatus() {
+        return status;
     }
 
-    public void setAtivo(Boolean ativo) {
-        this.ativo = ativo;
+    public void setStatus(Boolean ativo) {
+        this.status = ativo;
     }
 
     public OffsetDateTime getDatahoraCadastro() {

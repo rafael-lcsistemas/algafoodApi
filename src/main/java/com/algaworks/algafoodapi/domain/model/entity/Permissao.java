@@ -28,7 +28,7 @@ public class Permissao {
 
     @NotNull
     @Column(nullable = false)
-    private Boolean ativo;
+    private Boolean status;
 
     @CreationTimestamp
     private OffsetDateTime datahoraCadastro;
@@ -39,10 +39,10 @@ public class Permissao {
     public Permissao() {
     }
 
-    public Permissao(String nome, String descricao, Boolean ativo) {
+    public Permissao(String nome, String descricao, Boolean status) {
         this.nome = nome;
         this.descricao = descricao;
-        this.ativo = ativo;
+        this.status = status;
     }
 
     public Long getId() {
@@ -69,12 +69,12 @@ public class Permissao {
         this.descricao = descricao;
     }
 
-    public Boolean getAtivo() {
-        return ativo;
+    public Boolean getStatus() {
+        return status;
     }
 
-    public void setAtivo(Boolean ativo) {
-        this.ativo = ativo;
+    public void setStatus(Boolean ativo) {
+        this.status = ativo;
     }
 
     public OffsetDateTime getDatahoraCadastro() {

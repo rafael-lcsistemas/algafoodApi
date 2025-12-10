@@ -148,13 +148,13 @@ public class CadastroRestauranteIT {
     private void prepararDadosIniciarDeTeste() {
         Cozinha cozinha = new Cozinha();
         cozinha.setNome("Padaria");
-        cozinha.setAtivo(true);
+        cozinha.setStatus(true);
 
         cozinha = cozinhaRepository.save(cozinha);
 
         FormaPagamento formaPagamento = new FormaPagamento();
         formaPagamento.setNome("Sem pagamento");
-        formaPagamento.setAtivo(true);
+        formaPagamento.setStatus(true);
 
         formaPagamento = formaPagamentoRepository.save(formaPagamento);
 

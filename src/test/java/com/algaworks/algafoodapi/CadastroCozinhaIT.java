@@ -15,13 +15,8 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.util.ResourceUtils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -139,7 +134,7 @@ public class CadastroCozinhaIT {
     private void prepararDadosIniciaisDeTeste() {
         Cozinha cozinha = new Cozinha();
         cozinha.setNome("PADRAO");
-        cozinha.setAtivo(true);
+        cozinha.setStatus(true);
 
         cozinhaRepository.save(cozinha);
     }
