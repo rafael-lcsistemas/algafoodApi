@@ -102,7 +102,7 @@ CREATE TABLE restaurante
     id                   BIGINT AUTO_INCREMENT NOT NULL,
     nome                 VARCHAR(100)          NOT NULL,
     taxa_frete           DECIMAL               NULL,
-    ativo                BIT(1)                NULL,
+    status               BIT(1)                NULL,
     datahora_cadastro    timestamp             NOT NULL,
     datahora_alteracao   timestamp             NOT NULL,
     id_cozinha           BIGINT                NOT NULL,

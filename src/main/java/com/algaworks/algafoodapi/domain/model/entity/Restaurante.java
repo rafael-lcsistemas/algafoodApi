@@ -26,7 +26,7 @@ public class Restaurante {
     private BigDecimal taxaFrete;
 
     @Column(nullable = false)
-    private Boolean ativo;
+    private Boolean status;
 
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "TIMESTAMP")
@@ -55,11 +55,11 @@ public class Restaurante {
     public Restaurante() {
     }
 
-    public Restaurante(Long id, String nome, BigDecimal taxaFrete, Boolean ativo, Cozinha cozinha, List<FormaPagamento> formasPagamento, Endereco endereco, List<Produto> produtos) {
+    public Restaurante(Long id, String nome, BigDecimal taxaFrete, Boolean status, Cozinha cozinha, List<FormaPagamento> formasPagamento, Endereco endereco, List<Produto> produtos) {
         this.id = id;
         this.nome = nome;
         this.taxaFrete = taxaFrete;
-        this.ativo = ativo;
+        this.status = status;
         this.cozinha = cozinha;
         this.formasPagamento = formasPagamento;
         this.endereco = endereco;
@@ -90,12 +90,12 @@ public class Restaurante {
         this.taxaFrete = taxaFrete;
     }
 
-    public Boolean getAtivo() {
-        return ativo;
+    public Boolean getStatus() {
+        return status;
     }
 
-    public void setAtivo(Boolean ativo) {
-        this.ativo = ativo;
+    public void setStatus(Boolean ativo) {
+        this.status = ativo;
     }
 
     public OffsetDateTime getDatahoraCadastro() {

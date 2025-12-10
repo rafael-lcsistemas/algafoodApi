@@ -161,7 +161,7 @@ public class CadastroRestauranteIT {
         Restaurante restaurante = new Restaurante();
         restaurante.setNome("Aurora do Pará - Frete Grátis");
         restaurante.setTaxaFrete(BigDecimal.ZERO);
-        restaurante.setAtivo(true);
+        restaurante.setStatus(true);
         restaurante.setCozinha(cozinha);
         restaurante.getFormasPagamento().add(formaPagamento);
 

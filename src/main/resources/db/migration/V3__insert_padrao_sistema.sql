@@ -10,7 +10,7 @@ VALUES (1, 'ADMIN', 'admin@admin.com.br', '123456', true, UTC_TIMESTAMP(), UTC_T
 INSERT INTO cozinha(id, nome, ativo, datahora_cadastro, datahora_alteracao)
 VALUES (1, 'PADRAO', true, UTC_TIMESTAMP(), UTC_TIMESTAMP());
 
-INSERT INTO restaurante(id, nome, taxa_frete, ativo, id_cozinha, datahora_cadastro, datahora_alteracao)
+INSERT INTO restaurante(id, nome, taxa_frete, status, id_cozinha, datahora_cadastro, datahora_alteracao)
 VALUES (1, 'PADRAO', 0.000, true, 1, UTC_TIMESTAMP(), UTC_TIMESTAMP());
 
 INSERT INTO restaurante_forma_pagamento(id_forma_pagamento, id_restaurante)
