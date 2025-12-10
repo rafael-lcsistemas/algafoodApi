@@ -1,8 +1,14 @@
 package com.algaworks.algafoodapi.api.model.input;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 public class CozinhaInput {
 
+    @NotBlank
     private String nome;
+
+    @NotNull
     private Boolean status;
 
     public String getNome() {

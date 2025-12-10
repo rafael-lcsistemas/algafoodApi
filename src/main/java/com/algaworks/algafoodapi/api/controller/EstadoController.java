@@ -8,6 +8,7 @@ import com.algaworks.algafoodapi.domain.model.entity.Estado;
 import com.algaworks.algafoodapi.domain.service.EstadoService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -42,6 +43,7 @@ public class EstadoController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public EstadoResponse inserir(@RequestBody @Valid EstadoInput estadoInput) {
         var estado = genericInputAssembler.toEntity(estadoInput, Estado.class);
         return genericResponseAssembler.toModel(estadoService.inserirOuAtualizar(estado), EstadoResponse.class);
