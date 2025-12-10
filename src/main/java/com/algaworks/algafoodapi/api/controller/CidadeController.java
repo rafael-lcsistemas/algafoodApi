@@ -1,8 +1,12 @@
 package com.algaworks.algafoodapi.api.controller;
 
+import com.algaworks.algafoodapi.api.assembler.GenericInputAssembler;
+import com.algaworks.algafoodapi.api.assembler.GenericResponseAssembler;
+import com.algaworks.algafoodapi.api.model.input.CidadeInput;
+import com.algaworks.algafoodapi.api.model.response.CidadeResponse;
+import com.algaworks.algafoodapi.domain.exceptions.EntidadeNaoEncontradaException;
 import com.algaworks.algafoodapi.domain.exceptions.NegocioException;
 import com.algaworks.algafoodapi.domain.model.entity.Cidade;
-import com.algaworks.algafoodapi.domain.exceptions.EntidadeNaoEncontradaException;
 import com.algaworks.algafoodapi.domain.service.CidadeService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,33 +22,46 @@ public class CidadeController {
     @Autowired
     private CidadeService cidadeService;
 
+    @Autowired
+    private GenericResponseAssembler genericResponseAssembler;
+
+    @Autowired
+    private GenericInputAssembler genericInputAssembler;
+
     @GetMapping("/listar")
-    public List<Cidade> filtrarTodas() {
-        return cidadeService.filtrarTodas();
+    public List<CidadeResponse> filtrarTodas() {
+        return genericResponseAssembler.toCollectionModel(cidadeService.filtrarTodas(), CidadeResponse.class);
     }
 
     @GetMapping("/por-nome")
-    public List<Cidade> filtrarPorNome(@RequestParam String nome) {
-        return cidadeService.filtrarPorNome(nome);
+    public List<CidadeResponse> filtrarPorNome(@RequestParam String nome) {
+        return genericResponseAssembler.toCollectionModel(cidadeService.filtrarPorNome(nome), CidadeResponse.class);
     }
 
     @GetMapping("/{id}")
-    public Cidade filtrarPorId(@PathVariable Long id) {
-        return cidadeService.filtrarPorId(id);
+    public CidadeResponse filtrarPorId(@PathVariable Long id) {
+        return genericResponseAssembler.toModel(cidadeService.filtrarPorId(id), CidadeResponse.class);
     }
 
     @PostMapping
-    public Cidade inserir(@RequestBody @Valid Cidade cidade) {
-        return cidadeService.inserirOuAtualizar(cidade);
+    public CidadeResponse inserir(@RequestBody @Valid CidadeInput cidadeInput) {
+        var cidade = genericInputAssembler.toEntity(cidadeInput, Cidade.class);
+
+        try {
+            return genericResponseAssembler.toModel(cidadeService.inserirOuAtualizar(cidade), CidadeResponse.class);
+        } catch (EntidadeNaoEncontradaException e) {
+            throw new NegocioException(e.getMessage());
+        }
     }
 
     @PutMapping("/{id}")
-    public Cidade atualizar(@PathVariable Long id, @RequestBody @Valid Cidade cidade) {
+    public CidadeResponse atualizar(@PathVariable Long id, @RequestBody @Valid CidadeInput cidadeInput) {
+        var cidade = genericInputAssembler.toEntity(cidadeInput, Cidade.class);
         Cidade cidadeAtual = cidadeService.filtrarPorId(id);
         BeanUtils.copyProperties(cidade, cidadeAtual, "id");
 
         try {
-            return cidadeService.inserirOuAtualizar(cidadeAtual);
+            return genericResponseAssembler.toModel(cidadeService.inserirOuAtualizar(cidadeAtual), CidadeResponse.class);
         } catch (EntidadeNaoEncontradaException e) {
             throw new NegocioException(e.getMessage());
         }

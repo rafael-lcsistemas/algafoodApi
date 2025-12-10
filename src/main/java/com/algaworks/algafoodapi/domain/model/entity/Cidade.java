@@ -1,14 +1,8 @@
 package com.algaworks.algafoodapi.domain.model.entity;
 
-import com.algaworks.algafoodapi.core.validation.Groups;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.groups.ConvertGroup;
-import javax.validation.groups.Default;
 import java.time.OffsetDateTime;
 import java.util.Objects;
 
@@ -19,17 +13,12 @@ public class Cidade {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
     @Column(nullable = false, length = 100)
     private String nome;
 
-    @NotNull
     @Column(nullable = false)
     private Boolean status;
 
-    @Valid
-    @NotNull
-    @ConvertGroup(from = Default.class, to = Groups.EstadoId.class)
     @ManyToOne
     @JoinColumn(name = "id_estado")
     private Estado estado;

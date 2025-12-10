@@ -1,29 +1,23 @@
 package com.algaworks.algafoodapi.domain.model.entity;
 
-import com.algaworks.algafoodapi.core.validation.Groups;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.time.OffsetDateTime;
 import java.util.Objects;
 
 @Entity
 public class Estado {
 
-    @NotNull(groups = Groups.EstadoId.class)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    @Column(nullable = false, length = 5)
-    private String uf;
-
-    @NotBlank
     @Column(nullable = false, length = 100)
     private String nome;
+
+    @Column(nullable = false, length = 5)
+    private String uf;
 
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "TIMESTAMP")
