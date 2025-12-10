@@ -48,7 +48,7 @@ public class RestauranteController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public RestauranteResponse inserir(@RequestBody RestauranteInput restauranteInput) {
+    public RestauranteResponse inserir(@RequestBody @Valid RestauranteInput restauranteInput) {
         try {
             Restaurante restaurante = restauranteModelDisassembler.toEntity(restauranteInput);
             return restauranteModelAssembler.toModel(restauranteService.inserirOuAtualizar(restaurante));

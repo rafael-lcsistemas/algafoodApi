@@ -23,5 +23,5 @@ public @interface ValorZeroIncluiDescricao {
 
     String descricaoField();
 
-    String descricaoObtigatoria();
+    String descricaoObrigatoria();
 }

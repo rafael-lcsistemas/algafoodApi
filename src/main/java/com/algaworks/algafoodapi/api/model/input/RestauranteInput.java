@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
 
-@ValorZeroIncluiDescricao(valorField = "taxaFrete", descricaoField = "nome", descricaoObtigatoria = "Frete grátis")
+@ValorZeroIncluiDescricao(valorField = "taxaFrete", descricaoField = "nome", descricaoObrigatoria = "Frete grátis")
 public class RestauranteInput {
 
     @NotBlank

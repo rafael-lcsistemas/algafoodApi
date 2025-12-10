@@ -11,13 +11,13 @@ public class ValorZeroIncluiDescricaoValidator implements ConstraintValidator<Va
 
     private String valorField;
     private String descricaoField;
-    private String descricaoObtigatoria;
+    private String descricaoObrigatoria;
 
     @Override
     public void initialize(ValorZeroIncluiDescricao constraint) {
         this.valorField = constraint.valorField();
         this.descricaoField = constraint.descricaoField();
-        this.descricaoObtigatoria = constraint.descricaoObtigatoria();
+        this.descricaoObrigatoria = constraint.descricaoObrigatoria();
     }
 
     @Override
@@ -32,7 +32,7 @@ public class ValorZeroIncluiDescricaoValidator implements ConstraintValidator<Va
                     .getReadMethod().invoke(objetoValidacao);
 
             if (valor != null && BigDecimal.ZERO.compareTo(valor) == 0 && descricao != null) {
-                valido = descricao.toLowerCase().contains(this.descricaoObtigatoria.toLowerCase());
+                valido = descricao.toLowerCase().contains(this.descricaoObrigatoria.toLowerCase());
             }
 
             return valido;
