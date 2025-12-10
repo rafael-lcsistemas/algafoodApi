@@ -1,5 +1,9 @@
 package com.algaworks.algafoodapi.api.controller;
 
+import com.algaworks.algafoodapi.api.assembler.GenericInputAssembler;
+import com.algaworks.algafoodapi.api.assembler.GenericResponseAssembler;
+import com.algaworks.algafoodapi.api.model.input.FormaPagamentoInput;
+import com.algaworks.algafoodapi.api.model.response.FormaPagamentoResponse;
 import com.algaworks.algafoodapi.domain.model.entity.FormaPagamento;
 import com.algaworks.algafoodapi.domain.service.FormaPagamentoService;
 import org.springframework.beans.BeanUtils;
@@ -16,31 +20,44 @@ public class FormaPagamentoController {
     @Autowired
     private FormaPagamentoService formaPagamentoService;
 
+    @Autowired
+    private GenericResponseAssembler genericResponseAssembler;
+
+    @Autowired
+    private GenericInputAssembler genericInputAssembler;
+
     @GetMapping("/listar")
-    public List<FormaPagamento> buscarTodas() {
-        return formaPagamentoService.buscarTodas();
+    public List<FormaPagamentoResponse> buscarTodas() {
+        return genericResponseAssembler.toCollectionModel(
+                formaPagamentoService.buscarTodas(), FormaPagamentoResponse.class);
     }
 
     @GetMapping("/por-nome")
-    public List<FormaPagamento> filtrarPorNome(@RequestParam String nome) {
-        return formaPagamentoService.filtrarPorNome(nome);
+    public List<FormaPagamentoResponse> filtrarPorNome(@RequestParam String nome) {
+        return genericResponseAssembler.toCollectionModel(
+                formaPagamentoService.filtrarPorNome(nome), FormaPagamentoResponse.class);
     }
 
     @GetMapping("/{id}")
-    public FormaPagamento filtrarPorId(@PathVariable Long id) {
-        return formaPagamentoService.filtrarPorID(id);
+    public FormaPagamentoResponse filtrarPorId(@PathVariable Long id) {
+        return genericResponseAssembler.toModel(formaPagamentoService.filtrarPorID(id), FormaPagamentoResponse.class);
     }
 
     @PostMapping
-    public FormaPagamento inserir(@RequestBody @Valid FormaPagamento formaPagamento) {
-        return formaPagamentoService.inserirOuAtualizar(formaPagamento);
+    public FormaPagamentoResponse inserir(@RequestBody @Valid FormaPagamentoInput formaPagamentoInput) {
+        var formaPagamento = genericInputAssembler.toEntity(formaPagamentoInput, FormaPagamento.class);
+        return genericResponseAssembler.toModel(
+                formaPagamentoService.inserirOuAtualizar(formaPagamento), FormaPagamentoResponse.class);
     }
 
     @PutMapping("/{id}")
-    public FormaPagamento atualizar(@PathVariable Long id, @RequestBody @Valid FormaPagamento formaPagamento) {
+    public FormaPagamentoResponse atualizar(@PathVariable Long id, @RequestBody @Valid FormaPagamentoInput formaPagamentoInput) {
+        var formaPagamento = genericInputAssembler.toEntity(formaPagamentoInput, FormaPagamento.class);
         var formaPagamentoAtual = formaPagamentoService.filtrarPorID(id);
         BeanUtils.copyProperties(formaPagamento, formaPagamentoAtual, "id");
-        return formaPagamentoService.inserirOuAtualizar(formaPagamentoAtual);
+
+        return genericResponseAssembler.toModel(
+                formaPagamentoService.inserirOuAtualizar(formaPagamentoAtual), FormaPagamentoResponse.class);
     }
 
     @DeleteMapping("/{id}")
