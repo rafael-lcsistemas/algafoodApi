@@ -19,13 +19,13 @@ public class RestauranteMixin {
     @JsonIgnore
     private LocalDateTime datahoraAlteracao;
 
-    @JsonIgnoreProperties(value = "nome", allowGetters = true)
-    private Cozinha cozinha;
-
     @JsonIgnore
     private Endereco endereco;
 
-   @JsonIgnore
+    @JsonIgnoreProperties(value = "nome", allowGetters = true)
+    private Cozinha cozinha;
+
+   @JsonIgnoreProperties(value = "nome", allowGetters = true)
     private List<FormaPagamento> formasPagamento = new ArrayList<>();
 
     @JsonIgnore
