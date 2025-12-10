@@ -7,7 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Objects;
 
 @Entity
@@ -31,10 +31,10 @@ public class Permissao {
     private Boolean ativo;
 
     @CreationTimestamp
-    private LocalDateTime datahoraCadastro;
+    private OffsetDateTime datahoraCadastro;
 
     @UpdateTimestamp
-    private LocalDateTime datahoraAlteracao;
+    private OffsetDateTime datahoraAlteracao;
 
     public Permissao() {
     }
@@ -77,11 +77,11 @@ public class Permissao {
         this.ativo = ativo;
     }
 
-    public LocalDateTime getDatahoraCadastro() {
+    public OffsetDateTime getDatahoraCadastro() {
         return datahoraCadastro;
     }
 
-    public LocalDateTime getDatahoraAlteracao() {
+    public OffsetDateTime getDatahoraAlteracao() {
         return datahoraAlteracao;
     }
 

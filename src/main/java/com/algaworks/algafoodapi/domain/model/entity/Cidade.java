@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.groups.ConvertGroup;
 import javax.validation.groups.Default;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Objects;
 
 @Entity
@@ -35,10 +35,12 @@ public class Cidade {
     private Estado estado;
 
     @CreationTimestamp
-    private LocalDateTime datahoraCadastro;
+    @Column(nullable = false, columnDefinition = "TIMESTAMP")
+    private OffsetDateTime datahoraCadastro;
 
     @CreationTimestamp
-    private LocalDateTime datahoraAlteracao;
+    @Column(nullable = false, columnDefinition = "TIMESTAMP")
+    private OffsetDateTime datahoraAlteracao;
 
     public Cidade() {}
 
@@ -79,6 +81,14 @@ public class Cidade {
 
     public void setEstado(Estado estado) {
         this.estado = estado;
+    }
+
+    public OffsetDateTime getDatahoraCadastro() {
+        return datahoraCadastro;
+    }
+
+    public OffsetDateTime getDatahoraAlteracao() {
+        return datahoraAlteracao;
     }
 
     @Override

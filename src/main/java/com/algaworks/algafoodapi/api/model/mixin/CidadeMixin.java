@@ -4,7 +4,7 @@ import com.algaworks.algafoodapi.domain.model.entity.Estado;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 public class CidadeMixin {
 
@@ -12,8 +12,8 @@ public class CidadeMixin {
     private Estado estado;
 
     @JsonIgnore
-    private LocalDateTime datahoraCadastro;
+    private OffsetDateTime datahoraCadastro;
 
     @JsonIgnore
-    private LocalDateTime datahoraAlteracao;
+    private OffsetDateTime datahoraAlteracao;
 }

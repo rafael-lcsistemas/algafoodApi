@@ -1,7 +1,6 @@
 package com.algaworks.algafoodapi.domain.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -9,7 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Objects;
 
 @Entity
@@ -40,25 +39,22 @@ public class Produto {
 
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "TIMESTAMP")
-    private LocalDateTime dataCadastro;
+    private OffsetDateTime dataCadastro;
 
     @UpdateTimestamp
     @Column(nullable = false, columnDefinition = "TIMESTAMP")
-    private LocalDateTime dataAlteracao;
+    private OffsetDateTime dataAlteracao;
 
     public Produto() {
     }
 
-    public Produto(Long id, String nome, String descricao, BigDecimal preco, Boolean ativo, Restaurante restaurante,
-                   LocalDateTime dataCadastro, LocalDateTime dataAlteracao) {
+    public Produto(Long id, String nome, String descricao, BigDecimal preco, Boolean ativo, Restaurante restaurante) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
         this.preco = preco;
         this.ativo = ativo;
         this.restaurante = restaurante;
-        this.dataCadastro = dataCadastro;
-        this.dataAlteracao = dataAlteracao;
     }
 
     public Long getId() {
@@ -109,20 +105,12 @@ public class Produto {
         this.restaurante = restaurante;
     }
 
-    public LocalDateTime getDataCadastro() {
+    public OffsetDateTime getDataCadastro() {
         return dataCadastro;
     }
 
-    public void setDataCadastro(LocalDateTime dataCadastro) {
-        this.dataCadastro = dataCadastro;
-    }
-
-    public LocalDateTime getDataAlteracao() {
+    public OffsetDateTime getDataAlteracao() {
         return dataAlteracao;
-    }
-
-    public void setDataAlteracao(LocalDateTime dataAlteracao) {
-        this.dataAlteracao = dataAlteracao;
     }
 
     @Override

@@ -11,7 +11,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.groups.ConvertGroup;
 import javax.validation.groups.Default;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -39,10 +39,12 @@ public class Usuario {
     private Boolean ativo;
 
     @CreationTimestamp
-    private LocalDateTime datahoraCadastro;
+    @Column(nullable = false, columnDefinition = "TIMESTAMP")
+    private OffsetDateTime datahoraCadastro;
 
     @UpdateTimestamp
-    private LocalDateTime datahoraAlteracao;
+    @Column(nullable = false, columnDefinition = "TIMESTAMP")
+    private OffsetDateTime datahoraAlteracao;
 
     @Valid
     @ConvertGroup(from = Default.class, to = Groups.GrupoId.class)
@@ -104,11 +106,11 @@ public class Usuario {
         this.ativo = ativo;
     }
 
-    public LocalDateTime getDatahoraCadastro() {
+    public OffsetDateTime getDatahoraCadastro() {
         return datahoraCadastro;
     }
 
-    public LocalDateTime getDatahoraAlteracao() {
+    public OffsetDateTime getDatahoraAlteracao() {
         return datahoraAlteracao;
     }
 

@@ -4,7 +4,7 @@ import com.algaworks.algafoodapi.domain.model.entity.Restaurante;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 public class ProdutoMixin {
 
@@ -12,8 +12,8 @@ public class ProdutoMixin {
     private Restaurante restaurante;
 
     @JsonIgnore
-    private LocalDateTime dataCadastro;
+    private OffsetDateTime dataCadastro;
 
     @JsonIgnore
-    private LocalDateTime dataAlteracao;
+    private OffsetDateTime dataAlteracao;
 }

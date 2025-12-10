@@ -4,7 +4,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Entity
 public class Pais {
@@ -18,10 +18,12 @@ public class Pais {
     private String nome;
 
     @CreationTimestamp
-    private LocalDateTime datahoraCadastro;
+    @Column(nullable = false, columnDefinition = "TIMESTAMP")
+    private OffsetDateTime datahoraCadastro;
 
     @CreationTimestamp
-    private LocalDateTime datahoraAlteracao;
+    @Column(nullable = false, columnDefinition = "TIMESTAMP")
+    private OffsetDateTime datahoraAlteracao;
 
     public Pais() {
     }
@@ -47,11 +49,11 @@ public class Pais {
         this.nome = nome;
     }
 
-    public LocalDateTime getDatahoraCadastro() {
+    public OffsetDateTime getDatahoraCadastro() {
         return datahoraCadastro;
     }
 
-    public LocalDateTime getDatahoraAlteracao() {
+    public OffsetDateTime getDatahoraAlteracao() {
         return datahoraAlteracao;
     }
 

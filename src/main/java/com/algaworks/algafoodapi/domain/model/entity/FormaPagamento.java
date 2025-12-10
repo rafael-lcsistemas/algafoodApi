@@ -7,7 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Objects;
 
 @Entity
@@ -27,10 +27,12 @@ public class FormaPagamento {
     private Boolean ativo;
 
     @CreationTimestamp
-    private LocalDateTime datahoraCadastro;
+    @Column(nullable = false, columnDefinition = "TIMESTAMP")
+    private OffsetDateTime datahoraCadastro;
 
     @UpdateTimestamp
-    private LocalDateTime datahoraAlteracao;
+    @Column(nullable = false, columnDefinition = "TIMESTAMP")
+    private OffsetDateTime datahoraAlteracao;
 
     public FormaPagamento() {
     }
@@ -65,11 +67,11 @@ public class FormaPagamento {
         this.ativo = ativo;
     }
 
-    public LocalDateTime getDatahoraCadastro() {
+    public OffsetDateTime getDatahoraCadastro() {
         return datahoraCadastro;
     }
 
-    public LocalDateTime getDatahoraAlteracao() {
+    public OffsetDateTime getDatahoraAlteracao() {
         return datahoraAlteracao;
     }
 

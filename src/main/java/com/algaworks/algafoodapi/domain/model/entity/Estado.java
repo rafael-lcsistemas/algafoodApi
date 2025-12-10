@@ -1,13 +1,12 @@
 package com.algaworks.algafoodapi.domain.model.entity;
 
 import com.algaworks.algafoodapi.core.validation.Groups;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Objects;
 
 @Entity
@@ -26,13 +25,13 @@ public class Estado {
     @Column(nullable = false, length = 100)
     private String nome;
 
-    @JsonIgnore
     @CreationTimestamp
-    private LocalDateTime datahoraCadastro;
+    @Column(nullable = false, columnDefinition = "TIMESTAMP")
+    private OffsetDateTime datahoraCadastro;
 
-    @JsonIgnore
     @CreationTimestamp
-    private LocalDateTime datahoraAlteracao;
+    @Column(nullable = false, columnDefinition = "TIMESTAMP")
+    private OffsetDateTime datahoraAlteracao;
 
     public Estado() {
     }
@@ -67,11 +66,11 @@ public class Estado {
         this.nome = nome;
     }
 
-    public LocalDateTime getDatahoraCadastro() {
+    public OffsetDateTime getDatahoraCadastro() {
         return datahoraCadastro;
     }
 
-    public LocalDateTime getDatahoraAlteracao() {
+    public OffsetDateTime getDatahoraAlteracao() {
         return datahoraAlteracao;
     }
 

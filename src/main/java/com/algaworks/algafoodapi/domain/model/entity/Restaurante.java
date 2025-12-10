@@ -13,7 +13,7 @@ import javax.validation.constraints.PositiveOrZero;
 import javax.validation.groups.ConvertGroup;
 import javax.validation.groups.Default;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -41,11 +41,11 @@ public class Restaurante {
 
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "TIMESTAMP")
-    private LocalDateTime datahoraCadastro;
+    private OffsetDateTime datahoraCadastro;
 
     @UpdateTimestamp
     @Column(nullable = false, columnDefinition = "TIMESTAMP")
-    private LocalDateTime datahoraAlteracao;
+    private OffsetDateTime datahoraAlteracao;
 
     @Valid
     @ConvertGroup(from = Default.class, to = Groups.CozinhaId.class)
@@ -115,11 +115,11 @@ public class Restaurante {
         this.ativo = ativo;
     }
 
-    public LocalDateTime getDatahoraCadastro() {
+    public OffsetDateTime getDatahoraCadastro() {
         return datahoraCadastro;
     }
 
-    public LocalDateTime getDatahoraAlteracao() {
+    public OffsetDateTime getDatahoraAlteracao() {
         return datahoraAlteracao;
     }
 

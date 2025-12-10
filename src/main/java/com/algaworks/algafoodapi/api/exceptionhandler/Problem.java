@@ -1,7 +1,6 @@
 package com.algaworks.algafoodapi.api.exceptionhandler;
 
-import java.lang.reflect.Field;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 public class Problem {
@@ -11,10 +10,10 @@ public class Problem {
     private String title;
     private String detail;
     private String userMessage;
-    private LocalDateTime timestamp;
+    private OffsetDateTime timestamp;
     private List<Object> objects;
 
-    public Problem(Integer status, String type, String title, String detail, String userMessage, LocalDateTime timestamp, List<Object> objects) {
+    public Problem(Integer status, String type, String title, String detail, String userMessage, OffsetDateTime timestamp, List<Object> objects) {
         this.status = status;
         this.type = type;
         this.title = title;
@@ -64,11 +63,11 @@ public class Problem {
         this.userMessage = userMessage;
     }
 
-    public LocalDateTime getTimestamp() {
+    public OffsetDateTime getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(LocalDateTime timestamp) {
+    public void setTimestamp(OffsetDateTime timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -86,7 +85,7 @@ public class Problem {
         private String title;
         private String detail;
         private String userMessage;
-        private LocalDateTime timestamp;
+        private OffsetDateTime timestamp;
         private List<Object> objects;
 
         public ProblemBuilder status(Integer status) {
@@ -114,7 +113,7 @@ public class Problem {
             return this;
         }
 
-        public ProblemBuilder timestamp(LocalDateTime timestamp) {
+        public ProblemBuilder timestamp(OffsetDateTime timestamp) {
             this.timestamp = timestamp;
             return this;
         }
