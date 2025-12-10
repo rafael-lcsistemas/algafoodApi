@@ -1,6 +1,7 @@
 package com.algaworks.algafoodapi.domain.service;
 
-import com.algaworks.algafoodapi.domain.exceptions.EntidadeNaoEncontradaException;
+import com.algaworks.algafoodapi.domain.exceptions.CozinhaNaoEncontradaException;
+import com.algaworks.algafoodapi.domain.exceptions.FormaPagamentoNaoEncontradaException;
 import com.algaworks.algafoodapi.domain.exceptions.NegocioException;
 import com.algaworks.algafoodapi.domain.exceptions.RestauranteNaoEncontradaException;
 import com.algaworks.algafoodapi.domain.model.entity.FormaPagamento;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -53,22 +53,16 @@ public class RestauranteService {
         try {
             var cozinha = cozinhaService.filtrarPorId(restaurante.getCozinha().getId());
             restaurante.setCozinha(cozinha);
-        } catch (EntidadeNaoEncontradaException e) {
-            throw new NegocioException(e.getMessage());
-        }
 
-
-        try {
             List<FormaPagamento> formasPagamentoCompletas = restaurante.getFormasPagamento()
                     .stream()
                     .map(fp ->
                             formaPagamentoService.filtrarPorID(fp.getId())).collect(Collectors.toList());
 
             restaurante.setFormasPagamento(formasPagamentoCompletas);
-        } catch (EntidadeNaoEncontradaException e) {
+        } catch (FormaPagamentoNaoEncontradaException | CozinhaNaoEncontradaException e) {
             throw new NegocioException(e.getMessage());
         }
-
 
         return restauranteRepository.save(restaurante);
     }
