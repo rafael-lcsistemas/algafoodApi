@@ -3,6 +3,8 @@ package com.algaworks.algafoodapi.api.assembler;
 import com.algaworks.algafoodapi.api.model.response.CozinhaResponse;
 import com.algaworks.algafoodapi.api.model.response.RestauranteResponse;
 import com.algaworks.algafoodapi.domain.model.entity.Restaurante;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -10,6 +12,11 @@ import java.util.stream.Collectors;
 
 @Component
 public class RestauranteModelAssembler {
+
+    @Autowired
+    private ModelMapper modelMapper;
+
+
 
     public static RestauranteResponse toModel(Restaurante restaurante) {
         CozinhaResponse cozinhaResponse = new CozinhaResponse();
