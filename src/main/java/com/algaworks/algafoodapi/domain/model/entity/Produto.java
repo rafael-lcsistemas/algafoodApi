@@ -1,12 +1,9 @@
 package com.algaworks.algafoodapi.domain.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.Objects;
@@ -18,21 +15,17 @@ public class Produto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
     @Column(nullable = false)
     private String nome;
 
     private String descricao;
 
-    @NotNull
     @Column(nullable = false)
     private BigDecimal preco;
 
-    @NotNull
     @Column(nullable = false)
     private Boolean status;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_restaurante")
     private Restaurante restaurante;

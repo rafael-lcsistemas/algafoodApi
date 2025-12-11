@@ -1,7 +1,9 @@
 package com.algaworks.algafoodapi.api.controller;
 
-import com.algaworks.algafoodapi.domain.exceptions.EntidadeNaoEncontradaException;
-import com.algaworks.algafoodapi.domain.exceptions.NegocioException;
+import com.algaworks.algafoodapi.api.assembler.GenericInputAssembler;
+import com.algaworks.algafoodapi.api.assembler.GenericResponseAssembler;
+import com.algaworks.algafoodapi.api.model.input.ProdutoInput;
+import com.algaworks.algafoodapi.api.model.response.ProdutoResponse;
 import com.algaworks.algafoodapi.domain.model.entity.Produto;
 import com.algaworks.algafoodapi.domain.service.ProdutoService;
 import org.springframework.beans.BeanUtils;
@@ -18,35 +20,39 @@ public class ProdutoController {
     @Autowired
     private ProdutoService produtoService;
 
+    @Autowired
+    private GenericResponseAssembler genericResponseAssembler;
+
+    @Autowired
+    private GenericInputAssembler genericInputAssembler;
+
     @GetMapping("/listar")
-    public List<Produto> listarTodos() {
-        return produtoService.listarTodos();
+    public List<ProdutoResponse> listarTodos() {
+        return genericResponseAssembler.toCollectionModel(produtoService.listarTodos(), ProdutoResponse.class);
     }
 
     @GetMapping("/por-nome")
-    public List<Produto> listarPorNome(@RequestParam String nome) {
-        return produtoService.filtrarPorNome(nome);
+    public List<ProdutoResponse> listarPorNome(@RequestParam String nome) {
+        return genericResponseAssembler.toCollectionModel(produtoService.filtrarPorNome(nome), ProdutoResponse.class);
     }
 
     @GetMapping("/{id}")
-    public Produto listarPorId(@PathVariable Long id) {
-        return produtoService.filtrarPorId(id);
+    public ProdutoResponse listarPorId(@PathVariable Long id) {
+        return genericResponseAssembler.toModel(produtoService.filtrarPorId(id), ProdutoResponse.class);
     }
 
     @PostMapping
-    public Produto inserir(@RequestBody @Valid Produto produto) {
-        return produtoService.inserirOuAtualizar(produto);
+    public ProdutoResponse inserir(@RequestBody @Valid ProdutoInput produtoInput) {
+        var produto = genericInputAssembler.toEntity(produtoInput, Produto.class);
+        return genericResponseAssembler.toModel(produtoService.inserirOuAtualizar(produto), ProdutoResponse.class);
     }
 
     @PutMapping("/{id}")
-    public Produto atualizar(@PathVariable Long id, @RequestBody @Valid Produto produto) {
+    public ProdutoResponse atualizar(@PathVariable Long id, @RequestBody @Valid ProdutoInput produtoInput) {
+        var produto = genericInputAssembler.toEntity(produtoInput, Produto.class);
         var produtoAtual = produtoService.filtrarPorId(id);
         BeanUtils.copyProperties(produto, produtoAtual, "id", "dataCadastro");
 
-        try {
-            return produtoService.inserirOuAtualizar(produtoAtual);
-        } catch (EntidadeNaoEncontradaException e) {
-            throw new NegocioException(e.getMessage());
-        }
+        return genericResponseAssembler.toModel(produtoService.inserirOuAtualizar(produtoAtual), ProdutoResponse.class);
     }
 }
