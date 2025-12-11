@@ -1,5 +1,9 @@
 package com.algaworks.algafoodapi.api.controller;
 
+import com.algaworks.algafoodapi.api.assembler.GenericInputAssembler;
+import com.algaworks.algafoodapi.api.assembler.GenericResponseAssembler;
+import com.algaworks.algafoodapi.api.model.input.GrupoInput;
+import com.algaworks.algafoodapi.api.model.response.GrupoResponse;
 import com.algaworks.algafoodapi.domain.exceptions.EntidadeNaoEncontradaException;
 import com.algaworks.algafoodapi.domain.exceptions.NegocioException;
 import com.algaworks.algafoodapi.domain.model.entity.Grupo;
@@ -18,35 +22,45 @@ public class GrupoController {
     @Autowired
     private GrupoService grupoService;
 
+    @Autowired
+    private GenericResponseAssembler genericResponseAssembler;
+
+    @Autowired
+    private GenericInputAssembler genericInputAssembler;
+
     @GetMapping("/listar")
-    public List<Grupo> filtrarTodas() {
-        return grupoService.filtrarTodas();
+    public List<GrupoResponse> filtrarTodas() {
+        return genericResponseAssembler.toCollectionModel(grupoService.filtrarTodas(), GrupoResponse.class);
     }
 
     @GetMapping("/por-nome")
-    public List<Grupo> filtrarPorNome(@RequestParam String nome) {
-        return grupoService.filtrarPorNome(nome);
+    public List<GrupoResponse> filtrarPorNome(@RequestParam String nome) {
+        return genericResponseAssembler.toCollectionModel(grupoService.filtrarPorNome(nome), GrupoResponse.class);
     }
 
     @GetMapping("/{id}")
-    public Grupo filtrarPorId(@PathVariable Long id) {
-        return grupoService.filtrarPorId(id);
+    public GrupoResponse filtrarPorId(@PathVariable Long id) {
+        return genericResponseAssembler.toModel(grupoService.filtrarPorId(id), GrupoResponse.class);
     }
 
     @PostMapping
-    public Grupo inserir(@RequestBody @Valid Grupo grupo) {
-        return grupoService.inserirOuAtualizar(grupo);
+    public GrupoResponse inserir(@RequestBody @Valid GrupoInput grupoInput) {
+        var grupo = genericInputAssembler.toEntity(grupoInput, Grupo.class);
+        return genericResponseAssembler.toModel(
+                grupoService.inserirOuAtualizar(grupo, grupoInput.getIdsPermissoes()), GrupoResponse.class);
     }
 
     @PutMapping("/{id}")
-    public Grupo atualizar(@PathVariable Long id, @RequestBody @Valid Grupo grupo) {
+    public GrupoResponse atualizar(@PathVariable Long id, @RequestBody @Valid GrupoInput grupoInput) {
+        var grupo = genericInputAssembler.toEntity(grupoInput, Grupo.class);
         var grupoAtual = grupoService.filtrarPorId(id);
         BeanUtils.copyProperties(grupo, grupoAtual, "id");
 
         try {
-            return grupoService.inserirOuAtualizar(grupoAtual);
+            return genericResponseAssembler.toModel(
+                    grupoService.inserirOuAtualizar(grupoAtual, grupoInput.getIdsPermissoes()), GrupoResponse.class);
         } catch (EntidadeNaoEncontradaException e) {
-            throw new NegocioException(e.getMessage() + " ----> ");
+            throw new NegocioException(e.getMessage());
         }
     }
 }

@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class GrupoService {
@@ -44,17 +44,16 @@ public class GrupoService {
     }
 
     @Transactional
-    public Grupo inserirOuAtualizar(Grupo grupo) {
-        
-        List<Permissao> permissoesValidas = new ArrayList<>();
+    public Grupo inserirOuAtualizar(Grupo grupo, List<Long> idsPermissoes) {
+        try {
+            List<Permissao> permissoesValidas = idsPermissoes.stream()
+                    .map(id -> permissaoService.filtrarPorId(id)).collect(Collectors.toList());
 
-        for (Permissao p : grupo.getPermissoes()) {
+            grupo.setPermissoes(permissoesValidas);
 
-            Permissao perm = permissaoService.filtrarPorId(p.getId());
-            permissoesValidas.add(perm);
+            return grupoRepository.save(grupo);
+        } catch (PermissaoNaoEncontradaException e) {
+            throw new NegocioException(e.getMessage());
         }
-
-        grupo.setPermissoes(permissoesValidas);
-        return grupoRepository.save(grupo);
     }
 }
