@@ -1,6 +1,8 @@
 package com.algaworks.algafoodapi.domain.service;
 
-import com.algaworks.algafoodapi.domain.exceptions.*;
+import com.algaworks.algafoodapi.domain.exceptions.EntidadeEmUsoException;
+import com.algaworks.algafoodapi.domain.exceptions.EstadoNaoEncontradaException;
+import com.algaworks.algafoodapi.domain.exceptions.NegocioException;
 import com.algaworks.algafoodapi.domain.model.entity.Estado;
 import com.algaworks.algafoodapi.domain.repository.EstadoRepository;
 import org.hibernate.exception.ConstraintViolationException;
@@ -48,6 +50,7 @@ public class EstadoService {
     public void remove(Long id) {
         try {
             estadoRepository.deleteById(id);
+            estadoRepository.flush();
         } catch (EmptyResultDataAccessException e) {
             throw new EstadoNaoEncontradaException(id, e);
         } catch (DataIntegrityViolationException | ConstraintViolationException e) {

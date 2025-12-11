@@ -1,6 +1,8 @@
 package com.algaworks.algafoodapi.domain.service;
 
-import com.algaworks.algafoodapi.domain.exceptions.*;
+import com.algaworks.algafoodapi.domain.exceptions.EntidadeEmUsoException;
+import com.algaworks.algafoodapi.domain.exceptions.FormaPagamentoNaoEncontradaException;
+import com.algaworks.algafoodapi.domain.exceptions.NegocioException;
 import com.algaworks.algafoodapi.domain.model.entity.FormaPagamento;
 import com.algaworks.algafoodapi.domain.repository.FormaPagamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +49,7 @@ public class FormaPagamentoService {
     public void remove(Long id) {
         try {
             formaPagamentoRepository.deleteById(id);
+            formaPagamentoRepository.flush();
         } catch (EmptyResultDataAccessException e) {
             throw new FormaPagamentoNaoEncontradaException(id, e);
         } catch (DataIntegrityViolationException e) {

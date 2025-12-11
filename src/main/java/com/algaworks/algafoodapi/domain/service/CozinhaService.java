@@ -1,6 +1,8 @@
 package com.algaworks.algafoodapi.domain.service;
 
-import com.algaworks.algafoodapi.domain.exceptions.*;
+import com.algaworks.algafoodapi.domain.exceptions.CozinhaNaoEncontradaException;
+import com.algaworks.algafoodapi.domain.exceptions.EntidadeEmUsoException;
+import com.algaworks.algafoodapi.domain.exceptions.NegocioException;
 import com.algaworks.algafoodapi.domain.model.entity.Cozinha;
 import com.algaworks.algafoodapi.domain.repository.CozinhaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +49,7 @@ public class CozinhaService {
     public void remove(Long id) {
         try {
             cozinhaRepository.deleteById(id);
+            cozinhaRepository.flush();
         } catch (EmptyResultDataAccessException e) {
             throw new CozinhaNaoEncontradaException(id, e);
         } catch (DataIntegrityViolationException e) {
