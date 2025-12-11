@@ -79,13 +79,14 @@ public class PedidoService {
                 item.setQuantidade(itemInput.getQuantidade());
                 item.setTotal(itemInput.getPreco().multiply(itemInput.getQuantidade()));
                 item.setValorDesconto(itemInput.getValordesconto());
-                item.setSubtotal(itemInput.getSubtotal());
+                item.setSubtotal(item.getTotal().subtract(item.getValorDesconto()));
                 item.setObservacao(itemInput.getObservacao());
-                itens.add(item);
 
                 total = total.add(item.getTotal());
                 valorDesconto = valorDesconto.add(item.getValorDesconto());
-                subtotal = subtotal.add(item.getSubtotal());
+                subtotal = subtotal.add(item.getSubtotal()).add(pedido.getTaxaFrete());
+
+                itens.add(item);
             }
 
             pedido.setTotal(total);

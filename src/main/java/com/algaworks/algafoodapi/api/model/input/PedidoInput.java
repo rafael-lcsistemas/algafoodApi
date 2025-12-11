@@ -34,9 +34,6 @@ public class PedidoInput {
         @PositiveOrZero
         private BigDecimal valordesconto;
 
-        @PrecoValidacao
-        private BigDecimal subtotal;
-
         private String observacao;
 
         public Long getIdproduto() {
@@ -69,14 +66,6 @@ public class PedidoInput {
 
         public void setValordesconto(BigDecimal valordesconto) {
             this.valordesconto = valordesconto;
-        }
-
-        public BigDecimal getSubtotal() {
-            return subtotal;
-        }
-
-        public void setSubtotal(BigDecimal subtotal) {
-            this.subtotal = subtotal;
         }
 
         public String getObservacao() {
