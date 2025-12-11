@@ -18,16 +18,13 @@ import java.util.Objects;
 @Entity
 public class Grupo {
 
-    @NotNull(groups = {Groups.PermissaoId.class, Groups.GrupoId.class})
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
     @Column(nullable = false, length = 100)
     private String nome;
 
-    @NotNull
     @Column(nullable = false)
     private Boolean status;
 
@@ -39,9 +36,6 @@ public class Grupo {
     @Column(nullable = false, columnDefinition = "TIMESTAMP")
     private OffsetDateTime datahoraAlteracao;
 
-    @Valid
-    @ConvertGroup(from = Default.class, to = Groups.PermissaoId.class)
-    @NotNull
     @ManyToMany
     @JoinTable(name = "grupo_permissao",
             joinColumns = @JoinColumn(name = "id_grupo"),
