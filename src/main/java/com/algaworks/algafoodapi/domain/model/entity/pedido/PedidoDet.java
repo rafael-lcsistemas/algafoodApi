@@ -15,11 +15,11 @@ public class PedidoDet {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "id_pedido")
+    @JoinColumn(name = "id_pedido", nullable = false, updatable = false)
     private Pedido pedido;
 
-    @OneToOne
-    @JoinColumn(name = "id_produto", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "id_produto", nullable = false, updatable = false)
     private Produto produto;
 
     @Column(nullable = false)
@@ -40,17 +40,19 @@ public class PedidoDet {
     @Column(length = 500)
     private String observacao;
 
-    public PedidoDet() {}
+    public PedidoDet() {
+    }
 
-    public PedidoDet(Long id, BigDecimal quantidade, BigDecimal preco, BigDecimal valorDesconto, BigDecimal subtotal, String observacao, Pedido pedido, Produto produto) {
+    public PedidoDet(Long id, Pedido pedido, Produto produto, BigDecimal preco, BigDecimal quantidade, BigDecimal total, BigDecimal valorDesconto, BigDecimal subtotal, String observacao) {
         this.id = id;
-        this.quantidade = quantidade;
+        this.pedido = pedido;
+        this.produto = produto;
         this.preco = preco;
+        this.quantidade = quantidade;
+        this.total = total;
         this.valorDesconto = valorDesconto;
         this.subtotal = subtotal;
         this.observacao = observacao;
-        this.pedido = pedido;
-        this.produto = produto;
     }
 
     public Long getId() {
@@ -61,12 +63,20 @@ public class PedidoDet {
         this.id = id;
     }
 
-    public BigDecimal getQuantidade() {
-        return quantidade;
+    public Pedido getPedido() {
+        return pedido;
     }
 
-    public void setQuantidade(BigDecimal quantidade) {
-        this.quantidade = quantidade;
+    public void setPedido(Pedido pedido) {
+        this.pedido = pedido;
+    }
+
+    public Produto getProduto() {
+        return produto;
+    }
+
+    public void setProduto(Produto produto) {
+        this.produto = produto;
     }
 
     public BigDecimal getPreco() {
@@ -75,6 +85,22 @@ public class PedidoDet {
 
     public void setPreco(BigDecimal preco) {
         this.preco = preco;
+    }
+
+    public BigDecimal getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(BigDecimal quantidade) {
+        this.quantidade = quantidade;
+    }
+
+    public BigDecimal getTotal() {
+        return total;
+    }
+
+    public void setTotal(BigDecimal total) {
+        this.total = total;
     }
 
     public BigDecimal getValorDesconto() {
@@ -99,22 +125,6 @@ public class PedidoDet {
 
     public void setObservacao(String observacao) {
         this.observacao = observacao;
-    }
-
-    public Pedido getPedido() {
-        return pedido;
-    }
-
-    public void setPedido(Pedido pedido) {
-        this.pedido = pedido;
-    }
-
-    public Produto getProduto() {
-        return produto;
-    }
-
-    public void setProduto(Produto produto) {
-        this.produto = produto;
     }
 
     @Override
