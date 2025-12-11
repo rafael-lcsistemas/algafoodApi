@@ -75,9 +75,9 @@ public class PedidoService {
                 PedidoDet item = new PedidoDet();
                 item.setPedido(pedido);
                 item.setProduto(produto);
-                item.setPreco(itemInput.getPreco());
+                item.setPreco(produto.getPreco());
                 item.setQuantidade(itemInput.getQuantidade());
-                item.setTotal(itemInput.getPreco().multiply(itemInput.getQuantidade()));
+                item.setTotal(produto.getPreco().multiply(itemInput.getQuantidade()));
                 item.setValorDesconto(itemInput.getValordesconto());
                 item.setSubtotal(item.getTotal().subtract(item.getValorDesconto()));
                 item.setObservacao(itemInput.getObservacao());

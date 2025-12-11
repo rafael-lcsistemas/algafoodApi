@@ -1,7 +1,5 @@
 package com.algaworks.algafoodapi.api.model.input;
 
-import com.algaworks.algafoodapi.core.validation.PrecoValidacao;
-
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
@@ -25,9 +23,6 @@ public class PedidoInput {
         @NotNull
         private Long idproduto;
 
-        @PrecoValidacao
-        private BigDecimal preco;
-
         @PositiveOrZero
         private BigDecimal quantidade;
 
@@ -42,14 +37,6 @@ public class PedidoInput {
 
         public void setIdproduto(Long idproduto) {
             this.idproduto = idproduto;
-        }
-
-        public BigDecimal getPreco() {
-            return preco;
-        }
-
-        public void setPreco(BigDecimal preco) {
-            this.preco = preco;
         }
 
         public BigDecimal getQuantidade() {

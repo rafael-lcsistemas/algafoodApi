@@ -47,6 +47,7 @@ public class PedidoResponse {
     public static class RestaurantePedidoResponse {
         private Long id;
         private String nome;
+        private BigDecimal taxaFrete;
 
         public Long getId() {
             return id;
@@ -62,6 +63,14 @@ public class PedidoResponse {
 
         public void setNome(String nome) {
             this.nome = nome;
+        }
+
+        public BigDecimal getTaxaFrete() {
+            return taxaFrete;
+        }
+
+        public void setTaxaFrete(BigDecimal taxaFrete) {
+            this.taxaFrete = taxaFrete;
         }
     }
 
@@ -88,6 +97,7 @@ public class PedidoResponse {
 
     public static class ProdutoPedidoResponse {
         private Long id;
+        private Long idProduto;
         private String nomeProduto;
         private BigDecimal preco;
         private Integer quantidade;
@@ -100,6 +110,14 @@ public class PedidoResponse {
 
         public void setId(Long id) {
             this.id = id;
+        }
+
+        public Long getIdProduto() {
+            return idProduto;
+        }
+
+        public void setIdProduto(Long idProduto) {
+            this.idProduto = idProduto;
         }
 
         public String getNomeProduto() {
