@@ -1,6 +1,6 @@
 package com.algaworks.algafoodapi.domain.service;
 
-import com.algaworks.algafoodapi.domain.exceptions.EntidadeNaoEncontradaException;
+import com.algaworks.algafoodapi.domain.exceptions.GrupoNaoEncontradaException;
 import com.algaworks.algafoodapi.domain.exceptions.NegocioException;
 import com.algaworks.algafoodapi.domain.exceptions.UsuarioNaoEncontradaException;
 import com.algaworks.algafoodapi.domain.model.entity.Grupo;
@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UsuarioService {
@@ -43,23 +43,17 @@ public class UsuarioService {
     }
 
     @Transactional
-    public Usuario iserirOuAtualizar(Usuario usuario) {
+    public Usuario iserirOuAtualizar(Usuario usuario, List<Long> idsGrupos) {
 
-        var existsGrupos = usuario.getGrupos().size() > 0;
+        try {
+            List<Grupo> gruposValidados = idsGrupos.stream().map(id ->
+                    grupoService.filtrarPorId(id)).collect(Collectors.toList());
 
-        if (!existsGrupos) {
-            throw new NegocioException("É preciso informar pelo menos um grupo para este usuário");
+            usuario.setGrupos(gruposValidados);
+
+            return usuarioRepository.save(usuario);
+        } catch (GrupoNaoEncontradaException e) {
+            throw new NegocioException(e.getMessage());
         }
-
-        List<Grupo> gruposValidados = new ArrayList<>();
-
-        for (Grupo p : usuario.getGrupos()) {
-            Grupo grp = grupoService.filtrarPorId(p.getId());
-            gruposValidados.add(grp);
-        }
-
-        usuario.setGrupos(gruposValidados);
-        return usuarioRepository.save(usuario);
-
     }
 }

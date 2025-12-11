@@ -23,18 +23,15 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
     @Column(nullable = false, length = 100)
     private String nome;
 
-    @Email
     @Column(length = 100, unique = true)
     private String email;
 
     @Column(length = 30)
     private String senha;
 
-    @NotNull
     @Column(nullable = false)
     private Boolean status;
 
@@ -46,9 +43,6 @@ public class Usuario {
     @Column(nullable = false, columnDefinition = "TIMESTAMP")
     private OffsetDateTime datahoraAlteracao;
 
-    @Valid
-    @ConvertGroup(from = Default.class, to = Groups.GrupoId.class)
-    @NotNull
     @ManyToMany
     @JoinTable(name = "usuario_grupo",
             joinColumns = @JoinColumn(name = "id_usuario"),

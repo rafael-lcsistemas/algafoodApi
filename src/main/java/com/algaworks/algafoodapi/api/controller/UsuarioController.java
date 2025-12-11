@@ -1,5 +1,9 @@
 package com.algaworks.algafoodapi.api.controller;
 
+import com.algaworks.algafoodapi.api.assembler.GenericInputAssembler;
+import com.algaworks.algafoodapi.api.assembler.GenericResponseAssembler;
+import com.algaworks.algafoodapi.api.model.input.UsuarioInput;
+import com.algaworks.algafoodapi.api.model.response.UsuarioResponse;
 import com.algaworks.algafoodapi.domain.exceptions.EntidadeNaoEncontradaException;
 import com.algaworks.algafoodapi.domain.exceptions.NegocioException;
 import com.algaworks.algafoodapi.domain.model.entity.Usuario;
@@ -19,33 +23,48 @@ UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
+    @Autowired
+    private GenericResponseAssembler genericResponseAssembler;
+
+    @Autowired
+    private GenericInputAssembler genericInputAssembler;
+
     @GetMapping("/listar")
-    public List<Usuario> listarTodos() {
-        return usuarioService.listarTodos();
+    public List<UsuarioResponse> listarTodos() {
+        return genericResponseAssembler.toCollectionModel(usuarioService.listarTodos(), UsuarioResponse.class);
     }
 
     @GetMapping("/por-nome")
-    public List<Usuario> filtrarPorNome(@RequestParam String nome) {
-        return usuarioService.filtrarPorNome(nome);
+    public List<UsuarioResponse> filtrarPorNome(@RequestParam String nome) {
+        return genericResponseAssembler.toCollectionModel(usuarioService.filtrarPorNome(nome), UsuarioResponse.class);
     }
 
     @GetMapping("/{id}")
-    public Usuario filtrarPorID(@PathVariable Long id) {
-        return usuarioService.filtrarPorID(id);
+    public UsuarioResponse filtrarPorID(@PathVariable Long id) {
+        return genericResponseAssembler.toModel(usuarioService.filtrarPorID(id), UsuarioResponse.class);
     }
 
     @PostMapping
-    public Usuario inserir(@RequestBody @Valid Usuario usuario) {
-        return usuarioService.iserirOuAtualizar(usuario);
+    public UsuarioResponse inserir(@RequestBody @Valid UsuarioInput usuarioInput) {
+        var usuario = genericInputAssembler.toEntity(usuarioInput, Usuario.class);
+
+        try {
+            return genericResponseAssembler.toModel(
+                    usuarioService.iserirOuAtualizar(usuario, usuarioInput.getIdsGrupos()), UsuarioResponse.class);
+        } catch (EntidadeNaoEncontradaException e) {
+            throw new NegocioException(e.getMessage());
+        }
     }
 
     @PutMapping("/{id}")
-    public Usuario atualizar(@PathVariable Long id, @RequestBody @Valid Usuario usuario) {
+    public UsuarioResponse atualizar(@PathVariable Long id, @RequestBody @Valid UsuarioInput usuarioInput) {
+        var usuario = genericInputAssembler.toEntity(usuarioInput, Usuario.class);
         var usuarioAtual = usuarioService.filtrarPorID(id);
         BeanUtils.copyProperties(usuario, usuarioAtual, "id", "dataCadastro");
 
         try {
-            return usuarioService.iserirOuAtualizar(usuarioAtual);
+            return genericResponseAssembler.toModel(
+                    usuarioService.iserirOuAtualizar(usuarioAtual, usuarioInput.getIdsGrupos()), UsuarioResponse.class);
         } catch (EntidadeNaoEncontradaException e) {
             throw new NegocioException(e.getMessage());
         }
