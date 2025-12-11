@@ -49,8 +49,21 @@ public class PedidoController {
         }
     }
 
-    @PutMapping
+    @PutMapping("/cancelar")
     public PedidoResponse cancelarPedido(@RequestParam Long id) {
-        return genericResponseAssembler.toModel(pedidoService.cancelarPedido(id), PedidoResponse.class);
+        var pedido = pedidoService.cancelarPedido(id);
+        return genericResponseAssembler.toModel(pedido, PedidoResponse.class);
+    }
+
+    @PutMapping("/confirmar")
+    public PedidoResponse confirmarPedido(@RequestParam Long id) {
+        var pedido = pedidoService.confirmarPedido(id);
+        return genericResponseAssembler.toModel(pedido, PedidoResponse.class);
+    }
+
+    @PutMapping("/entregar")
+    public PedidoResponse entregarPedido(@RequestParam Long id) {
+        var pedido = pedidoService.entregarPedido(id);
+        return genericResponseAssembler.toModel(pedido, PedidoResponse.class);
     }
 }
