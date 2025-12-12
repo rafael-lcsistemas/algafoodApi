@@ -1,6 +1,6 @@
 package com.algaworks.algafoodapi.domain.service;
 
-import com.algaworks.algafoodapi.api.model.input.UsuarioSenhaInput;
+import com.algaworks.algafoodapi.api.model.input.UsuarioInputAtualizarSenha;
 import com.algaworks.algafoodapi.domain.exceptions.GrupoNaoEncontradaException;
 import com.algaworks.algafoodapi.domain.exceptions.NegocioException;
 import com.algaworks.algafoodapi.domain.exceptions.UsuarioNaoEncontradaException;
@@ -59,7 +59,7 @@ public class UsuarioService {
     }
 
     @Transactional
-    public void atualizarSenha(Long id, UsuarioSenhaInput usuarioSenhaInput) {
+    public void atualizarSenha(Long id, UsuarioInputAtualizarSenha usuarioSenhaInput) {
         Usuario usuario = filtrarPorID(id);
 
         var senhaAtual = usuarioSenhaInput.getSenhaAtual();

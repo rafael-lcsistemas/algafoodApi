@@ -3,7 +3,8 @@ package com.algaworks.algafoodapi.api.controller;
 import com.algaworks.algafoodapi.api.assembler.GenericInputAssembler;
 import com.algaworks.algafoodapi.api.assembler.GenericResponseAssembler;
 import com.algaworks.algafoodapi.api.model.input.UsuarioInput;
-import com.algaworks.algafoodapi.api.model.input.UsuarioSenhaInput;
+import com.algaworks.algafoodapi.api.model.input.UsuarioInputAtualizarSenha;
+import com.algaworks.algafoodapi.api.model.input.UsuarioInputSemSenha;
 import com.algaworks.algafoodapi.api.model.response.UsuarioResponse;
 import com.algaworks.algafoodapi.domain.exceptions.EntidadeNaoEncontradaException;
 import com.algaworks.algafoodapi.domain.exceptions.NegocioException;
@@ -58,21 +59,22 @@ UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public UsuarioResponse atualizar(@PathVariable Long id, @RequestBody @Valid UsuarioInput usuarioInput) {
-        var usuario = genericInputAssembler.toEntity(usuarioInput, Usuario.class);
+    public UsuarioResponse atualizar(@PathVariable Long id, @RequestBody @Valid UsuarioInputSemSenha usuarioSemSenhaInput) {
+        var usuario = genericInputAssembler.toEntity(usuarioSemSenhaInput, Usuario.class);
+
         var usuarioAtual = usuarioService.filtrarPorID(id);
-        BeanUtils.copyProperties(usuario, usuarioAtual, "id", "dataCadastro");
+        BeanUtils.copyProperties(usuario, usuarioAtual, "id", "senha", "dataCadastro");
 
         try {
             return genericResponseAssembler.toModel(
-                    usuarioService.iserirOuAtualizar(usuarioAtual, usuarioInput.getIdsGrupos()), UsuarioResponse.class);
+                    usuarioService.iserirOuAtualizar(usuarioAtual, usuarioSemSenhaInput.getIdsGrupos()), UsuarioResponse.class);
         } catch (EntidadeNaoEncontradaException e) {
             throw new NegocioException(e.getMessage());
         }
     }
 
     @PutMapping("/atualizar-senha/{id}")
-    public void atualizarSenha(@PathVariable Long id, @RequestBody @Valid UsuarioSenhaInput usuarioSenhaInput) {
-        usuarioService.atualizarSenha(id, usuarioSenhaInput);
+    public void atualizarSenha(@PathVariable Long id, @RequestBody @Valid UsuarioInputAtualizarSenha inputAtualizarSenha) {
+        usuarioService.atualizarSenha(id, inputAtualizarSenha);
     }
 }

@@ -5,7 +5,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-public class UsuarioInput {
+public class UsuarioInputSemSenha {
 
     @NotBlank
     private String nome;
@@ -13,9 +13,6 @@ public class UsuarioInput {
     @NotBlank
     @Email
     private String email;
-
-    @NotBlank
-    private String senha;
 
     @NotNull
     private Boolean status;
@@ -39,14 +36,6 @@ public class UsuarioInput {
         this.email = email;
     }
 
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
     public Boolean getStatus() {
         return status;
     }
@@ -63,3 +52,5 @@ public class UsuarioInput {
         this.idsGrupos = idsGrupos;
     }
 }
+
+

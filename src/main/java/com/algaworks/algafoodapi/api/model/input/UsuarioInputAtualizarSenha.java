@@ -2,7 +2,7 @@ package com.algaworks.algafoodapi.api.model.input;
 
 import javax.validation.constraints.NotBlank;
 
-public class UsuarioSenhaInput {
+public class UsuarioInputAtualizarSenha {
 
     @NotBlank
     private String senhaAtual;
