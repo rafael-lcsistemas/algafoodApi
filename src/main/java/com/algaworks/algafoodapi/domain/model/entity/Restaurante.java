@@ -6,9 +6,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 public class Restaurante {
@@ -45,7 +43,7 @@ public class Restaurante {
     @JoinTable(name = "restaurante_forma_pagamento",
             joinColumns = @JoinColumn(name = "id_restaurante"),
             inverseJoinColumns = @JoinColumn(name = "id_forma_pagamento"))
-    private List<FormaPagamento> formasPagamento = new ArrayList<>();
+    private Set<FormaPagamento> formasPagamento = new HashSet<>();
 
     @OneToMany(mappedBy = "restaurante")
     private List<Produto> produtos = new ArrayList<>();
@@ -53,7 +51,7 @@ public class Restaurante {
     public Restaurante() {
     }
 
-    public Restaurante(Long id, String nome, BigDecimal taxaFrete, Boolean status, Cozinha cozinha, List<FormaPagamento> formasPagamento, Endereco endereco, List<Produto> produtos) {
+    public Restaurante(Long id, String nome, BigDecimal taxaFrete, Boolean status, Cozinha cozinha, Set<FormaPagamento> formasPagamento, Endereco endereco, List<Produto> produtos) {
         this.id = id;
         this.nome = nome;
         this.taxaFrete = taxaFrete;
@@ -112,11 +110,11 @@ public class Restaurante {
         this.cozinha = cozinha;
     }
 
-    public List<FormaPagamento> getFormasPagamento() {
+    public Set<FormaPagamento> getFormasPagamento() {
         return formasPagamento;
     }
 
-    public void setFormasPagamento(List<FormaPagamento> formasPagamento) {
+    public void setFormasPagamento(Set<FormaPagamento> formasPagamento) {
         this.formasPagamento = formasPagamento;
     }
 
@@ -134,6 +132,14 @@ public class Restaurante {
 
     public void setProdutos(List<Produto> produtos) {
         this.produtos = produtos;
+    }
+
+    public boolean desassociarFormaPagamento(FormaPagamento formaPagamento) {
+        return formasPagamento.remove(formaPagamento);
+    }
+
+    public boolean associarFormaPagamento(FormaPagamento formaPagamento) {
+        return formasPagamento.add(formaPagamento);
     }
 
     @Override

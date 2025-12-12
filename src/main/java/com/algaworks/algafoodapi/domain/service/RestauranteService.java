@@ -5,12 +5,12 @@ import com.algaworks.algafoodapi.domain.exceptions.*;
 import com.algaworks.algafoodapi.domain.model.entity.FormaPagamento;
 import com.algaworks.algafoodapi.domain.model.entity.Restaurante;
 import com.algaworks.algafoodapi.domain.repository.RestauranteRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class RestauranteService {
@@ -26,6 +26,8 @@ public class RestauranteService {
 
     @Autowired
     private FormaPagamentoService formaPagamentoService;
+    @Autowired
+    private ModelMapper modelMapper;
 
     public List<Restaurante> filtrarTodas() {
         try {
@@ -58,16 +60,32 @@ public class RestauranteService {
             var cidade = cidadeService.filtrarPorId(restauranteInput.getEndereco().getIdcidade());
             restaurante.getEndereco().setCidade(cidade);
 
-            List<FormaPagamento> formasPagamentoCompletas = restaurante.getFormasPagamento()
-                    .stream()
-                    .map(fp ->
-                            formaPagamentoService.filtrarPorID(fp.getId())).collect(Collectors.toList());
-
-            restaurante.setFormasPagamento(formasPagamentoCompletas);
+//            Set<FormaPagamento> formasPagamentoCompletas = restaurante.getFormasPagamento()
+//                    .stream()
+//                    .map(fp ->
+//                            formaPagamentoService.filtrarPorID(fp.getId())).collect(Collectors.toSet());
+//
+//            restaurante.setFormasPagamento(formasPagamentoCompletas);
 
             return restauranteRepository.save(restaurante);
         } catch (FormaPagamentoNaoEncontradaException | CozinhaNaoEncontradaException | CidadeNaoEncontradaException e) {
             throw new NegocioException(e.getMessage());
         }
+    }
+
+    @Transactional
+    public void desassociarFormaPagamentoToRestaurante(Long idRestaurante, Long idFormaPagamento) {
+        Restaurante restaurante = filtrarPorID(idRestaurante);
+        FormaPagamento formaPagamento = formaPagamentoService.filtrarPorID(idFormaPagamento);
+
+        restaurante.desassociarFormaPagamento(formaPagamento);
+    }
+
+    @Transactional
+    public void asassociarFormaPagamentoToRestaurante(Long idRestaurante, Long idFormaPagamento) {
+        Restaurante restaurante = filtrarPorID(idRestaurante);
+        FormaPagamento formaPagamento = formaPagamentoService.filtrarPorID(idFormaPagamento);
+
+        restaurante.associarFormaPagamento(formaPagamento);
     }
 }

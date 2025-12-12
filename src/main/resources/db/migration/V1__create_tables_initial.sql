@@ -35,7 +35,7 @@ CREATE TABLE cozinha
 (
     id                 BIGINT AUTO_INCREMENT NOT NULL,
     nome               VARCHAR(100)          NOT NULL,
-    status              BIT(1)                NULL,
+    status             BIT(1)                NULL,
     datahora_cadastro  datetime              NULL,
     datahora_alteracao datetime              NULL,
     CONSTRAINT pk_cozinha PRIMARY KEY (id)
@@ -119,9 +119,22 @@ CREATE TABLE restaurante
 CREATE TABLE restaurante_forma_pagamento
 (
     id_forma_pagamento BIGINT NOT NULL,
-    id_restaurante     BIGINT NOT NULL
-) engine = InnoDB
-  default charset = utf8mb4;
+    id_restaurante     BIGINT NOT NULL,
+
+    CONSTRAINT pk_restaurante_forma_pagamento
+        PRIMARY KEY (id_restaurante, id_forma_pagamento),
+
+    CONSTRAINT fk_rest_form_pag_rest
+        FOREIGN KEY (id_restaurante)
+            REFERENCES restaurante (id)
+            ON DELETE CASCADE,
+
+    CONSTRAINT fk_rest_form_pag_form
+        FOREIGN KEY (id_forma_pagamento)
+            REFERENCES forma_pagamento (id)
+            ON DELETE CASCADE
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4;
 
 CREATE TABLE usuario
 (
