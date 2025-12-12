@@ -20,6 +20,9 @@ public class ProdutoInput {
     @NotNull
     private Boolean status;
 
+    @NotNull
+    private Long idrestaurante;
+
     public String getNome() {
         return nome;
     }
@@ -50,5 +53,13 @@ public class ProdutoInput {
 
     public void setStatus(Boolean status) {
         this.status = status;
+    }
+
+    public Long getIdrestaurante() {
+        return idrestaurante;
+    }
+
+    public void setIdrestaurante(Long idrestaurante) {
+        this.idrestaurante = idrestaurante;
     }
 }

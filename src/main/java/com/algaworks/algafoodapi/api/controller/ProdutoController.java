@@ -44,7 +44,8 @@ public class ProdutoController {
     @PostMapping
     public ProdutoResponse inserir(@RequestBody @Valid ProdutoInput produtoInput) {
         var produto = genericInputAssembler.toEntity(produtoInput, Produto.class);
-        return genericResponseAssembler.toModel(produtoService.inserirOuAtualizar(produto), ProdutoResponse.class);
+        return genericResponseAssembler.toModel(
+                produtoService.inserirOuAtualizar(produto, produtoInput), ProdutoResponse.class);
     }
 
     @PutMapping("/{id}")
@@ -53,6 +54,7 @@ public class ProdutoController {
         var produtoAtual = produtoService.filtrarPorId(id);
         BeanUtils.copyProperties(produto, produtoAtual, "id", "dataCadastro");
 
-        return genericResponseAssembler.toModel(produtoService.inserirOuAtualizar(produtoAtual), ProdutoResponse.class);
+        return genericResponseAssembler.toModel(
+                produtoService.inserirOuAtualizar(produtoAtual, produtoInput), ProdutoResponse.class);
     }
 }
