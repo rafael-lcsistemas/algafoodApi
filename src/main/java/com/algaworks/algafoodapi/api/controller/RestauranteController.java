@@ -4,9 +4,6 @@ import com.algaworks.algafoodapi.api.assembler.GenericInputAssembler;
 import com.algaworks.algafoodapi.api.assembler.GenericResponseAssembler;
 import com.algaworks.algafoodapi.api.model.input.RestauranteInput;
 import com.algaworks.algafoodapi.api.model.response.RestauranteResponse;
-import com.algaworks.algafoodapi.domain.exceptions.CozinhaNaoEncontradaException;
-import com.algaworks.algafoodapi.domain.exceptions.FormaPagamentoNaoEncontradaException;
-import com.algaworks.algafoodapi.domain.exceptions.NegocioException;
 import com.algaworks.algafoodapi.domain.model.entity.Restaurante;
 import com.algaworks.algafoodapi.domain.service.RestauranteService;
 import org.springframework.beans.BeanUtils;
@@ -51,28 +48,20 @@ public class RestauranteController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public RestauranteResponse inserir(@RequestBody @Valid RestauranteInput restauranteInput) {
-        try {
-            Restaurante restaurante = genericInputAssembler.toEntity(restauranteInput, Restaurante.class);
-            return genericResponseAssembler.toModel(
-                    restauranteService.inserirOuAtualizar(
-                            restaurante, restauranteInput.getIdcozinha()), RestauranteResponse.class);
-        } catch (CozinhaNaoEncontradaException | FormaPagamentoNaoEncontradaException e) {
-            throw new NegocioException(e.getMessage());
-        }
+
+        Restaurante restaurante = genericInputAssembler.toEntity(restauranteInput, Restaurante.class);
+        return genericResponseAssembler.toModel(
+                restauranteService.inserirOuAtualizar(restaurante, restauranteInput), RestauranteResponse.class);
     }
 
     @PutMapping("/{id}")
     public RestauranteResponse atualizar(@PathVariable Long id, @RequestBody @Valid RestauranteInput restauranteInput) {
         var restaurante = genericInputAssembler.toEntity(restauranteInput, Restaurante.class);
         var restauranteAtual = restauranteService.filtrarPorID(id);
-        BeanUtils.copyProperties(restaurante, restauranteAtual, "id", "endereco", "dataCadastro");
+        BeanUtils.copyProperties(restaurante, restauranteAtual, "id", "dataCadastro");
 
-        try {
-            return genericResponseAssembler.toModel(
-                    restauranteService.inserirOuAtualizar(
-                            restauranteAtual, restauranteInput.getIdcozinha()), RestauranteResponse.class);
-        } catch (CozinhaNaoEncontradaException | FormaPagamentoNaoEncontradaException e) {
-            throw new NegocioException(e.getMessage());
-        }
+        return genericResponseAssembler.toModel(
+                restauranteService.inserirOuAtualizar(restauranteAtual, restauranteInput), RestauranteResponse.class);
+
     }
 }

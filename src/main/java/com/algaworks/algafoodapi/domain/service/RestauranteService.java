@@ -1,9 +1,7 @@
 package com.algaworks.algafoodapi.domain.service;
 
-import com.algaworks.algafoodapi.domain.exceptions.CozinhaNaoEncontradaException;
-import com.algaworks.algafoodapi.domain.exceptions.FormaPagamentoNaoEncontradaException;
-import com.algaworks.algafoodapi.domain.exceptions.NegocioException;
-import com.algaworks.algafoodapi.domain.exceptions.RestauranteNaoEncontradaException;
+import com.algaworks.algafoodapi.api.model.input.RestauranteInput;
+import com.algaworks.algafoodapi.domain.exceptions.*;
 import com.algaworks.algafoodapi.domain.model.entity.FormaPagamento;
 import com.algaworks.algafoodapi.domain.model.entity.Restaurante;
 import com.algaworks.algafoodapi.domain.repository.RestauranteRepository;
@@ -22,6 +20,9 @@ public class RestauranteService {
 
     @Autowired
     private CozinhaService cozinhaService;
+
+    @Autowired
+    private CidadeService cidadeService;
 
     @Autowired
     private FormaPagamentoService formaPagamentoService;
@@ -48,11 +49,14 @@ public class RestauranteService {
     }
 
     @Transactional
-    public Restaurante inserirOuAtualizar(Restaurante restaurante, Long idcozinha) {
+    public Restaurante inserirOuAtualizar(Restaurante restaurante, RestauranteInput restauranteInput) {
 
         try {
-            var cozinha = cozinhaService.filtrarPorId(idcozinha);
+            var cozinha = cozinhaService.filtrarPorId(restauranteInput.getIdcozinha());
             restaurante.setCozinha(cozinha);
+
+            var cidade = cidadeService.filtrarPorId(restauranteInput.getEndereco().getIdcidade());
+            restaurante.getEndereco().setCidade(cidade);
 
             List<FormaPagamento> formasPagamentoCompletas = restaurante.getFormasPagamento()
                     .stream()
@@ -62,7 +66,7 @@ public class RestauranteService {
             restaurante.setFormasPagamento(formasPagamentoCompletas);
 
             return restauranteRepository.save(restaurante);
-        } catch (FormaPagamentoNaoEncontradaException | CozinhaNaoEncontradaException e) {
+        } catch (FormaPagamentoNaoEncontradaException | CozinhaNaoEncontradaException | CidadeNaoEncontradaException e) {
             throw new NegocioException(e.getMessage());
         }
     }
