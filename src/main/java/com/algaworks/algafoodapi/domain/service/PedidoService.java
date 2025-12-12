@@ -149,4 +149,35 @@ public class PedidoService {
 
         return pedido;
     }
+
+    @Transactional
+    public Pedido confirmarPedido(Long id) {
+        var pedido = filtrarPorID(id);
+
+        if (pedido.getStatusPedido() != StatusPedido.CRIADO) {
+            throw new NegocioException(String.format("Não foi possivel confirmar pedido %d, pois está como %s",
+                            pedido.getId(), pedido.getStatusPedido().name()));
+        }
+
+        pedido.setStatusPedido(StatusPedido.CONFIRMADO);
+        pedido.setDatahoraConfirmacao(OffsetDateTime.now());
+
+        return pedidoRepository.save(pedido);
+    }
+
+    @Transactional
+    public Pedido entregarPedido(Long id) {
+        var pedido = filtrarPorID(id);
+
+        if (pedido.getStatusPedido() == StatusPedido.ENTREGUE
+        || pedido.getStatusPedido() == StatusPedido.CANCELADO) {
+            throw new NegocioException(String.format("Não foi possivel entregar pedido %d, pois está como %s",
+                    pedido.getId(), pedido.getStatusPedido().name()));
+        }
+
+        pedido.setStatusPedido(StatusPedido.ENTREGUE);
+        pedido.setDatahoraEntrega(OffsetDateTime.now());
+
+        return pedidoRepository.save(pedido);
+    }
 }
