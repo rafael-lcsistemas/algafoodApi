@@ -116,7 +116,7 @@ public class PedidoService {
         pedido.setStatusPedido(StatusPedido.CANCELADO);
         pedido.setDatahoraCancelamento(OffsetDateTime.now());
 
-        return pedidoRepository.save(pedido);
+        return  pedido;
     }
 
     @Transactional
@@ -131,7 +131,7 @@ public class PedidoService {
         pedido.setStatusPedido(StatusPedido.CONFIRMADO);
         pedido.setDatahoraConfirmacao(OffsetDateTime.now());
 
-        return pedidoRepository.save(pedido);
+        return pedido;
     }
 
     @Transactional
@@ -147,6 +147,6 @@ public class PedidoService {
         pedido.setStatusPedido(StatusPedido.ENTREGUE);
         pedido.setDatahoraEntrega(OffsetDateTime.now());
 
-        return pedidoRepository.save(pedido);
+        return pedido;
     }
 }
