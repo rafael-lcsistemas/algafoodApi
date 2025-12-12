@@ -54,7 +54,8 @@ public class RestauranteController {
         try {
             Restaurante restaurante = genericInputAssembler.toEntity(restauranteInput, Restaurante.class);
             return genericResponseAssembler.toModel(
-                    restauranteService.inserirOuAtualizar(restaurante), RestauranteResponse.class);
+                    restauranteService.inserirOuAtualizar(
+                            restaurante, restauranteInput.getIdcozinha()), RestauranteResponse.class);
         } catch (CozinhaNaoEncontradaException | FormaPagamentoNaoEncontradaException e) {
             throw new NegocioException(e.getMessage());
         }
@@ -68,7 +69,8 @@ public class RestauranteController {
 
         try {
             return genericResponseAssembler.toModel(
-                    restauranteService.inserirOuAtualizar(restauranteAtual), RestauranteResponse.class);
+                    restauranteService.inserirOuAtualizar(
+                            restauranteAtual, restauranteInput.getIdcozinha()), RestauranteResponse.class);
         } catch (CozinhaNaoEncontradaException | FormaPagamentoNaoEncontradaException e) {
             throw new NegocioException(e.getMessage());
         }

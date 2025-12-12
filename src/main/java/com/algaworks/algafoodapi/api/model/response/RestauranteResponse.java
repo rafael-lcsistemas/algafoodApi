@@ -8,7 +8,8 @@ public class RestauranteResponse {
     private String nome;
     private BigDecimal taxaFrete;
     private Boolean status;
-    private CozinhaResponse cozinha;
+    private CozinhaResumeResponse cozinha;
+    private EnderecoResponse endereco;
 
     public Long getId() {
         return id;
@@ -42,11 +43,19 @@ public class RestauranteResponse {
         this.status = status;
     }
 
-    public CozinhaResponse getCozinha() {
+    public CozinhaResumeResponse getCozinha() {
         return cozinha;
     }
 
-    public void setCozinha(CozinhaResponse cozinha) {
+    public void setCozinha(CozinhaResumeResponse cozinha) {
         this.cozinha = cozinha;
+    }
+
+    public EnderecoResponse getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(EnderecoResponse endereco) {
+        this.endereco = endereco;
     }
 }

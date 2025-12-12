@@ -48,10 +48,10 @@ public class RestauranteService {
     }
 
     @Transactional
-    public Restaurante inserirOuAtualizar(Restaurante restaurante) {
+    public Restaurante inserirOuAtualizar(Restaurante restaurante, Long idcozinha) {
 
         try {
-            var cozinha = cozinhaService.filtrarPorId(restaurante.getCozinha().getId());
+            var cozinha = cozinhaService.filtrarPorId(idcozinha);
             restaurante.setCozinha(cozinha);
 
             List<FormaPagamento> formasPagamentoCompletas = restaurante.getFormasPagamento()
@@ -60,10 +60,10 @@ public class RestauranteService {
                             formaPagamentoService.filtrarPorID(fp.getId())).collect(Collectors.toList());
 
             restaurante.setFormasPagamento(formasPagamentoCompletas);
+
+            return restauranteRepository.save(restaurante);
         } catch (FormaPagamentoNaoEncontradaException | CozinhaNaoEncontradaException e) {
             throw new NegocioException(e.getMessage());
         }
-
-        return restauranteRepository.save(restaurante);
     }
 }

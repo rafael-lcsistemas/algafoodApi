@@ -21,7 +21,7 @@ public class RestauranteInput {
     private Boolean status;
 
     @NotNull
-    private Long idCozinha;
+    private Long idcozinha;
 
     public String getNome() {
         return nome;
@@ -47,11 +47,11 @@ public class RestauranteInput {
         this.status = status;
     }
 
-    public Long getIdCozinha() {
-        return idCozinha;
+    public Long getIdcozinha() {
+        return idcozinha;
     }
 
-    public void setIdCozinha(Long idCozinha) {
-        this.idCozinha = idCozinha;
+    public void setIdcozinha(Long idcozinha) {
+        this.idcozinha = idcozinha;
     }
 }
