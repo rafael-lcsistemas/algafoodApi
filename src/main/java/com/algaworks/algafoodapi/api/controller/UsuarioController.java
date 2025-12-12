@@ -3,6 +3,7 @@ package com.algaworks.algafoodapi.api.controller;
 import com.algaworks.algafoodapi.api.assembler.GenericInputAssembler;
 import com.algaworks.algafoodapi.api.assembler.GenericResponseAssembler;
 import com.algaworks.algafoodapi.api.model.input.UsuarioInput;
+import com.algaworks.algafoodapi.api.model.input.UsuarioSenhaInput;
 import com.algaworks.algafoodapi.api.model.response.UsuarioResponse;
 import com.algaworks.algafoodapi.domain.exceptions.EntidadeNaoEncontradaException;
 import com.algaworks.algafoodapi.domain.exceptions.NegocioException;
@@ -68,5 +69,10 @@ UsuarioController {
         } catch (EntidadeNaoEncontradaException e) {
             throw new NegocioException(e.getMessage());
         }
+    }
+
+    @PutMapping("/atualizar-senha/{id}")
+    public void atualizarSenha(@PathVariable Long id, @RequestBody @Valid UsuarioSenhaInput usuarioSenhaInput) {
+        usuarioService.atualizarSenha(id, usuarioSenhaInput);
     }
 }

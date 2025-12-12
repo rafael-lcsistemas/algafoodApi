@@ -7,7 +7,6 @@ public class UsuarioResponse {
     private Long id;
     private String nome;
     private String email;
-    private String senha;
     private Boolean status;
     private List<grupoGenericResponse> grupos;
 
@@ -33,14 +32,6 @@ public class UsuarioResponse {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
     }
 
     public Boolean getStatus() {

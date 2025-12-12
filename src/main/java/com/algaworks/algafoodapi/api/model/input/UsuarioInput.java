@@ -1,5 +1,6 @@
 package com.algaworks.algafoodapi.api.model.input;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -9,11 +10,9 @@ public class UsuarioInput {
     @NotBlank
     private String nome;
 
-    @NotNull
-    private String email;
-
     @NotBlank
-    private String senha;
+    @Email
+    private String email;
 
     @NotNull
     private Boolean status;
@@ -35,14 +34,6 @@ public class UsuarioInput {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
     }
 
     public Boolean getStatus() {

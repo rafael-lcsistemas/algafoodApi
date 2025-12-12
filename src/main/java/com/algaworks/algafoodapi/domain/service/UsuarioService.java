@@ -1,5 +1,6 @@
 package com.algaworks.algafoodapi.domain.service;
 
+import com.algaworks.algafoodapi.api.model.input.UsuarioSenhaInput;
 import com.algaworks.algafoodapi.domain.exceptions.GrupoNaoEncontradaException;
 import com.algaworks.algafoodapi.domain.exceptions.NegocioException;
 import com.algaworks.algafoodapi.domain.exceptions.UsuarioNaoEncontradaException;
@@ -55,5 +56,23 @@ public class UsuarioService {
         } catch (GrupoNaoEncontradaException e) {
             throw new NegocioException(e.getMessage());
         }
+    }
+
+    @Transactional
+    public void atualizarSenha(Long id, UsuarioSenhaInput usuarioSenhaInput) {
+        Usuario usuario = filtrarPorID(id);
+
+        var senhaAtual = usuarioSenhaInput.getSenhaAtual();
+        var novaSenha = usuarioSenhaInput.getNovaSenha();
+
+        if (!senhaAtual.equals(usuario.getSenha())) {
+            throw new NegocioException("Senha atual informada difere da senha cadastrada");
+        }
+
+        if(senhaAtual.equals(novaSenha)) {
+            throw new NegocioException("Nova senha informada deve ser diferente da senha atual");
+        }
+
+        usuario.setSenha(novaSenha);
     }
 }
