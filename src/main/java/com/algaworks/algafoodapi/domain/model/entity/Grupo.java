@@ -1,19 +1,13 @@
 package com.algaworks.algafoodapi.domain.model.entity;
 
-import com.algaworks.algafoodapi.core.validation.Groups;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.groups.ConvertGroup;
-import javax.validation.groups.Default;
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class Grupo {
@@ -40,12 +34,12 @@ public class Grupo {
     @JoinTable(name = "grupo_permissao",
             joinColumns = @JoinColumn(name = "id_grupo"),
             inverseJoinColumns = @JoinColumn(name = "id_permissao"))
-    private List<Permissao> permissoes = new ArrayList<>();
+    private Set<Permissao> permissoes = new HashSet<>();
 
     public Grupo() {
     }
 
-    public Grupo(Long id, String nome, Boolean status, List<Permissao> permissoes) {
+    public Grupo(Long id, String nome, Boolean status, Set<Permissao> permissoes) {
         this.id = id;
         this.nome = nome;
         this.status = status;
@@ -84,12 +78,20 @@ public class Grupo {
         return datahoraCadastro;
     }
 
-    public List<Permissao> getPermissoes() {
+    public Set<Permissao> getPermissoes() {
         return permissoes;
     }
 
-    public void setPermissoes(List<Permissao> permissoes) {
+    public void setPermissoes(Set<Permissao> permissoes) {
         this.permissoes = permissoes;
+    }
+
+    public boolean associarPermissao(Permissao permissao) {
+       return permissoes.add(permissao);
+    }
+
+    public boolean desassociarPermissao(Permissao permissao) {
+       return permissoes.remove(permissao);
     }
 
     @Override

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,19 +40,42 @@ public class GrupoService {
     }
 
     public Grupo filtrarPorId(Long id) {
-        return grupoRepository.findById(id).orElseThrow(() ->
-                new GrupoNaoEncontradaException(id));
+        return grupoRepository.findById(id).orElseThrow(() -> new GrupoNaoEncontradaException(id));
     }
 
     @Transactional
     public Grupo inserirOuAtualizar(Grupo grupo, List<Long> idsPermissoes) {
         try {
-            List<Permissao> permissoesValidas = idsPermissoes.stream()
-                    .map(id -> permissaoService.filtrarPorId(id)).collect(Collectors.toList());
+            Set<Permissao> permissoesValidas = idsPermissoes.stream().map(id ->
+                    permissaoService.filtrarPorId(id)).collect(Collectors.toSet());
 
             grupo.setPermissoes(permissoesValidas);
 
             return grupoRepository.save(grupo);
+        } catch (PermissaoNaoEncontradaException e) {
+            throw new NegocioException(e.getMessage());
+        }
+    }
+
+    @Transactional
+    public void associar(Long idGrupo, Long idPermissao) {
+        try {
+            var grupo = filtrarPorId(idGrupo);
+            var permissao = permissaoService.filtrarPorId(idPermissao);
+
+            grupo.associarPermissao(permissao);
+        } catch (PermissaoNaoEncontradaException e) {
+            throw new NegocioException(e.getMessage());
+        }
+    }
+
+    @Transactional
+    public void desassociar(Long idGrupo, Long idPermissao) {
+        try {
+            var grupo = filtrarPorId(idGrupo);
+            var permissao = permissaoService.filtrarPorId(idPermissao);
+
+            grupo.desassociarPermissao(permissao);
         } catch (PermissaoNaoEncontradaException e) {
             throw new NegocioException(e.getMessage());
         }

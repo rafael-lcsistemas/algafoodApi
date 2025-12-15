@@ -1,4 +1,4 @@
-package com.algaworks.algafoodapi.api.controller;
+package com.algaworks.algafoodapi.api.controller.grupo;
 
 import com.algaworks.algafoodapi.api.assembler.GenericInputAssembler;
 import com.algaworks.algafoodapi.api.assembler.GenericResponseAssembler;
