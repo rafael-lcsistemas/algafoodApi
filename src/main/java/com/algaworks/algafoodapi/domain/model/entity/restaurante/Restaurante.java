@@ -1,9 +1,6 @@
 package com.algaworks.algafoodapi.domain.model.entity.restaurante;
 
-import com.algaworks.algafoodapi.domain.model.entity.Cozinha;
-import com.algaworks.algafoodapi.domain.model.entity.Endereco;
-import com.algaworks.algafoodapi.domain.model.entity.FormaPagamento;
-import com.algaworks.algafoodapi.domain.model.entity.Produto;
+import com.algaworks.algafoodapi.domain.model.entity.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -58,11 +55,18 @@ public class Restaurante {
     @OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL)
     private List<RestauranteMov> movimentos = new ArrayList<>();
 
+    @ManyToMany
+    @JoinTable(name = "restaurante_usuario_responsavel",
+    joinColumns = @JoinColumn(name = "id_restaurante"),
+    inverseJoinColumns = @JoinColumn(name = "id_usuario"))
+    private Set<Usuario> usuarios = new HashSet<>();
+
     public Restaurante() {
     }
 
     public Restaurante(Long id, String nome, BigDecimal taxaFrete, Boolean status, Boolean aberto, Cozinha cozinha,
-                       Set<FormaPagamento> formasPagamento, Endereco endereco, List<Produto> produtos, List<RestauranteMov> movimentos) {
+                       Set<FormaPagamento> formasPagamento, Endereco endereco, List<Produto> produtos,
+                       List<RestauranteMov> movimentos, Set<Usuario>  usuarios) {
         this.id = id;
         this.nome = nome;
         this.taxaFrete = taxaFrete;
@@ -73,6 +77,7 @@ public class Restaurante {
         this.endereco = endereco;
         this.produtos = produtos;
         this.movimentos = movimentos;
+        this.usuarios = usuarios;
     }
 
     public Long getId() {
@@ -163,12 +168,20 @@ public class Restaurante {
         this.movimentos = movimentos;
     }
 
-    public boolean desassociarFormaPagamento(FormaPagamento formaPagamento) {
-        return formasPagamento.remove(formaPagamento);
+    public Set<Usuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(Set<Usuario> usuarios) {
+        this.usuarios = usuarios;
     }
 
     public boolean associarFormaPagamento(FormaPagamento formaPagamento) {
         return formasPagamento.add(formaPagamento);
+    }
+
+    public boolean desassociarFormaPagamento(FormaPagamento formaPagamento) {
+        return formasPagamento.remove(formaPagamento);
     }
 
     public void abrirRestaurante() {
@@ -182,6 +195,14 @@ public class Restaurante {
     public void adicionarMovimento(RestauranteMov movimento) {
         movimento.setRestaurante(this);
         this.movimentos.add(movimento);
+    }
+
+    public boolean associarUsuario(Usuario usuario) {
+        return usuarios.add(usuario);
+    }
+
+    public boolean desassociarUsuario(Usuario usuario) {
+        return usuarios.remove(usuario);
     }
 
     @Override

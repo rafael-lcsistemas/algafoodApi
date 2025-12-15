@@ -5,6 +5,8 @@ import com.algaworks.algafoodapi.api.assembler.GenericResponseAssembler;
 import com.algaworks.algafoodapi.api.model.input.RestauranteInput;
 import com.algaworks.algafoodapi.api.model.response.restaurante.RestauranteMovResponse;
 import com.algaworks.algafoodapi.api.model.response.restaurante.RestauranteResponse;
+import com.algaworks.algafoodapi.api.model.response.usuario.UsuarioResumeResponse;
+import com.algaworks.algafoodapi.domain.model.entity.Usuario;
 import com.algaworks.algafoodapi.domain.model.entity.restaurante.Restaurante;
 import com.algaworks.algafoodapi.domain.service.RestauranteService;
 import org.springframework.beans.BeanUtils;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -45,6 +48,14 @@ public class RestauranteController {
     public RestauranteResponse filtrarPorId(@PathVariable Long id) {
         Restaurante restaurante = restauranteService.filtrarPorID(id);
         return genericResponseAssembler.toModel(restaurante, RestauranteResponse.class);
+    }
+
+    @GetMapping("/{id}/responsaveis")
+    public List<UsuarioResumeResponse> responsaveis(@PathVariable Long id) {
+        var restarante = restauranteService.filtrarPorID(id);
+        List<Usuario> usuarios = new ArrayList<>(restarante.getUsuarios());
+
+        return genericResponseAssembler.toCollectionModel(usuarios, UsuarioResumeResponse.class);
     }
 
     @PostMapping
@@ -79,5 +90,15 @@ public class RestauranteController {
     public RestauranteMovResponse fechar(@PathVariable Long id, @RequestParam Long idUsuario) {
         var movimento = restauranteService.fecharRestaurante(id, idUsuario);
         return genericResponseAssembler.toModel(movimento, RestauranteMovResponse.class);
+    }
+
+    @PutMapping("/{idRestaurante}/usuarios/{idUsuario}")
+    public void associarUsuario(@PathVariable Long idRestaurante, @PathVariable Long idUsuario) {
+        restauranteService.asassociarUsuarioToRestaurante(idRestaurante, idUsuario);
+    }
+
+    @DeleteMapping("/{idRestaurante}/usuarios/{idUsuario}")
+    public void desassociarUsuario(@PathVariable Long idRestaurante, @PathVariable Long idUsuario) {
+        restauranteService.desassociarUsuarioToRestaurante(idRestaurante, idUsuario);
     }
 }

@@ -137,4 +137,28 @@ public class RestauranteService {
             throw new NegocioException(e.getMessage());
         }
     }
+
+    @Transactional
+    public void asassociarUsuarioToRestaurante(Long idRestaurante, Long idUsuario) {
+        try {
+            Restaurante restaurante = filtrarPorID(idRestaurante);
+            Usuario usuario = usuarioService.filtrarPorID(idUsuario);
+
+            restaurante.associarUsuario(usuario);
+        } catch (UsuarioNaoEncontradaException e) {
+            throw new NegocioException(e.getMessage());
+        }
+    }
+
+    @Transactional
+    public void desassociarUsuarioToRestaurante(Long idRestaurante, Long idUsuario) {
+        try {
+            Restaurante restaurante = filtrarPorID(idRestaurante);
+            Usuario usuario = usuarioService.filtrarPorID(idUsuario);
+
+            restaurante.desassociarUsuario(usuario);
+        } catch (UsuarioNaoEncontradaException e) {
+            throw new NegocioException(e.getMessage());
+        }
+    }
 }

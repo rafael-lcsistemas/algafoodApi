@@ -1,4 +1,4 @@
-package com.algaworks.algafoodapi.api.model.response;
+package com.algaworks.algafoodapi.api.model.response.usuario;
 
 import java.util.List;
 

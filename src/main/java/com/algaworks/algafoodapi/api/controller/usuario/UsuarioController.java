@@ -5,7 +5,7 @@ import com.algaworks.algafoodapi.api.assembler.GenericResponseAssembler;
 import com.algaworks.algafoodapi.api.model.input.UsuarioInput;
 import com.algaworks.algafoodapi.api.model.input.UsuarioInputAtualizarSenha;
 import com.algaworks.algafoodapi.api.model.input.UsuarioInputSemSenha;
-import com.algaworks.algafoodapi.api.model.response.UsuarioResponse;
+import com.algaworks.algafoodapi.api.model.response.usuario.UsuarioResponse;
 import com.algaworks.algafoodapi.domain.exceptions.EntidadeNaoEncontradaException;
 import com.algaworks.algafoodapi.domain.exceptions.NegocioException;
 import com.algaworks.algafoodapi.domain.model.entity.Usuario;
