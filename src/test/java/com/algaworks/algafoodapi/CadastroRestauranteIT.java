@@ -2,7 +2,7 @@ package com.algaworks.algafoodapi;
 
 import com.algaworks.algafoodapi.domain.model.entity.Cozinha;
 import com.algaworks.algafoodapi.domain.model.entity.FormaPagamento;
-import com.algaworks.algafoodapi.domain.model.entity.Restaurante;
+import com.algaworks.algafoodapi.domain.model.entity.restaurante.Restaurante;
 import com.algaworks.algafoodapi.domain.repository.CozinhaRepository;
 import com.algaworks.algafoodapi.domain.repository.FormaPagamentoRepository;
 import com.algaworks.algafoodapi.domain.repository.RestauranteRepository;

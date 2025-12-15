@@ -1,5 +1,6 @@
 package com.algaworks.algafoodapi.domain.model.entity;
 
+import com.algaworks.algafoodapi.domain.model.entity.restaurante.Restaurante;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 

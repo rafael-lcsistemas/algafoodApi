@@ -3,8 +3,9 @@ package com.algaworks.algafoodapi.api.controller;
 import com.algaworks.algafoodapi.api.assembler.GenericInputAssembler;
 import com.algaworks.algafoodapi.api.assembler.GenericResponseAssembler;
 import com.algaworks.algafoodapi.api.model.input.RestauranteInput;
+import com.algaworks.algafoodapi.api.model.response.RestauranteMovResponse;
 import com.algaworks.algafoodapi.api.model.response.RestauranteResponse;
-import com.algaworks.algafoodapi.domain.model.entity.Restaurante;
+import com.algaworks.algafoodapi.domain.model.entity.restaurante.Restaurante;
 import com.algaworks.algafoodapi.domain.service.RestauranteService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -63,5 +65,19 @@ public class RestauranteController {
         return genericResponseAssembler.toModel(
                 restauranteService.inserirOuAtualizar(restauranteAtual, restauranteInput), RestauranteResponse.class);
 
+    }
+
+    @PutMapping("/{id}/abrir")
+    public RestauranteMovResponse abrir(@PathVariable Long id,
+                                        @RequestParam BigDecimal valorMovimento, @RequestParam Long idUsuario) {
+        var movimento = restauranteService.abrirRestaurante(id, valorMovimento, idUsuario);
+        return genericResponseAssembler.toModel(movimento, RestauranteMovResponse.class);
+
+    }
+
+    @PutMapping("/{id}/fechar")
+    public RestauranteMovResponse fechar(@PathVariable Long id, @RequestParam Long idUsuario) {
+        var movimento = restauranteService.fecharRestaurante(id, idUsuario);
+        return genericResponseAssembler.toModel(movimento, RestauranteMovResponse.class);
     }
 }

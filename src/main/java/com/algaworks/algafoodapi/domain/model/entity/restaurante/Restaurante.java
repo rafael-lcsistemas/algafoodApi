@@ -1,5 +1,9 @@
-package com.algaworks.algafoodapi.domain.model.entity;
+package com.algaworks.algafoodapi.domain.model.entity.restaurante;
 
+import com.algaworks.algafoodapi.domain.model.entity.Cozinha;
+import com.algaworks.algafoodapi.domain.model.entity.Endereco;
+import com.algaworks.algafoodapi.domain.model.entity.FormaPagamento;
+import com.algaworks.algafoodapi.domain.model.entity.Produto;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -51,10 +55,14 @@ public class Restaurante {
     @OneToMany(mappedBy = "restaurante")
     private List<Produto> produtos = new ArrayList<>();
 
+    @OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL)
+    private List<RestauranteMov> movimentos = new ArrayList<>();
+
     public Restaurante() {
     }
 
-    public Restaurante(Long id, String nome, BigDecimal taxaFrete, Boolean status, Boolean aberto, Cozinha cozinha, Set<FormaPagamento> formasPagamento, Endereco endereco, List<Produto> produtos) {
+    public Restaurante(Long id, String nome, BigDecimal taxaFrete, Boolean status, Boolean aberto, Cozinha cozinha,
+                       Set<FormaPagamento> formasPagamento, Endereco endereco, List<Produto> produtos, List<RestauranteMov> movimentos) {
         this.id = id;
         this.nome = nome;
         this.taxaFrete = taxaFrete;
@@ -64,6 +72,7 @@ public class Restaurante {
         this.formasPagamento = formasPagamento;
         this.endereco = endereco;
         this.produtos = produtos;
+        this.movimentos = movimentos;
     }
 
     public Long getId() {
@@ -146,12 +155,33 @@ public class Restaurante {
         this.produtos = produtos;
     }
 
+    public List<RestauranteMov> getMovimentos() {
+        return movimentos;
+    }
+
+    public void setMovimentos(List<RestauranteMov> movimentos) {
+        this.movimentos = movimentos;
+    }
+
     public boolean desassociarFormaPagamento(FormaPagamento formaPagamento) {
         return formasPagamento.remove(formaPagamento);
     }
 
     public boolean associarFormaPagamento(FormaPagamento formaPagamento) {
         return formasPagamento.add(formaPagamento);
+    }
+
+    public void abrirRestaurante() {
+        this.aberto = Boolean.TRUE;
+    }
+
+    public void fecharRestaurante() {
+        this.aberto = Boolean.FALSE;
+    }
+
+    public void adicionarMovimento(RestauranteMov movimento) {
+        movimento.setRestaurante(this);
+        this.movimentos.add(movimento);
     }
 
     @Override

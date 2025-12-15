@@ -1,6 +1,6 @@
 package com.algaworks.algafoodapi.domain.repository;
 
-import com.algaworks.algafoodapi.domain.model.entity.Restaurante;
+import com.algaworks.algafoodapi.domain.model.entity.restaurante.Restaurante;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

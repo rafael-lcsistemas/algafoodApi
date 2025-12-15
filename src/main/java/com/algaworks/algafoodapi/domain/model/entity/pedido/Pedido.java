@@ -2,7 +2,7 @@ package com.algaworks.algafoodapi.domain.model.entity.pedido;
 
 import com.algaworks.algafoodapi.domain.model.entity.Endereco;
 import com.algaworks.algafoodapi.domain.model.entity.FormaPagamento;
-import com.algaworks.algafoodapi.domain.model.entity.Restaurante;
+import com.algaworks.algafoodapi.domain.model.entity.restaurante.Restaurante;
 import com.algaworks.algafoodapi.domain.model.entity.Usuario;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
