@@ -1,4 +1,4 @@
-package com.algaworks.algafoodapi.api.controller;
+package com.algaworks.algafoodapi.api.controller.restaurante;
 
 import com.algaworks.algafoodapi.api.assembler.GenericResponseAssembler;
 import com.algaworks.algafoodapi.api.model.response.FormaPagamentoResponse;

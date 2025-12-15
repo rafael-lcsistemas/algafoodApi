@@ -4,7 +4,6 @@ import com.algaworks.algafoodapi.api.assembler.GenericResponseAssembler;
 import com.algaworks.algafoodapi.api.model.response.PermissaoResponse;
 import com.algaworks.algafoodapi.domain.model.entity.Permissao;
 import com.algaworks.algafoodapi.domain.service.GrupoService;
-import com.algaworks.algafoodapi.domain.service.PermissaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,9 +16,6 @@ public class GrupoPermissaoController {
 
     @Autowired
     private GrupoService grupoService;
-
-    @Autowired
-    private PermissaoService permissaoService;
 
     @Autowired
     private GenericResponseAssembler genericResponseAssembler;
