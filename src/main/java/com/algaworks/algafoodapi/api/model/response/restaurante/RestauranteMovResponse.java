@@ -1,4 +1,4 @@
-package com.algaworks.algafoodapi.api.model.response;
+package com.algaworks.algafoodapi.api.model.response.restaurante;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;

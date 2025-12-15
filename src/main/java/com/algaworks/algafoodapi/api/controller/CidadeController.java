@@ -3,7 +3,7 @@ package com.algaworks.algafoodapi.api.controller;
 import com.algaworks.algafoodapi.api.assembler.GenericInputAssembler;
 import com.algaworks.algafoodapi.api.assembler.GenericResponseAssembler;
 import com.algaworks.algafoodapi.api.model.input.CidadeInput;
-import com.algaworks.algafoodapi.api.model.response.CidadeResponse;
+import com.algaworks.algafoodapi.api.model.response.cidade.CidadeResponse;
 import com.algaworks.algafoodapi.domain.exceptions.EntidadeNaoEncontradaException;
 import com.algaworks.algafoodapi.domain.exceptions.NegocioException;
 import com.algaworks.algafoodapi.domain.model.entity.Cidade;

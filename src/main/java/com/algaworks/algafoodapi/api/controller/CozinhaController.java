@@ -3,7 +3,7 @@ package com.algaworks.algafoodapi.api.controller;
 import com.algaworks.algafoodapi.api.assembler.GenericInputAssembler;
 import com.algaworks.algafoodapi.api.assembler.GenericResponseAssembler;
 import com.algaworks.algafoodapi.api.model.input.CozinhaInput;
-import com.algaworks.algafoodapi.api.model.response.CozinhaResponse;
+import com.algaworks.algafoodapi.api.model.response.cozinha.CozinhaResponse;
 import com.algaworks.algafoodapi.domain.model.entity.Cozinha;
 import com.algaworks.algafoodapi.domain.service.CozinhaService;
 import org.springframework.beans.BeanUtils;

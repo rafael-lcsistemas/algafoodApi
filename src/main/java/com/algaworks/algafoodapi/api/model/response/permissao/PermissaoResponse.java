@@ -1,4 +1,4 @@
-package com.algaworks.algafoodapi.api.model.response;
+package com.algaworks.algafoodapi.api.model.response.permissao;
 
 public class PermissaoResponse {
 

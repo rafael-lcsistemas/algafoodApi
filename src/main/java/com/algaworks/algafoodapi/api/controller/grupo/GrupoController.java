@@ -3,7 +3,7 @@ package com.algaworks.algafoodapi.api.controller.grupo;
 import com.algaworks.algafoodapi.api.assembler.GenericInputAssembler;
 import com.algaworks.algafoodapi.api.assembler.GenericResponseAssembler;
 import com.algaworks.algafoodapi.api.model.input.GrupoInput;
-import com.algaworks.algafoodapi.api.model.response.GrupoResponse;
+import com.algaworks.algafoodapi.api.model.response.grupo.GrupoResponse;
 import com.algaworks.algafoodapi.domain.exceptions.EntidadeNaoEncontradaException;
 import com.algaworks.algafoodapi.domain.exceptions.NegocioException;
 import com.algaworks.algafoodapi.domain.model.entity.Grupo;

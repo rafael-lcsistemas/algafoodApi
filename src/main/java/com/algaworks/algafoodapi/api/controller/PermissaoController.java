@@ -3,7 +3,7 @@ package com.algaworks.algafoodapi.api.controller;
 import com.algaworks.algafoodapi.api.assembler.GenericInputAssembler;
 import com.algaworks.algafoodapi.api.assembler.GenericResponseAssembler;
 import com.algaworks.algafoodapi.api.model.input.PermissaoInput;
-import com.algaworks.algafoodapi.api.model.response.PermissaoResponse;
+import com.algaworks.algafoodapi.api.model.response.permissao.PermissaoResponse;
 import com.algaworks.algafoodapi.domain.model.entity.Permissao;
 import com.algaworks.algafoodapi.domain.service.PermissaoService;
 import org.springframework.beans.BeanUtils;

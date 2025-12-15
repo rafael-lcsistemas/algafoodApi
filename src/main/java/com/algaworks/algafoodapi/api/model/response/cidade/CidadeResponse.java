@@ -1,4 +1,6 @@
-package com.algaworks.algafoodapi.api.model.response;
+package com.algaworks.algafoodapi.api.model.response.cidade;
+
+import com.algaworks.algafoodapi.api.model.response.EstadoResponse;
 
 public class CidadeResponse {
 

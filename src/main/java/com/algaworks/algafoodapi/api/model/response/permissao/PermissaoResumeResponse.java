@@ -1,9 +1,10 @@
-package com.algaworks.algafoodapi.api.model.response;
+package com.algaworks.algafoodapi.api.model.response.permissao;
 
-public class CozinhaResumeResponse {
+public class PermissaoResumeResponse {
 
     private Long id;
     private String nome;
+    private String descricao;
 
     public Long getId() {
         return id;
@@ -19,5 +20,13 @@ public class CozinhaResumeResponse {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 }

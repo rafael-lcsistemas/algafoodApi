@@ -1,4 +1,4 @@
-package com.algaworks.algafoodapi.api.model.response;
+package com.algaworks.algafoodapi.api.model.response.cidade;
 
 public class CidadeResumeResponse {
 

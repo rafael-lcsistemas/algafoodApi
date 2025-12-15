@@ -1,4 +1,7 @@
-package com.algaworks.algafoodapi.api.model.response;
+package com.algaworks.algafoodapi.api.model.response.restaurante;
+
+import com.algaworks.algafoodapi.api.model.response.EnderecoResponse;
+import com.algaworks.algafoodapi.api.model.response.cozinha.CozinhaResumeResponse;
 
 import java.math.BigDecimal;
 

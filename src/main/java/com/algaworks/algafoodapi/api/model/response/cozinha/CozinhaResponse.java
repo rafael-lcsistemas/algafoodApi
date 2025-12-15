@@ -1,13 +1,10 @@
-package com.algaworks.algafoodapi.api.model.response;
+package com.algaworks.algafoodapi.api.model.response.cozinha;
 
-import java.util.List;
-
-public class GrupoResponse {
+public class CozinhaResponse {
 
     private Long id;
     private String nome;
     private Boolean status;
-    private List<PermissaoResponse> permissoes;
 
     public Long getId() {
         return id;
@@ -31,13 +28,5 @@ public class GrupoResponse {
 
     public void setStatus(Boolean status) {
         this.status = status;
-    }
-
-    public List<PermissaoResponse> getPermissoes() {
-        return permissoes;
-    }
-
-    public void setPermissoes(List<PermissaoResponse> permissoes) {
-        this.permissoes = permissoes;
     }
 }

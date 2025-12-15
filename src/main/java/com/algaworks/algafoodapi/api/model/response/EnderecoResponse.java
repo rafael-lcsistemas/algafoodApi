@@ -1,5 +1,7 @@
 package com.algaworks.algafoodapi.api.model.response;
 
+import com.algaworks.algafoodapi.api.model.response.cidade.CidadeResumeResponse;
+
 public class EnderecoResponse {
 
     private String cep;
