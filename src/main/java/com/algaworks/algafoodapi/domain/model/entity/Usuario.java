@@ -1,20 +1,13 @@
 package com.algaworks.algafoodapi.domain.model.entity;
 
-import com.algaworks.algafoodapi.core.validation.Groups;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import javax.validation.Valid;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.groups.ConvertGroup;
-import javax.validation.groups.Default;
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class Usuario {
@@ -47,11 +40,12 @@ public class Usuario {
     @JoinTable(name = "usuario_grupo",
             joinColumns = @JoinColumn(name = "id_usuario"),
             inverseJoinColumns = @JoinColumn(name = "id_grupo"))
-    private List<Grupo> grupos = new ArrayList<>();
+    private Set<Grupo> grupos = new HashSet<>();
 
-    public Usuario() {}
+    public Usuario() {
+    }
 
-    public Usuario(Long id, String nome, String email, String senha, Boolean status, List<Grupo> grupos) {
+    public Usuario(Long id, String nome, String email, String senha, Boolean status, Set<Grupo> grupos) {
         this.id = id;
         this.nome = nome;
         this.email = email;
@@ -108,12 +102,20 @@ public class Usuario {
         return datahoraAlteracao;
     }
 
-    public List<Grupo> getGrupos() {
+    public Set<Grupo> getGrupos() {
         return grupos;
     }
 
-    public void setGrupos(List<Grupo> grupos) {
+    public void setGrupos(Set<Grupo> grupos) {
         this.grupos = grupos;
+    }
+
+    public boolean associar(Grupo grupo) {
+        return grupos.add(grupo);
+    }
+
+    public boolean desassociar(Grupo grupo) {
+        return grupos.remove(grupo);
     }
 
     @Override

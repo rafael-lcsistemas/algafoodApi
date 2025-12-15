@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,8 +48,8 @@ public class UsuarioService {
     public Usuario iserirOuAtualizar(Usuario usuario, List<Long> idsGrupos) {
 
         try {
-            List<Grupo> gruposValidados = idsGrupos.stream().map(id ->
-                    grupoService.filtrarPorId(id)).collect(Collectors.toList());
+            Set<Grupo> gruposValidados = idsGrupos.stream().map(id ->
+                    grupoService.filtrarPorId(id)).collect(Collectors.toSet());
 
             usuario.setGrupos(gruposValidados);
 
@@ -69,10 +70,34 @@ public class UsuarioService {
             throw new NegocioException("Senha atual informada difere da senha cadastrada");
         }
 
-        if(senhaAtual.equals(novaSenha)) {
+        if (senhaAtual.equals(novaSenha)) {
             throw new NegocioException("Nova senha informada deve ser diferente da senha atual");
         }
 
         usuario.setSenha(novaSenha);
+    }
+
+    @Transactional
+    public void associarGrupo(Long idUsuario, Long idGrupo) {
+        try {
+            var usuario = filtrarPorID(idUsuario);
+            var grupo = grupoService.filtrarPorId(idGrupo);
+
+            usuario.associar(grupo);
+        } catch (GrupoNaoEncontradaException e) {
+            throw new NegocioException(e.getMessage());
+        }
+    }
+
+    @Transactional
+    public void desassociarGrupo(Long idUsuario, Long idGrupo) {
+        try {
+            var usuario = filtrarPorID(idUsuario);
+            var grupo = grupoService.filtrarPorId(idGrupo);
+
+            usuario.desassociar(grupo);
+        } catch (GrupoNaoEncontradaException e) {
+            throw new NegocioException(e.getMessage());
+        }
     }
 }
