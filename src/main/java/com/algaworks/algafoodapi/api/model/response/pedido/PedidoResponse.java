@@ -1,4 +1,4 @@
-package com.algaworks.algafoodapi.api.model.response;
+package com.algaworks.algafoodapi.api.model.response.pedido;
 
 import com.algaworks.algafoodapi.domain.model.entity.pedido.StatusPedido;
 

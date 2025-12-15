@@ -3,7 +3,8 @@ package com.algaworks.algafoodapi.api.controller;
 import com.algaworks.algafoodapi.api.assembler.GenericInputAssembler;
 import com.algaworks.algafoodapi.api.assembler.GenericResponseAssembler;
 import com.algaworks.algafoodapi.api.model.input.PedidoInput;
-import com.algaworks.algafoodapi.api.model.response.PedidoResponse;
+import com.algaworks.algafoodapi.api.model.response.pedido.PedidoResponse;
+import com.algaworks.algafoodapi.api.model.response.pedido.PedidoResumeResponse;
 import com.algaworks.algafoodapi.domain.exceptions.EntidadeNaoEncontradaException;
 import com.algaworks.algafoodapi.domain.exceptions.NegocioException;
 import com.algaworks.algafoodapi.domain.model.entity.pedido.Pedido;
@@ -28,8 +29,8 @@ public class PedidoController {
     private GenericInputAssembler genericInputAssembler;
 
     @GetMapping("/listar")
-    public List<PedidoResponse> buscarTodos() {
-        return genericResponseAssembler.toCollectionModel(pedidoService.buscarTodos(), PedidoResponse.class);
+    public List<PedidoResumeResponse> buscarTodos() {
+        return genericResponseAssembler.toCollectionModel(pedidoService.buscarTodos(), PedidoResumeResponse.class);
     }
 
     @GetMapping("/{id}")
