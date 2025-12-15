@@ -8,6 +8,7 @@ public class RestauranteResponse {
     private String nome;
     private BigDecimal taxaFrete;
     private Boolean status;
+    private Boolean aberto;
     private CozinhaResumeResponse cozinha;
     private EnderecoResponse endereco;
 
@@ -41,6 +42,14 @@ public class RestauranteResponse {
 
     public void setStatus(Boolean status) {
         this.status = status;
+    }
+
+    public Boolean getAberto() {
+        return aberto;
+    }
+
+    public void setAberto(Boolean aberto) {
+        this.aberto = aberto;
     }
 
     public CozinhaResumeResponse getCozinha() {

@@ -60,13 +60,6 @@ public class RestauranteService {
             var cidade = cidadeService.filtrarPorId(restauranteInput.getEndereco().getIdcidade());
             restaurante.getEndereco().setCidade(cidade);
 
-//            Set<FormaPagamento> formasPagamentoCompletas = restaurante.getFormasPagamento()
-//                    .stream()
-//                    .map(fp ->
-//                            formaPagamentoService.filtrarPorID(fp.getId())).collect(Collectors.toSet());
-//
-//            restaurante.setFormasPagamento(formasPagamentoCompletas);
-
             return restauranteRepository.save(restaurante);
         } catch (FormaPagamentoNaoEncontradaException | CozinhaNaoEncontradaException | CidadeNaoEncontradaException e) {
             throw new NegocioException(e.getMessage());

@@ -24,6 +24,9 @@ public class Restaurante {
     @Column(nullable = false)
     private Boolean status;
 
+    @Column(nullable = false)
+    private Boolean aberto = Boolean.FALSE;
+
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "TIMESTAMP")
     private OffsetDateTime datahoraCadastro;
@@ -51,11 +54,12 @@ public class Restaurante {
     public Restaurante() {
     }
 
-    public Restaurante(Long id, String nome, BigDecimal taxaFrete, Boolean status, Cozinha cozinha, Set<FormaPagamento> formasPagamento, Endereco endereco, List<Produto> produtos) {
+    public Restaurante(Long id, String nome, BigDecimal taxaFrete, Boolean status, Boolean aberto, Cozinha cozinha, Set<FormaPagamento> formasPagamento, Endereco endereco, List<Produto> produtos) {
         this.id = id;
         this.nome = nome;
         this.taxaFrete = taxaFrete;
         this.status = status;
+        this.aberto = aberto;
         this.cozinha = cozinha;
         this.formasPagamento = formasPagamento;
         this.endereco = endereco;
@@ -90,8 +94,16 @@ public class Restaurante {
         return status;
     }
 
-    public void setStatus(Boolean ativo) {
-        this.status = ativo;
+    public void setStatus(Boolean status) {
+        this.status = status;
+    }
+
+    public Boolean getAberto() {
+        return aberto;
+    }
+
+    public void setAberto(Boolean aberto) {
+        this.aberto = aberto;
     }
 
     public OffsetDateTime getDatahoraCadastro() {
