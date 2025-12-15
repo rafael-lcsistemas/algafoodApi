@@ -101,4 +101,14 @@ public class RestauranteController {
     public void desassociarUsuario(@PathVariable Long idRestaurante, @PathVariable Long idUsuario) {
         restauranteService.desassociarUsuarioToRestaurante(idRestaurante, idUsuario);
     }
+
+    @PutMapping("/ativacoes")
+    public void ativarRestaurantes(@RequestBody List<Long> idsRestaurantes) {
+        restauranteService.ativarRestaurantesMultiplos(idsRestaurantes);
+    }
+
+    @PutMapping("/inativacoes")
+    public void inativarRestaurantes(@RequestBody List<Long> idsRestaurantes) {
+        restauranteService.inativarRestaurantesMultiplos(idsRestaurantes);
+    }
 }

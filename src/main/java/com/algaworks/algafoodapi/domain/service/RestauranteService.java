@@ -161,4 +161,23 @@ public class RestauranteService {
             throw new NegocioException(e.getMessage());
         }
     }
+
+    @Transactional
+    public void ativarRestaurantesMultiplos(List<Long> idsRestaurantes) {
+        idsRestaurantes.forEach(id -> atualizarStatusRestaurante(id, Boolean.TRUE));
+    }
+
+    @Transactional
+    public void inativarRestaurantesMultiplos(List<Long> idsRestaurantes) {
+        idsRestaurantes.forEach(id -> atualizarStatusRestaurante(id, Boolean.FALSE));
+    }
+
+    private void atualizarStatusRestaurante(Long idRestaurante, Boolean status) {
+        try {
+            var restaurante = filtrarPorID(idRestaurante);
+            restaurante.setStatus(status);
+        } catch (RestauranteNaoEncontradaException e) {
+            throw new NegocioException(e.getMessage());
+        }
+    }
 }
