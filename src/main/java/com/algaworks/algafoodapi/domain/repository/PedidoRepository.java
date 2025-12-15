@@ -10,6 +10,13 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long> {
 
 //    Pedido findByData(Long codigo);
 
-    @Query("from Pedido p join fetch p.usuario join fetch p.formaPagamento join fetch p.restaurante r join fetch r.cozinha ")
+    @Query("from Pedido p join fetch p.usuario join fetch p.restaurante r join fetch r.cozinha ")
     List<Pedido> findAll();
+
+    @Query("from Pedido p " +
+            "join fetch p.usuario " +
+            "join fetch p.formaPagamento " +
+            "join fetch p.restaurante r join fetch r.cozinha " +
+            "WHERE p.id = ?1")
+    Pedido findById(long id);
 }
