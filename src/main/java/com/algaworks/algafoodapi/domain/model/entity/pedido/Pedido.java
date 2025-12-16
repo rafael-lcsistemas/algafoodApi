@@ -40,7 +40,6 @@ public class Pedido {
     @JoinColumn(name = "id_restaurante", nullable = false)
     private Restaurante restaurante;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
     @ManyToOne
     @JoinColumn(name = "id_formaPagamento", nullable = false)
     private FormaPagamento formaPagamento;
@@ -50,7 +49,7 @@ public class Pedido {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 10)
-    private StatusPedido statusPedido;
+    private StatusPedido statusPedido = StatusPedido.CRIADO;
 
     @CreationTimestamp
     @Column(nullable = false)
@@ -64,6 +63,23 @@ public class Pedido {
 
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PedidoDet> itensPedido = new ArrayList<>();
+
+    public void confirmarPedido() {
+        setStatusPedido(StatusPedido.CONFIRMADO);
+        setDatahoraConfirmacao(OffsetDateTime.now());
+    }
+
+    public void entregarPedido() {
+        setStatusPedido(StatusPedido.ENTREGUE);
+        setDatahoraEntrega(OffsetDateTime.now());
+    }
+
+    public void cancelarPedido() {
+        setStatusPedido(StatusPedido.CANCELADO);
+        setDatahoraCancelamento(OffsetDateTime.now());
+    }
+
+    private static final String MSG_STATUS_PEDIDO = "Status do pedido %d não pode ser alterado de %s para %s";
 
     public Pedido() {
     }

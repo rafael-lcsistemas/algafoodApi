@@ -109,8 +109,7 @@ public class PedidoService {
     public Pedido cancelarPedido(Long id) {
         var pedido = filtrarPorID(id);
 
-        if (pedido.getStatusPedido() == StatusPedido.CANCELADO
-                || pedido.getStatusPedido() == StatusPedido.ENTREGUE) {
+        if (pedido.getStatusPedido() == StatusPedido.CANCELADO) {
             throw new NegocioException(String.format(MSG_STATUS_PEDIDO,
                     pedido.getId(), pedido.getStatusPedido().getDescricao(), StatusPedido.CANCELADO.getDescricao()));
         }
