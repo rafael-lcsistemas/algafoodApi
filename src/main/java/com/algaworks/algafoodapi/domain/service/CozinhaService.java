@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class CozinhaService {
@@ -35,25 +36,37 @@ public class CozinhaService {
         }
     }
 
-    public Cozinha filtrarPorId(Long id) {
+    public Cozinha filtrarPorId(UUID id) {
         return cozinhaRepository.findById(id).orElseThrow(() ->
                 new CozinhaNaoEncontradaException(id));
     }
 
     @Transactional
     public Cozinha inserirOuAtualizar(Cozinha cozinha) {
+        if (cozinha.getCodInterno() == null) {
+            cozinha.setCodInterno(getLastCodInterno() + 1);
+        }
+
         return cozinhaRepository.save(cozinha);
     }
 
     @Transactional
-    public void remove(Long id) {
+    public void remove(UUID id) {
         try {
-            cozinhaRepository.deleteById(id);
+            var cozinha = filtrarPorId(id);
+
+            cozinhaRepository.deleteById(cozinha.getId());
             cozinhaRepository.flush();
+        } catch (CozinhaNaoEncontradaException ex) {
+            throw new NegocioException(ex.getMessage());
         } catch (EmptyResultDataAccessException e) {
             throw new CozinhaNaoEncontradaException(id, e);
         } catch (DataIntegrityViolationException e) {
-            throw new EntidadeEmUsoException(String.format("Cozinha de código %d não pode ser removida, pois está em uso", id));
+            throw new EntidadeEmUsoException(String.format("Cozinha de código %s não pode ser removida, pois está em uso", id));
         }
+    }
+
+    public Integer getLastCodInterno() {
+        return cozinhaRepository.getLastCodInterno();
     }
 }

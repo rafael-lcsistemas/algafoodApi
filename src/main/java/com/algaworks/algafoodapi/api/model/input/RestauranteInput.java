@@ -7,6 +7,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @ValorZeroIncluiDescricao(valorField = "taxaFrete", descricaoField = "nome", descricaoObrigatoria = "Frete grátis")
 public class RestauranteInput {
@@ -22,7 +23,7 @@ public class RestauranteInput {
     private Boolean status;
 
     @NotNull
-    private Long idcozinha;
+    private UUID idcozinha;
 
     @Valid
     @NotNull
@@ -52,11 +53,11 @@ public class RestauranteInput {
         this.status = status;
     }
 
-    public Long getIdcozinha() {
+    public UUID getIdcozinha() {
         return idcozinha;
     }
 
-    public void setIdcozinha(Long idcozinha) {
+    public void setIdcozinha(UUID idcozinha) {
         this.idcozinha = idcozinha;
     }
 

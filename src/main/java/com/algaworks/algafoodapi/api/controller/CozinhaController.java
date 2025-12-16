@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/cozinhas")
@@ -38,7 +39,7 @@ public class CozinhaController {
     }
 
     @GetMapping("/{id}")
-    public CozinhaResponse filtrarPorId(@PathVariable Long id) {
+    public CozinhaResponse filtrarPorId(@PathVariable UUID id) {
         return genericResponseAssembler.toModel(cozinhaService.filtrarPorId(id), CozinhaResponse.class);
     }
 
@@ -50,16 +51,16 @@ public class CozinhaController {
     }
 
     @PutMapping("/{id}")
-    public CozinhaResponse atualizar(@PathVariable Long id, @RequestBody @Valid CozinhaInput cozinhaInput) {
+    public CozinhaResponse atualizar(@PathVariable UUID id, @RequestBody @Valid CozinhaInput cozinhaInput) {
         var cozinha = genericInputAssembler.toEntity(cozinhaInput, Cozinha.class);
         var cozinhaAtual = cozinhaService.filtrarPorId(id);
-        BeanUtils.copyProperties(cozinha, cozinhaAtual, "id");
+        BeanUtils.copyProperties(cozinha, cozinhaAtual, "id", "codInterno");
 
         return genericResponseAssembler.toModel(cozinhaService.inserirOuAtualizar(cozinhaAtual), CozinhaResponse.class);
     }
 
     @DeleteMapping("/{id}")
-    public void remover(@PathVariable Long id) {
+    public void remover(@PathVariable UUID id) {
         cozinhaService.remove(id);
     }
 }
