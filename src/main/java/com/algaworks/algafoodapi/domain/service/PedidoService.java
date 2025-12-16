@@ -4,11 +4,11 @@ import com.algaworks.algafoodapi.api.model.input.PedidoInput;
 import com.algaworks.algafoodapi.domain.exceptions.*;
 import com.algaworks.algafoodapi.domain.model.entity.FormaPagamento;
 import com.algaworks.algafoodapi.domain.model.entity.Produto;
-import com.algaworks.algafoodapi.domain.model.entity.restaurante.Restaurante;
 import com.algaworks.algafoodapi.domain.model.entity.Usuario;
 import com.algaworks.algafoodapi.domain.model.entity.pedido.Pedido;
 import com.algaworks.algafoodapi.domain.model.entity.pedido.PedidoDet;
 import com.algaworks.algafoodapi.domain.model.entity.pedido.StatusPedido;
+import com.algaworks.algafoodapi.domain.model.entity.restaurante.Restaurante;
 import com.algaworks.algafoodapi.domain.repository.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,6 +36,8 @@ public class PedidoService {
 
     @Autowired
     private ProdutoService produtoService;
+
+    private static final String MSG_STATUS_PEDIDO = "Status do pedido %d não pode ser alterado de %s para %s";
 
     public List<Pedido> buscarTodos() {
         try {
@@ -109,8 +111,8 @@ public class PedidoService {
 
         if (pedido.getStatusPedido() == StatusPedido.CANCELADO
                 || pedido.getStatusPedido() == StatusPedido.ENTREGUE) {
-            throw new NegocioException(String.format("Não foi possivel cancelar pedido %d, pois está como %s",
-                    pedido.getId(), pedido.getStatusPedido().name()));
+            throw new NegocioException(String.format(MSG_STATUS_PEDIDO,
+                    pedido.getId(), pedido.getStatusPedido().getDescricao(), StatusPedido.CANCELADO.getDescricao()));
         }
 
         pedido.setStatusPedido(StatusPedido.CANCELADO);
@@ -124,8 +126,8 @@ public class PedidoService {
         var pedido = filtrarPorID(id);
 
         if (pedido.getStatusPedido() != StatusPedido.CRIADO) {
-            throw new NegocioException(String.format("Não foi possivel confirmar pedido %d, pois está como %s",
-                            pedido.getId(), pedido.getStatusPedido().name()));
+            throw new NegocioException(String.format(MSG_STATUS_PEDIDO,
+                            pedido.getId(), pedido.getStatusPedido().getDescricao(), StatusPedido.CONFIRMADO.getDescricao()));
         }
 
         pedido.setStatusPedido(StatusPedido.CONFIRMADO);
@@ -140,8 +142,8 @@ public class PedidoService {
 
         if (pedido.getStatusPedido() == StatusPedido.ENTREGUE
         || pedido.getStatusPedido() == StatusPedido.CANCELADO) {
-            throw new NegocioException(String.format("Não foi possivel entregar pedido %d, pois está como %s",
-                    pedido.getId(), pedido.getStatusPedido().name()));
+            throw new NegocioException(String.format(MSG_STATUS_PEDIDO,
+                    pedido.getId(), pedido.getStatusPedido().getDescricao(),  StatusPedido.ENTREGUE.getDescricao()));
         }
 
         pedido.setStatusPedido(StatusPedido.ENTREGUE);
