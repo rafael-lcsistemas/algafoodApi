@@ -28,8 +28,7 @@ public class Pais {
     public Pais() {
     }
 
-    public Pais(Long id, String nome) {
-        this.id = id;
+    public Pais(String nome) {
         this.nome = nome;
     }
 

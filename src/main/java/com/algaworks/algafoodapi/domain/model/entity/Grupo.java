@@ -8,13 +8,17 @@ import java.time.OffsetDateTime;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 public class Grupo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private UUID id;
+
+    @Column(nullable = false, unique = true)
+    private Integer codInterno;
 
     @Column(nullable = false, length = 100)
     private String nome;
@@ -39,19 +43,28 @@ public class Grupo {
     public Grupo() {
     }
 
-    public Grupo(Long id, String nome, Boolean status, Set<Permissao> permissoes) {
+    public Grupo(UUID id, Integer codInterno, String nome, Boolean status, Set<Permissao> permissoes) {
         this.id = id;
         this.nome = nome;
         this.status = status;
         this.permissoes = permissoes;
+        this.codInterno = codInterno;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
+    }
+
+    public Integer getCodInterno() {
+        return codInterno;
+    }
+
+    public void setCodInterno(Integer codInterno) {
+        this.codInterno = codInterno;
     }
 
     public String getNome() {
@@ -87,11 +100,11 @@ public class Grupo {
     }
 
     public boolean associarPermissao(Permissao permissao) {
-       return permissoes.add(permissao);
+        return permissoes.add(permissao);
     }
 
     public boolean desassociarPermissao(Permissao permissao) {
-       return permissoes.remove(permissao);
+        return permissoes.remove(permissao);
     }
 
     @Override

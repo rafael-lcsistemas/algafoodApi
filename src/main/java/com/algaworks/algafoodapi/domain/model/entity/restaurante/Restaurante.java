@@ -14,7 +14,14 @@ public class Restaurante {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private UUID id;
+
+    @Column(nullable = false, unique = true)
+    private Integer codInterno;
+
+    @ManyToOne
+    @JoinColumn(name = "id_cozinha", nullable = false)
+    private Cozinha cozinha;
 
     @Column(nullable = false, length = 100)
     private String nome;
@@ -36,10 +43,6 @@ public class Restaurante {
     @Column(nullable = false, columnDefinition = "TIMESTAMP")
     private OffsetDateTime datahoraAlteracao;
 
-    @ManyToOne
-    @JoinColumn(name = "id_cozinha", nullable = false)
-    private Cozinha cozinha;
-
     @Embedded
     private Endereco endereco;
 
@@ -57,17 +60,18 @@ public class Restaurante {
 
     @ManyToMany
     @JoinTable(name = "restaurante_usuario_responsavel",
-    joinColumns = @JoinColumn(name = "id_restaurante"),
-    inverseJoinColumns = @JoinColumn(name = "id_usuario"))
+            joinColumns = @JoinColumn(name = "id_restaurante"),
+            inverseJoinColumns = @JoinColumn(name = "id_usuario"))
     private Set<Usuario> usuarios = new HashSet<>();
 
     public Restaurante() {
     }
 
-    public Restaurante(Long id, String nome, BigDecimal taxaFrete, Boolean status, Boolean aberto, Cozinha cozinha,
-                       Set<FormaPagamento> formasPagamento, Endereco endereco, List<Produto> produtos,
-                       List<RestauranteMov> movimentos, Set<Usuario>  usuarios) {
+    public Restaurante(UUID id, Integer codInterno, String nome, BigDecimal taxaFrete, Boolean status, Boolean aberto,
+                       Cozinha cozinha, Set<FormaPagamento> formasPagamento, Endereco endereco, List<Produto> produtos,
+                       List<RestauranteMov> movimentos, Set<Usuario> usuarios) {
         this.id = id;
+        this.codInterno = codInterno;
         this.nome = nome;
         this.taxaFrete = taxaFrete;
         this.status = status;
@@ -80,12 +84,20 @@ public class Restaurante {
         this.usuarios = usuarios;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
+    }
+
+    public Integer getCodInterno() {
+        return codInterno;
+    }
+
+    public void setCodInterno(Integer codInterno) {
+        this.codInterno = codInterno;
     }
 
     public String getNome() {
@@ -219,7 +231,7 @@ public class Restaurante {
 
     @Override
     public String toString() {
-        return "Restaurante: " + id + " - " + nome + " / Cozinha: " + cozinha.getNome() +
+        return "Restaurante: " + codInterno + " - " + nome + " / Cozinha: " + cozinha.getNome() +
                 " / Forma de pagamento: ";
     }
 }

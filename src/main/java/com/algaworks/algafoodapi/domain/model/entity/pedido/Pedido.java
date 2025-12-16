@@ -12,13 +12,17 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 public class Pedido {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue
+    private UUID id;
+
+    @Column(nullable = false, unique = true)
+    private Long codInterno;
 
     @Column(nullable = false)
     private BigDecimal total;
@@ -64,30 +68,14 @@ public class Pedido {
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PedidoDet> itensPedido = new ArrayList<>();
 
-    public void confirmarPedido() {
-        setStatusPedido(StatusPedido.CONFIRMADO);
-        setDatahoraConfirmacao(OffsetDateTime.now());
-    }
-
-    public void entregarPedido() {
-        setStatusPedido(StatusPedido.ENTREGUE);
-        setDatahoraEntrega(OffsetDateTime.now());
-    }
-
-    public void cancelarPedido() {
-        setStatusPedido(StatusPedido.CANCELADO);
-        setDatahoraCancelamento(OffsetDateTime.now());
-    }
-
-    private static final String MSG_STATUS_PEDIDO = "Status do pedido %d não pode ser alterado de %s para %s";
-
     public Pedido() {
     }
 
-    public Pedido(Long id, BigDecimal total, BigDecimal taxaFrete, BigDecimal valorDesconto, BigDecimal subtotal,
-                  Usuario usuario, Restaurante restaurante, FormaPagamento formaPagamento, Endereco enderecoEntrega,
-                  StatusPedido statusPedido, List<PedidoDet> itensPedido) {
+    public Pedido(UUID id, Long codInterno, BigDecimal total, BigDecimal taxaFrete, BigDecimal valorDesconto,
+                  BigDecimal subtotal, Usuario usuario, Restaurante restaurante, FormaPagamento formaPagamento,
+                  Endereco enderecoEntrega, StatusPedido statusPedido, List<PedidoDet> itensPedido) {
         this.id = id;
+        this.codInterno = codInterno;
         this.total = total;
         this.taxaFrete = taxaFrete;
         this.valorDesconto = valorDesconto;
@@ -100,12 +88,20 @@ public class Pedido {
         this.itensPedido = itensPedido;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
+    }
+
+    public Long getCodInterno() {
+        return codInterno;
+    }
+
+    public void setCodInterno(Long codInterno) {
+        this.codInterno = codInterno;
     }
 
     public BigDecimal getTotal() {
@@ -220,10 +216,20 @@ public class Pedido {
         this.itensPedido = itensPedido;
     }
 
+    public void addItemPedido(PedidoDet item) {
+        item.setPedido(this);
+        this.itensPedido.add(item);
+    }
+
+    @PrePersist
+    private void geratorUUID() {
+        this.id = UUID.randomUUID();
+    }
+
     @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Pedido pedido = (Pedido) o;
+    public boolean equals(Object object) {
+        if (object == null || getClass() != object.getClass()) return false;
+        Pedido pedido = (Pedido) object;
         return Objects.equals(id, pedido.id);
     }
 

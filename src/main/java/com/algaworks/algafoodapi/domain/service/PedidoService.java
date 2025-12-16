@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -37,7 +36,7 @@ public class PedidoService {
     @Autowired
     private ProdutoService produtoService;
 
-    private static final String MSG_STATUS_PEDIDO = "Status do pedido %d não pode ser alterado de %s para %s";
+    private static final String MSG_STATUS_PEDIDO = "Status do pedido %s não pode ser alterado de %s para %s";
 
     public List<Pedido> buscarTodos() {
         try {
@@ -62,10 +61,15 @@ public class PedidoService {
             pedido.setUsuario(usuario);
             pedido.setRestaurante(restaurante);
             pedido.setFormaPagamento(pagamento);
-            pedido.setStatusPedido(StatusPedido.CRIADO);
             pedido.setTaxaFrete(restaurante.getTaxaFrete());
+            pedido.setCodInterno(getLastCodInterno() + 1);
 
-            List<PedidoDet> itens = new ArrayList<>();
+            pedido.setTotal(BigDecimal.ZERO);
+            pedido.setValorDesconto(BigDecimal.ZERO);
+            pedido.setSubtotal(BigDecimal.ZERO);
+
+            pedido = pedidoRepository.save(pedido);
+
             BigDecimal total = BigDecimal.ZERO;
             BigDecimal valorDesconto = BigDecimal.ZERO;
             BigDecimal subtotal = BigDecimal.ZERO;
@@ -75,7 +79,6 @@ public class PedidoService {
                 Produto produto = produtoService.filtrarPorId(itemInput.getIdproduto());
 
                 PedidoDet item = new PedidoDet();
-                item.setPedido(pedido);
                 item.setProduto(produto);
                 item.setPreco(produto.getPreco());
                 item.setQuantidade(itemInput.getQuantidade());
@@ -84,26 +87,26 @@ public class PedidoService {
                 item.setSubtotal(item.getTotal().subtract(item.getValorDesconto()));
                 item.setObservacao(itemInput.getObservacao());
 
+                pedido.addItemPedido(item);
+
                 total = total.add(item.getTotal());
                 valorDesconto = valorDesconto.add(item.getValorDesconto());
-                subtotal = subtotal.add(item.getSubtotal()).add(pedido.getTaxaFrete());
-
-                itens.add(item);
+                subtotal = subtotal.add(item.getSubtotal());
             }
 
             pedido.setTotal(total);
             pedido.setValorDesconto(valorDesconto);
-            pedido.setSubtotal(subtotal);
-            pedido.setItensPedido(itens);
+            pedido.setSubtotal(subtotal.add(pedido.getTaxaFrete()));
 
-            pedido = pedidoRepository.save(pedido);
+            return pedidoRepository.save(pedido);
 
-            return pedido;
-        } catch (UsuarioNaoEncontradaException | RestauranteNaoEncontradaException |
+        } catch (UsuarioNaoEncontradaException |
+                 RestauranteNaoEncontradaException |
                  FormaPagamentoNaoEncontradaException e) {
             throw new NegocioException(e.getMessage());
         }
     }
+
 
     @Transactional
     public Pedido cancelarPedido(Long id) {
@@ -149,5 +152,9 @@ public class PedidoService {
         pedido.setDatahoraEntrega(OffsetDateTime.now());
 
         return pedido;
+    }
+
+    public Long getLastCodInterno() {
+        return pedidoRepository.getLastCodInterno();
     }
 }

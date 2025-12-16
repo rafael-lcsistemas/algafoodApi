@@ -4,16 +4,19 @@ import com.algaworks.algafoodapi.domain.model.entity.Usuario;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import javax.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.UUID;
 
 @Entity
 public class RestauranteMov {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private UUID id;
+
+    @Column(nullable = false, unique = true)
+    private Integer codInterno;
 
     @ManyToOne
     @JoinColumn(name = "id_restaurante")
@@ -23,15 +26,14 @@ public class RestauranteMov {
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
 
-   @CreationTimestamp
-   @Column(nullable = false)
+    @CreationTimestamp
+    @Column(nullable = false)
     private OffsetDateTime datahoraMovimento;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 10)
     private TipoMov tipoMovimento;
 
-    @PositiveOrZero
     @Column(nullable = false)
     private BigDecimal valorMovimento;
 
@@ -41,9 +43,9 @@ public class RestauranteMov {
     public RestauranteMov() {
     }
 
-    public RestauranteMov(Long id, Restaurante restaurante, Usuario usuario, OffsetDateTime datahoraMovimento,
+    public RestauranteMov(Integer codInterno, Restaurante restaurante, Usuario usuario, OffsetDateTime datahoraMovimento,
                           TipoMov tipoMovimento, BigDecimal valorMovimento, String observacoes) {
-        this.id = id;
+        this.codInterno = codInterno;
         this.restaurante = restaurante;
         this.usuario = usuario;
         this.datahoraMovimento = datahoraMovimento;
@@ -52,12 +54,20 @@ public class RestauranteMov {
         this.observacoes = observacoes;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
+    }
+
+    public Integer getCodInterno() {
+        return codInterno;
+    }
+
+    public void setCodInterno(Integer codInterno) {
+        this.codInterno = codInterno;
     }
 
     public Restaurante getRestaurante() {

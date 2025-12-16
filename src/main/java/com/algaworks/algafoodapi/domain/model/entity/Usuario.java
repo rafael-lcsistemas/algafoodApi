@@ -8,13 +8,17 @@ import java.time.OffsetDateTime;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private UUID id;
+
+    @Column(nullable = false, unique = true)
+    private Integer codInterno;
 
     @Column(nullable = false, length = 100)
     private String nome;
@@ -45,8 +49,8 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(Long id, String nome, String email, String senha, Boolean status, Set<Grupo> grupos) {
-        this.id = id;
+    public Usuario(Integer codInterno, String nome, String email, String senha, Boolean status, Set<Grupo> grupos) {
+        this.codInterno = codInterno;
         this.nome = nome;
         this.email = email;
         this.senha = senha;
@@ -54,12 +58,20 @@ public class Usuario {
         this.grupos = grupos;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
+    }
+
+    public Integer getCodInterno() {
+        return codInterno;
+    }
+
+    public void setCodInterno(Integer codInterno) {
+        this.codInterno = codInterno;
     }
 
     public String getNome() {

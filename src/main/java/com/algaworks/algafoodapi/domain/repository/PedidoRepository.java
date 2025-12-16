@@ -10,6 +10,9 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long> {
 
 //    Pedido findByData(Long codigo);
 
+    @Query("select coalesce(max(codInterno), 0) from Pedido")
+    Long getLastCodInterno();
+
     @Query("from Pedido p " +
             "join fetch p.usuario " +
             "join fetch p.formaPagamento " +

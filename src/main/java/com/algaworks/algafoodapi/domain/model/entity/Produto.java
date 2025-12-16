@@ -8,17 +8,22 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 public class Produto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private UUID id;
+
+    @Column(nullable = false, unique = true)
+    private Integer codInterno;
 
     @Column(nullable = false)
     private String nome;
 
+    @Column(nullable = false, length = 150)
     private String descricao;
 
     @Column(nullable = false)
@@ -42,8 +47,8 @@ public class Produto {
     public Produto() {
     }
 
-    public Produto(Long id, String nome, String descricao, BigDecimal preco, Boolean status, Restaurante restaurante) {
-        this.id = id;
+    public Produto(Integer codInterno, String nome, String descricao, BigDecimal preco, Boolean status, Restaurante restaurante) {
+        this.codInterno = codInterno;
         this.nome = nome;
         this.descricao = descricao;
         this.preco = preco;
@@ -51,12 +56,20 @@ public class Produto {
         this.restaurante = restaurante;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
+    }
+
+    public Integer getCodInterno() {
+        return codInterno;
+    }
+
+    public void setCodInterno(Integer codInterno) {
+        this.codInterno = codInterno;
     }
 
     public String getNome() {
@@ -121,6 +134,6 @@ public class Produto {
 
     @Override
     public String toString() {
-        return "Produto: " + id + " - " + nome + " / Restaurante: " + restaurante;
+        return "Produto: " + codInterno + " - " + nome + " / Restaurante: " + restaurante;
     }
 }

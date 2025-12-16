@@ -1,42 +1,31 @@
 CREATE TABLE pedido
 (
-    id                    BIGINT AUTO_INCREMENT NOT NULL,
-    total                 DECIMAL               NOT NULL,
-    taxa_frete            DECIMAL               NOT NULL,
-    valor_desconto        DECIMAL               NOT NULL,
-    subtotal              DECIMAL               NOT NULL,
-    id_usuario            BIGINT                NOT NULL,
-    id_restaurante        BIGINT                NOT NULL,
-    id_forma_pagamento    BIGINT                NOT NULL,
-    status_pedido         VARCHAR(10)           NOT NULL,
-    datahora_pedido       datetime              NOT NULL,
-    datahora_confirmacao  datetime              NULL,
-    datahora_cancelamento datetime              NULL,
-    datahora_entrega      datetime              NULL,
-    endereco_cep          VARCHAR(255)          NULL,
-    endereco_logradouro   VARCHAR(255)          NULL,
-    endereco_numero       VARCHAR(255)          NULL,
-    endereco_complemento  VARCHAR(255)          NULL,
-    endereco_bairro       VARCHAR(255)          NULL,
-    endereco_id_cidade    BIGINT                NULL,
+    id                    BINARY(36)   NOT NULL,
+    cod_interno           BIGINT       NOT NULL,
+    total                 DECIMAL      NOT NULL,
+    taxa_frete            DECIMAL      NOT NULL,
+    valor_desconto        DECIMAL      NOT NULL,
+    subtotal              DECIMAL      NOT NULL,
+    id_usuario            BINARY(36)   NOT NULL,
+    id_restaurante        BINARY(36)   NOT NULL,
+    id_forma_pagamento    BINARY(36)   NOT NULL,
+    status_pedido         VARCHAR(10)  NOT NULL,
+    datahora_pedido       datetime     NOT NULL,
+    datahora_confirmacao  datetime     NULL,
+    datahora_cancelamento datetime     NULL,
+    datahora_entrega      datetime     NULL,
+    endereco_cep          VARCHAR(255) NULL,
+    endereco_logradouro   VARCHAR(255) NULL,
+    endereco_numero       VARCHAR(255) NULL,
+    endereco_complemento  VARCHAR(255) NULL,
+    endereco_bairro       VARCHAR(255) NULL,
+    endereco_id_cidade    BIGINT       NULL,
     CONSTRAINT pk_pedido PRIMARY KEY (id)
 ) engine = InnoDB
   default charset = utf8mb4;
 
-CREATE TABLE pedidodet
-(
-    id             BIGINT AUTO_INCREMENT NOT NULL,
-    id_pedido      BIGINT                NOT NULL,
-    id_produto     BIGINT                NOT NULL,
-    preco          DECIMAL               NOT NULL,
-    quantidade     DECIMAL               NOT NULL,
-    total          DECIMAL               NOT NULL,
-    valor_desconto DECIMAL               NOT NULL,
-    subtotal       DECIMAL               NOT NULL,
-    observacao     VARCHAR(500)          NULL,
-    CONSTRAINT pk_pedidodet PRIMARY KEY (id)
-) engine = InnoDB
-  default charset = utf8mb4;
+ALTER TABLE pedido
+    ADD CONSTRAINT uc_pedido_codinterno UNIQUE (cod_interno);
 
 ALTER TABLE pedido
     ADD CONSTRAINT FK_PEDIDO_ON_ENDERECO_ID_CIDADE FOREIGN KEY (endereco_id_cidade) REFERENCES cidade (id);
@@ -49,6 +38,25 @@ ALTER TABLE pedido
 
 ALTER TABLE pedido
     ADD CONSTRAINT FK_PEDIDO_ON_ID_USUARIO FOREIGN KEY (id_usuario) REFERENCES usuario (id);
+
+
+-- PEDIDO DET
+
+
+CREATE TABLE pedidodet
+(
+    id             BIGINT AUTO_INCREMENT NOT NULL,
+    id_pedido      BINARY(36)            NOT NULL,
+    id_produto     BINARY(36)            NOT NULL,
+    preco          DECIMAL               NOT NULL,
+    quantidade     DECIMAL               NOT NULL,
+    total          DECIMAL               NOT NULL,
+    valor_desconto DECIMAL               NOT NULL,
+    subtotal       DECIMAL               NOT NULL,
+    observacao     VARCHAR(500)          NULL,
+    CONSTRAINT pk_pedidodet PRIMARY KEY (id)
+) engine = InnoDB
+  default charset = utf8mb4;
 
 ALTER TABLE pedidodet
     ADD CONSTRAINT FK_PEDIDODET_ON_ID_PEDIDO FOREIGN KEY (id_pedido) REFERENCES pedido (id);

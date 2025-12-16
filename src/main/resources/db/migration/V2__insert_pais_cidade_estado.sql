@@ -1,6 +1,6 @@
 INSERT INTO pais (id, nome, datahora_cadastro, datahora_alteracao)
-values (132, 'AFEGANISTAO', now(), now()),
-       (153, 'ALAND, ILHAS', now(), now()),
+values (132,'AFEGANISTAO', now(), now()),
+       (153,'ALAND, ILHAS', now(), now()),
        (175, 'ALBANIA, REPUBLICA  DA', now(), now()),
        (200, 'CURACAO', now(), now()),
        (230, 'ALEMANHA', now(), now()),

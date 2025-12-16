@@ -1,32 +1,29 @@
 package com.algaworks.algafoodapi.domain.model.entity;
 
-import com.algaworks.algafoodapi.core.validation.Groups;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.time.OffsetDateTime;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 public class Permissao {
 
-    @NotNull(groups = Groups.PermissaoId.class)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private UUID id;
 
-    @NotBlank
+    @Column(nullable = false, unique = true)
+    private Integer codInterno;
+
     @Column(nullable = false, length = 100)
     private String nome;
 
-    @NotBlank
     @Column(nullable = false, length = 100)
     private String descricao;
 
-    @NotNull
     @Column(nullable = false)
     private Boolean status;
 
@@ -39,18 +36,27 @@ public class Permissao {
     public Permissao() {
     }
 
-    public Permissao(String nome, String descricao, Boolean status) {
+    public Permissao(Integer codInterno, String nome, String descricao, Boolean status) {
         this.nome = nome;
         this.descricao = descricao;
         this.status = status;
+        this.codInterno = codInterno;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
+    }
+
+    public Integer getCodInterno() {
+        return codInterno;
+    }
+
+    public void setCodInterno(Integer codInterno) {
+        this.codInterno = codInterno;
     }
 
     public String getNome() {

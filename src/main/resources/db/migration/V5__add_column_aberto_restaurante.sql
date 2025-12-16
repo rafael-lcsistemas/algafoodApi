@@ -1,1 +1,0 @@
-ALTER TABLE restaurante ADD COLUMN aberto BOOLEAN  DEFAULT TRUE AFTER status;

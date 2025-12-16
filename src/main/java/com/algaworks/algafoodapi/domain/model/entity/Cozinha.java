@@ -1,7 +1,6 @@
 package com.algaworks.algafoodapi.domain.model.entity;
 
 import com.algaworks.algafoodapi.domain.model.entity.restaurante.Restaurante;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -10,13 +9,17 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 public class Cozinha {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private UUID id;
+
+    @Column(nullable = false, unique = true)
+    private Integer codInterno;
 
     @Column(nullable = false, length = 100)
     private String nome;
@@ -32,25 +35,33 @@ public class Cozinha {
     @Column(nullable = false, columnDefinition = "TIMESTAMP")
     private OffsetDateTime datahoraAlteracao;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "cozinha")
     private List<Restaurante> restaurantes = new ArrayList<>();
 
     public Cozinha() {
     }
 
-    public Cozinha(Long id, String nome, Boolean status) {
+    public Cozinha(UUID id, String nome, Boolean status, Integer codInterno) {
         this.id = id;
         this.nome = nome;
         this.status = status;
+        this.codInterno = codInterno;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
+    }
+
+    public Integer getCodInterno() {
+        return codInterno;
+    }
+
+    public void setCodInterno(Integer codInterno) {
+        this.codInterno = codInterno;
     }
 
     public String getNome() {
