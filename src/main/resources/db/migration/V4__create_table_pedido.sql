@@ -1,14 +1,14 @@
 CREATE TABLE pedido
 (
-    id                    BINARY(36)   NOT NULL,
+    id                    BINARY(16)   NOT NULL,
     cod_interno           BIGINT       NOT NULL,
     total                 DECIMAL      NOT NULL,
     taxa_frete            DECIMAL      NOT NULL,
     valor_desconto        DECIMAL      NOT NULL,
     subtotal              DECIMAL      NOT NULL,
-    id_usuario            BINARY(36)   NOT NULL,
-    id_restaurante        BINARY(36)   NOT NULL,
-    id_forma_pagamento    BINARY(36)   NOT NULL,
+    id_usuario            BINARY(16)   NOT NULL,
+    id_restaurante        BINARY(16)   NOT NULL,
+    id_forma_pagamento    BINARY(16)   NOT NULL,
     status_pedido         VARCHAR(10)  NOT NULL,
     datahora_pedido       datetime     NOT NULL,
     datahora_confirmacao  datetime     NULL,
@@ -46,8 +46,8 @@ ALTER TABLE pedido
 CREATE TABLE pedidodet
 (
     id             BIGINT AUTO_INCREMENT NOT NULL,
-    id_pedido      BINARY(36)            NOT NULL,
-    id_produto     BINARY(36)            NOT NULL,
+    id_pedido      BINARY(16)            NOT NULL,
+    id_produto     BINARY(16)            NOT NULL,
     preco          DECIMAL               NOT NULL,
     quantidade     DECIMAL               NOT NULL,
     total          DECIMAL               NOT NULL,

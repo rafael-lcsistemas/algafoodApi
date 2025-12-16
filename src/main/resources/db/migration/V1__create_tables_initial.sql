@@ -36,7 +36,7 @@ ALTER TABLE cidade
 
 CREATE TABLE cozinha
 (
-    id                 BINARY(36)   NOT NULL,
+    id                 BINARY(16)   NOT NULL,
     cod_interno        INT          NOT NULL,
     nome               VARCHAR(100) NOT NULL,
     status             BIT(1)       NOT NULL,
@@ -51,7 +51,7 @@ ALTER TABLE cozinha
 
 CREATE TABLE forma_pagamento
 (
-    id                 BINARY(36)   NOT NULL,
+    id                 BINARY(16)   NOT NULL,
     cod_interno        INT          NULL,
     nome               VARCHAR(100) NOT NULL,
     status             BIT(1)       NOT NULL,
@@ -66,7 +66,7 @@ ALTER TABLE forma_pagamento
 
 CREATE TABLE grupo
 (
-    id                 BINARY(36)   NOT NULL,
+    id                 BINARY(16)   NOT NULL,
     cod_interno        INT          NOT NULL,
     nome               VARCHAR(100) NOT NULL,
     status             BIT(1)       NOT NULL,
@@ -81,7 +81,7 @@ ALTER TABLE grupo
 
 CREATE TABLE permissao
 (
-    id                 BINARY(36)   NOT NULL,
+    id                 BINARY(16)   NOT NULL,
     cod_interno        INT          NOT NULL,
     nome               VARCHAR(100) NOT NULL,
     descricao          VARCHAR(100) NOT NULL,
@@ -97,8 +97,8 @@ ALTER TABLE permissao
 
 CREATE TABLE grupo_permissao
 (
-    id_grupo     BINARY(36) NOT NULL,
-    id_permissao BINARY(36) NOT NULL,
+    id_grupo     BINARY(16) NOT NULL,
+    id_permissao BINARY(16) NOT NULL,
     CONSTRAINT pk_grupo_permissao PRIMARY KEY (id_grupo, id_permissao)
 ) engine = InnoDB
   default charset = utf8mb4;
@@ -111,9 +111,9 @@ ALTER TABLE grupo_permissao
 
 CREATE TABLE restaurante
 (
-    id                   BINARY(36)   NOT NULL,
+    id                   BINARY(16)   NOT NULL,
     cod_interno          INT          NOT NULL,
-    id_cozinha           BINARY(36)   NOT NULL,
+    id_cozinha           BINARY(16)   NOT NULL,
     nome                 VARCHAR(100) NOT NULL,
     taxa_frete           DECIMAL      NOT NULL,
     status               BIT(1)       NOT NULL,
@@ -141,8 +141,8 @@ ALTER TABLE restaurante
 
 CREATE TABLE restaurante_forma_pagamento
 (
-    id_forma_pagamento BINARY(36) NOT NULL,
-    id_restaurante     BINARY(36) NOT NULL,
+    id_forma_pagamento BINARY(16) NOT NULL,
+    id_restaurante     BINARY(16) NOT NULL,
     CONSTRAINT pk_restaurante_forma_pagamento PRIMARY KEY (id_forma_pagamento, id_restaurante)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
@@ -155,13 +155,13 @@ ALTER TABLE restaurante_forma_pagamento
 
 CREATE TABLE produto
 (
-    id             BINARY(36)   NOT NULL,
+    id             BINARY(16)   NOT NULL,
     cod_interno    INT          NOT NULL,
     nome           VARCHAR(255) NOT NULL,
     descricao      VARCHAR(150) NOT NULL,
     preco          DECIMAL      NOT NULL,
     status         BIT(1)       NOT NULL,
-    id_restaurante BINARY(36)   NULL,
+    id_restaurante BINARY(16)   NULL,
     data_cadastro  timestamp    NOT NULL,
     data_alteracao timestamp    NOT NULL,
     CONSTRAINT pk_produto PRIMARY KEY (id)
@@ -176,7 +176,7 @@ ALTER TABLE produto
 
 CREATE TABLE usuario
 (
-    id                 BINARY(36)   NOT NULL,
+    id                 BINARY(16)   NOT NULL,
     cod_interno        INT          NOT NULL,
     nome               VARCHAR(100) NOT NULL,
     email              VARCHAR(100) NULL,
@@ -196,8 +196,8 @@ ALTER TABLE usuario
 
 CREATE TABLE usuario_grupo
 (
-    id_grupo   BINARY(36) NOT NULL,
-    id_usuario BINARY(36) NOT NULL,
+    id_grupo   BINARY(16) NOT NULL,
+    id_usuario BINARY(16) NOT NULL,
     CONSTRAINT pk_usuario_grupo PRIMARY KEY (id_grupo, id_usuario)
 ) engine = InnoDB
   default charset = utf8mb4;

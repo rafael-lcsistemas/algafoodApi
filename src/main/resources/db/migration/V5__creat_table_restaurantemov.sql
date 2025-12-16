@@ -1,9 +1,9 @@
 CREATE TABLE restaurante_mov
 (
-    id                 BINARY(36)   NOT NULL,
+    id                 BINARY(16)   NOT NULL,
     cod_interno        INT          NOT NULL,
-    id_restaurante     BINARY(36)   NULL,
-    id_usuario         BINARY(36)   NULL,
+    id_restaurante     BINARY(16)   NULL,
+    id_usuario         BINARY(16)   NULL,
     datahora_movimento datetime     NOT NULL,
     tipo_movimento     VARCHAR(10)  NOT NULL,
     valor_movimento    DECIMAL      NOT NULL,
