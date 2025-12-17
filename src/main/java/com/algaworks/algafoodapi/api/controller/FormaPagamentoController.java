@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/formas-pagamento")
@@ -39,7 +40,7 @@ public class FormaPagamentoController {
     }
 
     @GetMapping("/{id}")
-    public FormaPagamentoResponse filtrarPorId(@PathVariable Long id) {
+    public FormaPagamentoResponse filtrarPorId(@PathVariable UUID id) {
         return genericResponseAssembler.toModel(formaPagamentoService.filtrarPorID(id), FormaPagamentoResponse.class);
     }
 
@@ -51,17 +52,17 @@ public class FormaPagamentoController {
     }
 
     @PutMapping("/{id}")
-    public FormaPagamentoResponse atualizar(@PathVariable Long id, @RequestBody @Valid FormaPagamentoInput formaPagamentoInput) {
+    public FormaPagamentoResponse atualizar(@PathVariable UUID id, @RequestBody @Valid FormaPagamentoInput formaPagamentoInput) {
         var formaPagamento = genericInputAssembler.toEntity(formaPagamentoInput, FormaPagamento.class);
         var formaPagamentoAtual = formaPagamentoService.filtrarPorID(id);
-        BeanUtils.copyProperties(formaPagamento, formaPagamentoAtual, "id");
+        BeanUtils.copyProperties(formaPagamento, formaPagamentoAtual, "id", "codInterno");
 
         return genericResponseAssembler.toModel(
                 formaPagamentoService.inserirOuAtualizar(formaPagamentoAtual), FormaPagamentoResponse.class);
     }
 
     @DeleteMapping("/{id}")
-    public void remover(@PathVariable Long id) {
+    public void remover(@PathVariable UUID id) {
         formaPagamentoService.remove(id);
     }
 }

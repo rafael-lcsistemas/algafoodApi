@@ -7,6 +7,7 @@ import com.algaworks.algafoodapi.domain.model.entity.Usuario;
 import com.algaworks.algafoodapi.domain.model.entity.restaurante.Restaurante;
 import com.algaworks.algafoodapi.domain.model.entity.restaurante.RestauranteMov;
 import com.algaworks.algafoodapi.domain.model.entity.restaurante.TipoMov;
+import com.algaworks.algafoodapi.domain.repository.RestauranteMovRepository;
 import com.algaworks.algafoodapi.domain.repository.RestauranteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,12 +15,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class RestauranteService {
 
     @Autowired
     private RestauranteRepository restauranteRepository;
+
+    @Autowired
+    private RestauranteMovRepository restauranteMovRepository;
 
     @Autowired
     private CozinhaService cozinhaService;
@@ -49,7 +54,7 @@ public class RestauranteService {
         }
     }
 
-    public Restaurante filtrarPorID(Long id) {
+    public Restaurante filtrarPorID(UUID id) {
         return restauranteRepository.findById(id).orElseThrow(() -> new RestauranteNaoEncontradaException(id));
     }
 
@@ -57,6 +62,10 @@ public class RestauranteService {
     public Restaurante inserirOuAtualizar(Restaurante restaurante, RestauranteInput restauranteInput) {
 
         try {
+            if (restaurante.getCodInterno() == null) {
+                restaurante.setCodInterno(getLastCodInterno() + 1);
+            }
+
             var cozinha = cozinhaService.filtrarPorId(restauranteInput.getIdcozinha());
             restaurante.setCozinha(cozinha);
 
@@ -71,7 +80,7 @@ public class RestauranteService {
     }
 
     @Transactional
-    public void desassociarFormaPagamentoToRestaurante(Long idRestaurante, Long idFormaPagamento) {
+    public void desassociarFormaPagamentoToRestaurante(UUID idRestaurante, UUID idFormaPagamento) {
         Restaurante restaurante = filtrarPorID(idRestaurante);
         FormaPagamento formaPagamento = formaPagamentoService.filtrarPorID(idFormaPagamento);
 
@@ -79,7 +88,7 @@ public class RestauranteService {
     }
 
     @Transactional
-    public void asassociarFormaPagamentoToRestaurante(Long idRestaurante, Long idFormaPagamento) {
+    public void asassociarFormaPagamentoToRestaurante(UUID idRestaurante, UUID idFormaPagamento) {
         Restaurante restaurante = filtrarPorID(idRestaurante);
         FormaPagamento formaPagamento = formaPagamentoService.filtrarPorID(idFormaPagamento);
 
@@ -87,7 +96,7 @@ public class RestauranteService {
     }
 
     @Transactional
-    public RestauranteMov abrirRestaurante(Long idRestaurante, BigDecimal valorMovimento, Long idUsuario) {
+    public RestauranteMov abrirRestaurante(UUID idRestaurante, UUID idUsuario, BigDecimal valorMovimento) {
         try {
             Restaurante restaurante = filtrarPorID(idRestaurante);
             Usuario usuario = usuarioService.filtrarPorID(idUsuario);
@@ -99,6 +108,7 @@ public class RestauranteService {
             restaurante.abrirRestaurante();
 
             RestauranteMov movimento = new RestauranteMov();
+            movimento.setCodInterno(getLastCodInternoMov() + 1);
             movimento.setTipoMovimento(TipoMov.ABERTO);
             movimento.setValorMovimento(valorMovimento);
             movimento.setObservacoes("Abertura do restaurante");
@@ -113,7 +123,7 @@ public class RestauranteService {
     }
 
     @Transactional
-    public RestauranteMov fecharRestaurante(Long idRestaurante, Long idUsuario) {
+    public RestauranteMov fecharRestaurante(UUID idRestaurante, UUID idUsuario) {
         try {
             Restaurante restaurante = filtrarPorID(idRestaurante);
             Usuario usuario = usuarioService.filtrarPorID(idUsuario);
@@ -125,6 +135,7 @@ public class RestauranteService {
             restaurante.fecharRestaurante();
 
             RestauranteMov movimento = new RestauranteMov();
+            movimento.setCodInterno(getLastCodInternoMov() + 1);
             movimento.setTipoMovimento(TipoMov.FECHADO);
             movimento.setValorMovimento(BigDecimal.ZERO);
             movimento.setObservacoes("Fechamento do restaurante");
@@ -139,7 +150,7 @@ public class RestauranteService {
     }
 
     @Transactional
-    public void asassociarUsuarioToRestaurante(Long idRestaurante, Long idUsuario) {
+    public void asassociarUsuarioToRestaurante(UUID idRestaurante, UUID idUsuario) {
         try {
             Restaurante restaurante = filtrarPorID(idRestaurante);
             Usuario usuario = usuarioService.filtrarPorID(idUsuario);
@@ -151,7 +162,7 @@ public class RestauranteService {
     }
 
     @Transactional
-    public void desassociarUsuarioToRestaurante(Long idRestaurante, Long idUsuario) {
+    public void desassociarUsuarioToRestaurante(UUID idRestaurante, UUID idUsuario) {
         try {
             Restaurante restaurante = filtrarPorID(idRestaurante);
             Usuario usuario = usuarioService.filtrarPorID(idUsuario);
@@ -163,21 +174,29 @@ public class RestauranteService {
     }
 
     @Transactional
-    public void ativarRestaurantesMultiplos(List<Long> idsRestaurantes) {
+    public void ativarRestaurantesMultiplos(List<UUID> idsRestaurantes) {
         idsRestaurantes.forEach(id -> atualizarStatusRestaurante(id, Boolean.TRUE));
     }
 
     @Transactional
-    public void inativarRestaurantesMultiplos(List<Long> idsRestaurantes) {
+    public void inativarRestaurantesMultiplos(List<UUID> idsRestaurantes) {
         idsRestaurantes.forEach(id -> atualizarStatusRestaurante(id, Boolean.FALSE));
     }
 
-    private void atualizarStatusRestaurante(Long idRestaurante, Boolean status) {
+    private void atualizarStatusRestaurante(UUID idRestaurante, Boolean status) {
         try {
             var restaurante = filtrarPorID(idRestaurante);
             restaurante.setStatus(status);
         } catch (RestauranteNaoEncontradaException e) {
             throw new NegocioException(e.getMessage());
         }
+    }
+
+    private Integer getLastCodInterno() {
+        return restauranteRepository.getLastCodInterno();
+    }
+
+    private Integer getLastCodInternoMov() {
+        return restauranteMovRepository.getLastCodInterno();
     }
 }

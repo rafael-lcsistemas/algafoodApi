@@ -4,10 +4,12 @@ import com.algaworks.algafoodapi.api.model.response.EnderecoResponse;
 import com.algaworks.algafoodapi.api.model.response.cozinha.CozinhaResumeResponse;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 public class RestauranteResponse {
 
-    private Long id;
+    private UUID id;
+    private Integer codInterno;
     private String nome;
     private BigDecimal taxaFrete;
     private Boolean status;
@@ -15,12 +17,20 @@ public class RestauranteResponse {
     private CozinhaResumeResponse cozinha;
     private EnderecoResponse endereco;
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
+    }
+
+    public Integer getCodInterno() {
+        return codInterno;
+    }
+
+    public void setCodInterno(Integer codInterno) {
+        this.codInterno = codInterno;
     }
 
     public String getNome() {

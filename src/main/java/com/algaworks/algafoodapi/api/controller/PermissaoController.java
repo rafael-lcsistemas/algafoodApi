@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/permissoes")
@@ -37,7 +38,7 @@ public class PermissaoController {
     }
 
     @GetMapping("/{id}")
-    public PermissaoResponse filtrarPorId(@PathVariable Long id) {
+    public PermissaoResponse filtrarPorId(@PathVariable UUID id) {
         return genericResponseAssembler.toModel(permissaoService.filtrarPorId(id), PermissaoResponse.class);
     }
 
@@ -48,10 +49,10 @@ public class PermissaoController {
     }
 
     @PutMapping("/{id}")
-    public PermissaoResponse atualizar(@PathVariable Long id, @RequestBody @Valid PermissaoInput permissaoInput) {
+    public PermissaoResponse atualizar(@PathVariable UUID id, @RequestBody @Valid PermissaoInput permissaoInput) {
         var permissao = genericInputAssembler.toEntity(permissaoInput, Permissao.class);
         var permissaoAtual = permissaoService.filtrarPorId(id);
-        BeanUtils.copyProperties(permissao, permissaoAtual, "id");
+        BeanUtils.copyProperties(permissao, permissaoAtual, "id", "codInterno");
 
         return genericResponseAssembler.toModel(permissaoService.inserirOuAtualizar(permissaoAtual), PermissaoResponse.class);
     }

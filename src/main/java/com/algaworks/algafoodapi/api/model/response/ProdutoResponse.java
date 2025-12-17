@@ -1,20 +1,21 @@
 package com.algaworks.algafoodapi.api.model.response;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 public class ProdutoResponse {
 
-    private Long id;
+    private UUID id;
     private String nome;
     private String descricao;
     private BigDecimal preco;
     private Boolean status;
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

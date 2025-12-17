@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,13 +40,17 @@ public class GrupoService {
         }
     }
 
-    public Grupo filtrarPorId(Long id) {
+    public Grupo filtrarPorId(UUID id) {
         return grupoRepository.findById(id).orElseThrow(() -> new GrupoNaoEncontradaException(id));
     }
 
     @Transactional
-    public Grupo inserirOuAtualizar(Grupo grupo, List<Long> idsPermissoes) {
+    public Grupo inserirOuAtualizar(Grupo grupo, List<UUID> idsPermissoes) {
         try {
+            if (grupo.getCodInterno() == null) {
+                grupo.setCodInterno(getLastCodInterno() + 1);
+            }
+
             Set<Permissao> permissoesValidas = idsPermissoes.stream().map(id ->
                     permissaoService.filtrarPorId(id)).collect(Collectors.toSet());
 
@@ -58,7 +63,7 @@ public class GrupoService {
     }
 
     @Transactional
-    public void associar(Long idGrupo, Long idPermissao) {
+    public void associar(UUID idGrupo, UUID idPermissao) {
         try {
             var grupo = filtrarPorId(idGrupo);
             var permissao = permissaoService.filtrarPorId(idPermissao);
@@ -70,7 +75,7 @@ public class GrupoService {
     }
 
     @Transactional
-    public void desassociar(Long idGrupo, Long idPermissao) {
+    public void desassociar(UUID idGrupo, UUID idPermissao) {
         try {
             var grupo = filtrarPorId(idGrupo);
             var permissao = permissaoService.filtrarPorId(idPermissao);
@@ -79,5 +84,9 @@ public class GrupoService {
         } catch (PermissaoNaoEncontradaException e) {
             throw new NegocioException(e.getMessage());
         }
+    }
+
+    private Integer getLastCodInterno() {
+        return grupoRepository.getLastCodInterno();
     }
 }

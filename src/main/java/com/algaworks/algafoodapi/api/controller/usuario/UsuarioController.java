@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -42,7 +43,7 @@ UsuarioController {
     }
 
     @GetMapping("/{id}")
-    public UsuarioResponse filtrarPorID(@PathVariable Long id) {
+    public UsuarioResponse filtrarPorID(@PathVariable UUID id) {
         return genericResponseAssembler.toModel(usuarioService.filtrarPorID(id), UsuarioResponse.class);
     }
 
@@ -59,11 +60,11 @@ UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public UsuarioResponse atualizar(@PathVariable Long id, @RequestBody @Valid UsuarioInputSemSenha usuarioSemSenhaInput) {
+    public UsuarioResponse atualizar(@PathVariable UUID id, @RequestBody @Valid UsuarioInputSemSenha usuarioSemSenhaInput) {
         var usuario = genericInputAssembler.toEntity(usuarioSemSenhaInput, Usuario.class);
 
         var usuarioAtual = usuarioService.filtrarPorID(id);
-        BeanUtils.copyProperties(usuario, usuarioAtual, "id", "senha", "dataCadastro");
+        BeanUtils.copyProperties(usuario, usuarioAtual, "id", "email", "senha", "dataCadastro", "codInterno");
 
         try {
             return genericResponseAssembler.toModel(
@@ -74,7 +75,7 @@ UsuarioController {
     }
 
     @PutMapping("/atualizar-senha/{id}")
-    public void atualizarSenha(@PathVariable Long id, @RequestBody @Valid UsuarioInputAtualizarSenha inputAtualizarSenha) {
+    public void atualizarSenha(@PathVariable UUID id, @RequestBody @Valid UsuarioInputAtualizarSenha inputAtualizarSenha) {
         usuarioService.atualizarSenha(id, inputAtualizarSenha);
     }
 }

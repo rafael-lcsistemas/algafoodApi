@@ -4,6 +4,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.UUID;
 
 public class UsuarioInput {
 
@@ -21,7 +22,7 @@ public class UsuarioInput {
     private Boolean status;
 
     @NotNull
-    private List<Long> idsGrupos;
+    private List<UUID> idsGrupos;
 
     public String getNome() {
         return nome;
@@ -55,11 +56,11 @@ public class UsuarioInput {
         this.status = status;
     }
 
-    public List<Long> getIdsGrupos() {
+    public List<UUID> getIdsGrupos() {
         return idsGrupos;
     }
 
-    public void setIdsGrupos(List<Long> idsGrupos) {
+    public void setIdsGrupos(List<UUID> idsGrupos) {
         this.idsGrupos = idsGrupos;
     }
 }

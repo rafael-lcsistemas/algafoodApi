@@ -1,16 +1,16 @@
 package com.algaworks.algafoodapi.api.exceptionhandler;
 
 public class ProblemField {
-    private String campo;
+    private String field;
     private String userMessage;
 
     private ProblemField(Builder builder) {
-        this.campo = builder.campo;
+        this.field = builder.campo;
         this.userMessage = builder.userMessage;
     }
 
-    public String getCampo() {
-        return campo;
+    public String getField() {
+        return field;
     }
 
     public String getUserMessage() {

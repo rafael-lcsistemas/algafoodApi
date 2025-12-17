@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/produtos")
@@ -37,7 +38,7 @@ public class ProdutoController {
     }
 
     @GetMapping("/{id}")
-    public ProdutoResponse listarPorId(@PathVariable Long id) {
+    public ProdutoResponse listarPorId(@PathVariable UUID id) {
         return genericResponseAssembler.toModel(produtoService.filtrarPorId(id), ProdutoResponse.class);
     }
 
@@ -49,10 +50,10 @@ public class ProdutoController {
     }
 
     @PutMapping("/{id}")
-    public ProdutoResponse atualizar(@PathVariable Long id, @RequestBody @Valid ProdutoInput produtoInput) {
+    public ProdutoResponse atualizar(@PathVariable UUID id, @RequestBody @Valid ProdutoInput produtoInput) {
         var produto = genericInputAssembler.toEntity(produtoInput, Produto.class);
         var produtoAtual = produtoService.filtrarPorId(id);
-        BeanUtils.copyProperties(produto, produtoAtual, "id", "dataCadastro");
+        BeanUtils.copyProperties(produto, produtoAtual, "id", "dataCadastro", "codInterno");
 
         return genericResponseAssembler.toModel(
                 produtoService.inserirOuAtualizar(produtoAtual, produtoInput), ProdutoResponse.class);

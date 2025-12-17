@@ -18,6 +18,7 @@ import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/restaurantes")
@@ -45,13 +46,13 @@ public class RestauranteController {
     }
 
     @GetMapping("{id}")
-    public RestauranteResponse filtrarPorId(@PathVariable Long id) {
+    public RestauranteResponse filtrarPorId(@PathVariable UUID id) {
         Restaurante restaurante = restauranteService.filtrarPorID(id);
         return genericResponseAssembler.toModel(restaurante, RestauranteResponse.class);
     }
 
     @GetMapping("/{id}/responsaveis")
-    public List<UsuarioResumeResponse> responsaveis(@PathVariable Long id) {
+    public List<UsuarioResumeResponse> responsaveis(@PathVariable UUID id) {
         var restarante = restauranteService.filtrarPorID(id);
         List<Usuario> usuarios = new ArrayList<>(restarante.getUsuarios());
 
@@ -68,10 +69,10 @@ public class RestauranteController {
     }
 
     @PutMapping("/{id}")
-    public RestauranteResponse atualizar(@PathVariable Long id, @RequestBody @Valid RestauranteInput restauranteInput) {
+    public RestauranteResponse atualizar(@PathVariable UUID id, @RequestBody @Valid RestauranteInput restauranteInput) {
         var restaurante = genericInputAssembler.toEntity(restauranteInput, Restaurante.class);
         var restauranteAtual = restauranteService.filtrarPorID(id);
-        BeanUtils.copyProperties(restaurante, restauranteAtual, "id", "dataCadastro");
+        BeanUtils.copyProperties(restaurante, restauranteAtual, "id", "dataCadastro", "codInterno");
 
         return genericResponseAssembler.toModel(
                 restauranteService.inserirOuAtualizar(restauranteAtual, restauranteInput), RestauranteResponse.class);
@@ -79,36 +80,36 @@ public class RestauranteController {
     }
 
     @PutMapping("/{id}/abrir")
-    public RestauranteMovResponse abrir(@PathVariable Long id,
-                                        @RequestParam BigDecimal valorMovimento, @RequestParam Long idUsuario) {
-        var movimento = restauranteService.abrirRestaurante(id, valorMovimento, idUsuario);
+    public RestauranteMovResponse abrir(@PathVariable UUID id,
+                                       @RequestParam UUID idUsuario,  @RequestParam BigDecimal valorMovimento) {
+        var movimento = restauranteService.abrirRestaurante(id, idUsuario, valorMovimento);
         return genericResponseAssembler.toModel(movimento, RestauranteMovResponse.class);
 
     }
 
     @PutMapping("/{id}/fechar")
-    public RestauranteMovResponse fechar(@PathVariable Long id, @RequestParam Long idUsuario) {
+    public RestauranteMovResponse fechar(@PathVariable UUID id, @RequestParam UUID idUsuario) {
         var movimento = restauranteService.fecharRestaurante(id, idUsuario);
         return genericResponseAssembler.toModel(movimento, RestauranteMovResponse.class);
     }
 
     @PutMapping("/{idRestaurante}/usuarios/{idUsuario}")
-    public void associarUsuario(@PathVariable Long idRestaurante, @PathVariable Long idUsuario) {
+    public void associarUsuario(@PathVariable UUID idRestaurante, @PathVariable UUID idUsuario) {
         restauranteService.asassociarUsuarioToRestaurante(idRestaurante, idUsuario);
     }
 
     @DeleteMapping("/{idRestaurante}/usuarios/{idUsuario}")
-    public void desassociarUsuario(@PathVariable Long idRestaurante, @PathVariable Long idUsuario) {
+    public void desassociarUsuario(@PathVariable UUID idRestaurante, @PathVariable UUID idUsuario) {
         restauranteService.desassociarUsuarioToRestaurante(idRestaurante, idUsuario);
     }
 
     @PutMapping("/ativacoes")
-    public void ativarRestaurantes(@RequestBody List<Long> idsRestaurantes) {
+    public void ativarRestaurantes(@RequestBody List<UUID> idsRestaurantes) {
         restauranteService.ativarRestaurantesMultiplos(idsRestaurantes);
     }
 
     @PutMapping("/inativacoes")
-    public void inativarRestaurantes(@RequestBody List<Long> idsRestaurantes) {
+    public void inativarRestaurantes(@RequestBody List<UUID> idsRestaurantes) {
         restauranteService.inativarRestaurantesMultiplos(idsRestaurantes);
     }
 }

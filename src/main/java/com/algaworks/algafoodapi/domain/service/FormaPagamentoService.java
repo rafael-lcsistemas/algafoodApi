@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class FormaPagamentoService {
@@ -35,25 +36,33 @@ public class FormaPagamentoService {
         }
     }
 
-    public FormaPagamento filtrarPorID(Long id) {
+    public FormaPagamento filtrarPorID(UUID id) {
         return formaPagamentoRepository.findById(id).orElseThrow(() ->
                 new FormaPagamentoNaoEncontradaException(id));
     }
 
     @Transactional
     public FormaPagamento inserirOuAtualizar(FormaPagamento formaPagamento) {
+        if (formaPagamento.getCodInterno() == null) {
+            formaPagamento.setCodInterno(getLastCodInterno() + 1);
+        }
+
         return formaPagamentoRepository.save(formaPagamento);
     }
 
     @Transactional
-    public void remove(Long id) {
+    public void remove(UUID id) {
         try {
             formaPagamentoRepository.deleteById(id);
             formaPagamentoRepository.flush();
         } catch (EmptyResultDataAccessException e) {
             throw new FormaPagamentoNaoEncontradaException(id, e);
         } catch (DataIntegrityViolationException e) {
-            throw new EntidadeEmUsoException(String.format("Forma de pagamento de código %d não pode ser removida, pois está em uso", id));
+            throw new EntidadeEmUsoException(String.format("Forma de pagamento de código %s não pode ser removida, pois está em uso", id));
         }
+    }
+
+    private Integer getLastCodInterno() {
+        return formaPagamentoRepository.getLastCodInterno();
     }
 }

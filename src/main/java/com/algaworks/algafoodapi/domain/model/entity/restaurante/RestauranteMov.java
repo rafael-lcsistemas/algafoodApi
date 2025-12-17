@@ -2,6 +2,7 @@ package com.algaworks.algafoodapi.domain.model.entity.restaurante;
 
 import com.algaworks.algafoodapi.domain.model.entity.Usuario;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -12,7 +13,8 @@ import java.util.UUID;
 public class RestauranteMov {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
     @Column(nullable = false, unique = true)

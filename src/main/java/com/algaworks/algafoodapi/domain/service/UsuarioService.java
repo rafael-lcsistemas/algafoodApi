@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,14 +41,18 @@ public class UsuarioService {
         }
     }
 
-    public Usuario filtrarPorID(Long id) {
+    public Usuario filtrarPorID(UUID id) {
         return usuarioRepository.findById(id).orElseThrow(() -> new UsuarioNaoEncontradaException(id));
     }
 
     @Transactional
-    public Usuario iserirOuAtualizar(Usuario usuario, List<Long> idsGrupos) {
+    public Usuario iserirOuAtualizar(Usuario usuario, List<UUID> idsGrupos) {
 
         try {
+            if(usuario.getCodInterno() == null) {
+                usuario.setCodInterno(getLastCodInterno() + 1);
+            }
+
             Set<Grupo> gruposValidados = idsGrupos.stream().map(id ->
                     grupoService.filtrarPorId(id)).collect(Collectors.toSet());
 
@@ -60,7 +65,7 @@ public class UsuarioService {
     }
 
     @Transactional
-    public void atualizarSenha(Long id, UsuarioInputAtualizarSenha usuarioSenhaInput) {
+    public void atualizarSenha(UUID id, UsuarioInputAtualizarSenha usuarioSenhaInput) {
         Usuario usuario = filtrarPorID(id);
 
         var senhaAtual = usuarioSenhaInput.getSenhaAtual();
@@ -78,7 +83,7 @@ public class UsuarioService {
     }
 
     @Transactional
-    public void associarGrupo(Long idUsuario, Long idGrupo) {
+    public void associarGrupo(UUID idUsuario, UUID idGrupo) {
         try {
             var usuario = filtrarPorID(idUsuario);
             var grupo = grupoService.filtrarPorId(idGrupo);
@@ -90,7 +95,7 @@ public class UsuarioService {
     }
 
     @Transactional
-    public void desassociarGrupo(Long idUsuario, Long idGrupo) {
+    public void desassociarGrupo(UUID idUsuario, UUID idGrupo) {
         try {
             var usuario = filtrarPorID(idUsuario);
             var grupo = grupoService.filtrarPorId(idGrupo);
@@ -99,5 +104,9 @@ public class UsuarioService {
         } catch (GrupoNaoEncontradaException e) {
             throw new NegocioException(e.getMessage());
         }
+    }
+
+    private Integer getLastCodInterno() {
+        return usuarioRepository.getLastCodInterno();
     }
 }

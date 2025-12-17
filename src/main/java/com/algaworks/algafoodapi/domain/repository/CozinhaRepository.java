@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface CozinhaRepository extends CustomJpaRepository<Cozinha, Long> {
+public interface CozinhaRepository extends CustomJpaRepository<Cozinha, UUID> {
 
     List<Cozinha> findByNomeContaining(String nome);
 

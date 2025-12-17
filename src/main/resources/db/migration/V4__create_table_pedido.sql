@@ -45,15 +45,15 @@ ALTER TABLE pedido
 
 CREATE TABLE pedidodet
 (
-    id             BIGINT AUTO_INCREMENT NOT NULL,
-    id_pedido      BINARY(16)            NOT NULL,
-    id_produto     BINARY(16)            NOT NULL,
-    preco          DECIMAL               NOT NULL,
-    quantidade     DECIMAL               NOT NULL,
-    total          DECIMAL               NOT NULL,
-    valor_desconto DECIMAL               NOT NULL,
-    subtotal       DECIMAL               NOT NULL,
-    observacao     VARCHAR(500)          NULL,
+    id             BINARY(16)   NOT NULL,
+    id_pedido      BINARY(16)   NOT NULL,
+    id_produto     BINARY(16)   NOT NULL,
+    preco          DECIMAL      NOT NULL,
+    quantidade     DECIMAL      NOT NULL,
+    total          DECIMAL      NOT NULL,
+    valor_desconto DECIMAL      NOT NULL,
+    subtotal       DECIMAL      NOT NULL,
+    observacao     VARCHAR(500) NULL,
     CONSTRAINT pk_pedidodet PRIMARY KEY (id)
 ) engine = InnoDB
   default charset = utf8mb4;

@@ -5,8 +5,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
-public interface PedidoRepository extends JpaRepository<Pedido, Long> {
+public interface PedidoRepository extends JpaRepository<Pedido, UUID> {
 
 //    Pedido findByData(Long codigo);
 
@@ -25,5 +27,5 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long> {
             "join fetch p.formaPagamento " +
             "join fetch p.restaurante r join fetch r.cozinha " +
             "WHERE p.id = ?1")
-    Pedido findById(long id);
+    Optional<Pedido> findById(UUID id);
 }

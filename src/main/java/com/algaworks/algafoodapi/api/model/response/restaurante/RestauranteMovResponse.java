@@ -2,20 +2,21 @@ package com.algaworks.algafoodapi.api.model.response.restaurante;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.UUID;
 
 public class RestauranteMovResponse {
 
-    private Long id;
+    private UUID id;
     private String nomeRestaurante;
     private String nomeUsuario;
     private BigDecimal valorMovimento;
     private OffsetDateTime datahoraMovimento;
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

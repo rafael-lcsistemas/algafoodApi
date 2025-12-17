@@ -22,7 +22,7 @@ CREATE TABLE estado
 CREATE TABLE cidade
 (
     id                 BIGINT AUTO_INCREMENT NOT NULL,
-    id_estado          BIGINT                NULL,
+    id_estado          BIGINT                NOT NULL,
     nome               VARCHAR(100)          NOT NULL,
     datahora_cadastro  datetime              NULL,
     datahora_alteracao datetime              NULL,
@@ -52,7 +52,7 @@ ALTER TABLE cozinha
 CREATE TABLE forma_pagamento
 (
     id                 BINARY(16)   NOT NULL,
-    cod_interno        INT          NULL,
+    cod_interno        INT          NOT NULL,
     nome               VARCHAR(100) NOT NULL,
     status             BIT(1)       NOT NULL,
     datahora_cadastro  timestamp    NOT NULL,

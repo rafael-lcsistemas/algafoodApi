@@ -55,9 +55,4 @@ public class Pais {
     public OffsetDateTime getDatahoraAlteracao() {
         return datahoraAlteracao;
     }
-
-    @Override
-    public String toString() {
-        return "PAIS: " + id + " - " + nome;
-    }
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/grupos/listar/{idGrupo}/permissoes")
@@ -21,19 +22,19 @@ public class GrupoPermissaoController {
     private GenericResponseAssembler genericResponseAssembler;
 
     @GetMapping
-    public List<PermissaoResponse> listarPemissoesByGrupo(@PathVariable Long idGrupo){
+    public List<PermissaoResponse> listarPemissoesByGrupo(@PathVariable UUID idGrupo){
         var grupo = grupoService.filtrarPorId(idGrupo);
         List<Permissao> permissoes = new ArrayList<>(grupo.getPermissoes());
         return genericResponseAssembler.toCollectionModel(permissoes, PermissaoResponse.class);
     }
 
     @PutMapping("/{idPermissao}")
-    public void associarPermissao(@PathVariable Long idGrupo, @PathVariable Long idPermissao) {
+    public void associarPermissao(@PathVariable UUID idGrupo, @PathVariable UUID idPermissao) {
         grupoService.associar(idGrupo, idPermissao);
     }
 
     @DeleteMapping("/{idPermissao}")
-    public void desassociarPermissao(@PathVariable Long idGrupo, @PathVariable Long idPermissao) {
+    public void desassociarPermissao(@PathVariable UUID idGrupo, @PathVariable UUID idPermissao) {
         grupoService.desassociar(idGrupo, idPermissao);
     }
 }

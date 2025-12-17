@@ -7,9 +7,11 @@ import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Repository
-public interface RestauranteRepository extends CustomJpaRepository<Restaurante, Long>, RestauranteRepositoryQueries,
+public interface RestauranteRepository extends CustomJpaRepository<Restaurante, UUID>, RestauranteRepositoryQueries,
         JpaSpecificationExecutor<Restaurante> {
 
     @Query("from Restaurante r inner join fetch r.cozinha")
@@ -18,4 +20,10 @@ public interface RestauranteRepository extends CustomJpaRepository<Restaurante, 
     List<Restaurante> findByTaxaFreteBetween(BigDecimal taxaMinima, BigDecimal taxaMaxima);
 
     List<Restaurante> findByNomeContaining(String nome);
+
+    @Query("from Restaurante p where p.id = ?1")
+    Optional<Restaurante> findById(UUID id);
+
+    @Query("select coalesce(max(codInterno), 0) from Restaurante ")
+    Integer getLastCodInterno();
 }

@@ -1,21 +1,33 @@
 package com.algaworks.algafoodapi.api.model.response.usuario;
 
+import com.algaworks.algafoodapi.api.model.response.grupo.GrupoResumeResponse;
+
 import java.util.List;
+import java.util.UUID;
 
 public class UsuarioResponse {
 
-    private Long id;
+    private UUID id;
+    private Integer codInterno;
     private String nome;
     private String email;
     private Boolean status;
-    private List<grupoGenericResponse> grupos;
+    private List<GrupoResumeResponse> grupos;
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
+    }
+
+    public Integer getCodInterno() {
+        return codInterno;
+    }
+
+    public void setCodInterno(Integer codInterno) {
+        this.codInterno = codInterno;
     }
 
     public String getNome() {
@@ -42,34 +54,12 @@ public class UsuarioResponse {
         this.status = status;
     }
 
-    public List<grupoGenericResponse> getGrupos() {
+    public List<GrupoResumeResponse> getGrupos() {
         return grupos;
     }
 
-    public void setGrupos(List<grupoGenericResponse> grupos) {
+    public void setGrupos(List<GrupoResumeResponse> grupos) {
         this.grupos = grupos;
-    }
-
-    public static class grupoGenericResponse {
-
-        private Long id;
-        private String nome;
-
-        public Long getId() {
-            return id;
-        }
-
-        public void setId(Long id) {
-            this.id = id;
-        }
-
-        public String getNome() {
-            return nome;
-        }
-
-        public void setNome(String nome) {
-            this.nome = nome;
-        }
     }
 }
 

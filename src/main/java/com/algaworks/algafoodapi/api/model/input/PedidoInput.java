@@ -4,24 +4,25 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 
 public class PedidoInput {
 
     @NotNull
-    private Long idusuario;
+    private UUID idusuario;
 
     @NotNull
-    private Long idrestaurante;
+    private UUID idrestaurante;
 
     @NotNull
-    private Long idformapagamento;
+    private UUID idformapagamento;
 
     @NotNull
     private List<ItensPedidoResponse> det;
 
     public static class ItensPedidoResponse {
         @NotNull
-        private Long idproduto;
+        private UUID idproduto;
 
         @PositiveOrZero
         private BigDecimal quantidade;
@@ -31,11 +32,11 @@ public class PedidoInput {
 
         private String observacao;
 
-        public Long getIdproduto() {
+        public UUID getIdproduto() {
             return idproduto;
         }
 
-        public void setIdproduto(Long idproduto) {
+        public void setIdproduto(UUID idproduto) {
             this.idproduto = idproduto;
         }
 
@@ -64,27 +65,27 @@ public class PedidoInput {
         }
     }
 
-    public Long getIdusuario() {
+    public UUID getIdusuario() {
         return idusuario;
     }
 
-    public void setIdusuario(Long idusuario) {
+    public void setIdusuario(UUID idusuario) {
         this.idusuario = idusuario;
     }
 
-    public Long getIdrestaurante() {
+    public UUID getIdrestaurante() {
         return idrestaurante;
     }
 
-    public void setIdrestaurante(Long idrestaurante) {
+    public void setIdrestaurante(UUID idrestaurante) {
         this.idrestaurante = idrestaurante;
     }
 
-    public Long getIdformapagamento() {
+    public UUID getIdformapagamento() {
         return idformapagamento;
     }
 
-    public void setIdformapagamento(Long idformapagamento) {
+    public void setIdformapagamento(UUID idformapagamento) {
         this.idformapagamento = idformapagamento;
     }
 

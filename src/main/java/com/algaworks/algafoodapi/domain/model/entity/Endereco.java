@@ -95,9 +95,4 @@ public class Endereco {
     public int hashCode() {
         return Objects.hash(cep, logradouro, numero, complemento, bairro, cidade);
     }
-
-    @Override
-    public String toString() {
-        return "Endereço: " + logradouro + ", " + numero + " - " + complemento + " - " + bairro + " - " + cidade;
-    }
 }

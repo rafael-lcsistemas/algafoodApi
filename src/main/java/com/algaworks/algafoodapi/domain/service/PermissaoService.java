@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class PermissaoService {
@@ -32,13 +33,21 @@ public class PermissaoService {
         }
     }
 
-    public Permissao filtrarPorId(Long id) {
+    public Permissao filtrarPorId(UUID id) {
         return permissaoRepository.findById(id).orElseThrow(() ->
                 new PermissaoNaoEncontradaException(id));
     }
 
     @Transactional
     public Permissao inserirOuAtualizar(Permissao permissao) {
+        if(permissao.getCodInterno() == null) {
+            permissao.setCodInterno(getLastCodInterno() + 1);
+        }
+
         return permissaoRepository.save(permissao);
+    }
+
+    private Integer getLastCodInterno() {
+        return permissaoRepository.getLastCodInterno();
     }
 }

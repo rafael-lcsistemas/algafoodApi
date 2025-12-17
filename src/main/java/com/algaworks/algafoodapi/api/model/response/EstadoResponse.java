@@ -1,16 +1,18 @@
 package com.algaworks.algafoodapi.api.model.response;
 
+import java.util.UUID;
+
 public class EstadoResponse {
 
-    private Long id;
+    private UUID id;
     private String nome;
     private String uf;
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

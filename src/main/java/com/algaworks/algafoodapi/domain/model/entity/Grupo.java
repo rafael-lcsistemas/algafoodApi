@@ -1,6 +1,7 @@
 package com.algaworks.algafoodapi.domain.model.entity;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -14,7 +15,8 @@ import java.util.UUID;
 public class Grupo {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
     @Column(nullable = false, unique = true)
@@ -43,8 +45,7 @@ public class Grupo {
     public Grupo() {
     }
 
-    public Grupo(UUID id, Integer codInterno, String nome, Boolean status, Set<Permissao> permissoes) {
-        this.id = id;
+    public Grupo(Integer codInterno, String nome, Boolean status, Set<Permissao> permissoes) {
         this.nome = nome;
         this.status = status;
         this.permissoes = permissoes;
@@ -117,10 +118,5 @@ public class Grupo {
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
-    }
-
-    @Override
-    public String toString() {
-        return "Grupo: " + id + " / " + nome + " / Permissões: " + permissoes;
     }
 }

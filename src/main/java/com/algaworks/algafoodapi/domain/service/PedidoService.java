@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class PedidoService {
@@ -41,12 +42,12 @@ public class PedidoService {
     public List<Pedido> buscarTodos() {
         try {
             return pedidoRepository.findAll();
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             throw new NegocioException("Erro inesperado ao buscar todos os pedidos");
         }
     }
 
-    public Pedido filtrarPorID(Long id) {
+    public Pedido filtrarPorID(UUID id) {
         return pedidoRepository.findById(id).orElseThrow(() ->
                 new PedidoNaoEncontradaException(id));
     }
@@ -54,6 +55,10 @@ public class PedidoService {
     @Transactional
     public Pedido novoPedido(Pedido pedido, PedidoInput input) {
         try {
+            if (pedido.getCodInterno() == null) {
+                pedido.setCodInterno(getLastCodInterno() + 1);
+            }
+
             Usuario usuario = usuarioService.filtrarPorID(input.getIdusuario());
             Restaurante restaurante = restauranteService.filtrarPorID(input.getIdrestaurante());
             FormaPagamento pagamento = formaPagamentoService.filtrarPorID(input.getIdformapagamento());
@@ -62,13 +67,10 @@ public class PedidoService {
             pedido.setRestaurante(restaurante);
             pedido.setFormaPagamento(pagamento);
             pedido.setTaxaFrete(restaurante.getTaxaFrete());
-            pedido.setCodInterno(getLastCodInterno() + 1);
 
             pedido.setTotal(BigDecimal.ZERO);
             pedido.setValorDesconto(BigDecimal.ZERO);
             pedido.setSubtotal(BigDecimal.ZERO);
-
-            pedido = pedidoRepository.save(pedido);
 
             BigDecimal total = BigDecimal.ZERO;
             BigDecimal valorDesconto = BigDecimal.ZERO;
@@ -99,7 +101,6 @@ public class PedidoService {
             pedido.setSubtotal(subtotal.add(pedido.getTaxaFrete()));
 
             return pedidoRepository.save(pedido);
-
         } catch (UsuarioNaoEncontradaException |
                  RestauranteNaoEncontradaException |
                  FormaPagamentoNaoEncontradaException e) {
@@ -109,27 +110,27 @@ public class PedidoService {
 
 
     @Transactional
-    public Pedido cancelarPedido(Long id) {
+    public Pedido cancelarPedido(UUID id) {
         var pedido = filtrarPorID(id);
 
         if (pedido.getStatusPedido() == StatusPedido.CANCELADO) {
             throw new NegocioException(String.format(MSG_STATUS_PEDIDO,
-                    pedido.getId(), pedido.getStatusPedido().getDescricao(), StatusPedido.CANCELADO.getDescricao()));
+                    pedido.getCodInterno(), pedido.getStatusPedido().getDescricao(), StatusPedido.CANCELADO.getDescricao()));
         }
 
         pedido.setStatusPedido(StatusPedido.CANCELADO);
         pedido.setDatahoraCancelamento(OffsetDateTime.now());
 
-        return  pedido;
+        return pedido;
     }
 
     @Transactional
-    public Pedido confirmarPedido(Long id) {
+    public Pedido confirmarPedido(UUID id) {
         var pedido = filtrarPorID(id);
 
         if (pedido.getStatusPedido() != StatusPedido.CRIADO) {
             throw new NegocioException(String.format(MSG_STATUS_PEDIDO,
-                            pedido.getId(), pedido.getStatusPedido().getDescricao(), StatusPedido.CONFIRMADO.getDescricao()));
+                    pedido.getCodInterno(), pedido.getStatusPedido().getDescricao(), StatusPedido.CONFIRMADO.getDescricao()));
         }
 
         pedido.setStatusPedido(StatusPedido.CONFIRMADO);
@@ -139,13 +140,13 @@ public class PedidoService {
     }
 
     @Transactional
-    public Pedido entregarPedido(Long id) {
+    public Pedido entregarPedido(UUID id) {
         var pedido = filtrarPorID(id);
 
         if (pedido.getStatusPedido() == StatusPedido.ENTREGUE
-        || pedido.getStatusPedido() == StatusPedido.CANCELADO) {
+                || pedido.getStatusPedido() == StatusPedido.CANCELADO) {
             throw new NegocioException(String.format(MSG_STATUS_PEDIDO,
-                    pedido.getId(), pedido.getStatusPedido().getDescricao(),  StatusPedido.ENTREGUE.getDescricao()));
+                    pedido.getCodInterno(), pedido.getStatusPedido().getDescricao(), StatusPedido.ENTREGUE.getDescricao()));
         }
 
         pedido.setStatusPedido(StatusPedido.ENTREGUE);

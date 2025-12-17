@@ -2,6 +2,7 @@ package com.algaworks.algafoodapi.domain.model.entity;
 
 import com.algaworks.algafoodapi.domain.model.entity.restaurante.Restaurante;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -14,7 +15,8 @@ import java.util.UUID;
 public class Produto {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
     @Column(nullable = false, unique = true)
@@ -130,10 +132,5 @@ public class Produto {
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
-    }
-
-    @Override
-    public String toString() {
-        return "Produto: " + codInterno + " - " + nome + " / Restaurante: " + restaurante;
     }
 }

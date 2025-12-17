@@ -1,9 +1,13 @@
 package com.algaworks.algafoodapi.domain.model.entity;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.time.OffsetDateTime;
 import java.util.Objects;
 import java.util.UUID;
@@ -12,7 +16,8 @@ import java.util.UUID;
 public class Permissao {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
     @Column(nullable = false, unique = true)
@@ -101,10 +106,5 @@ public class Permissao {
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
-    }
-
-    @Override
-    public String toString() {
-        return "Permissão: " + id + " - " + nome;
     }
 }

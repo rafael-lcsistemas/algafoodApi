@@ -1,15 +1,17 @@
 package com.algaworks.algafoodapi.domain.exceptions;
 
+import java.util.UUID;
+
 public class GrupoNaoEncontradaException extends EntidadeNaoEncontradaException {
     private static final long serialVersionUID = 1L;
 
-    public static final String GRUPO_NÃO_ENCONTRADO = "Grupo do código %d não encontrado";
+    public static final String GRUPO_NÃO_ENCONTRADO = "Grupo do código %s não encontrado";
 
-    public GrupoNaoEncontradaException(Long id) {
+    public GrupoNaoEncontradaException(UUID id) {
         super(String.format(GRUPO_NÃO_ENCONTRADO, id));
     }
 
-    public GrupoNaoEncontradaException(Long id, Throwable cause) {
+    public GrupoNaoEncontradaException(UUID id, Throwable cause) {
         super(String.format(GRUPO_NÃO_ENCONTRADO, id), cause);
     }
 }

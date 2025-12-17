@@ -1,18 +1,20 @@
 package com.algaworks.algafoodapi.domain.model.entity.pedido;
 
 import com.algaworks.algafoodapi.domain.model.entity.Produto;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Table(name = "pedidodet")
 public class PedidoDet {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID id;
 
     @ManyToOne
     @JoinColumn(name = "id_pedido", nullable = false, updatable = false)
@@ -43,8 +45,7 @@ public class PedidoDet {
     public PedidoDet() {
     }
 
-    public PedidoDet(Long id, Pedido pedido, Produto produto, BigDecimal preco, BigDecimal quantidade, BigDecimal total, BigDecimal valorDesconto, BigDecimal subtotal, String observacao) {
-        this.id = id;
+    public PedidoDet(Pedido pedido, Produto produto, BigDecimal preco, BigDecimal quantidade, BigDecimal total, BigDecimal valorDesconto, BigDecimal subtotal, String observacao) {
         this.pedido = pedido;
         this.produto = produto;
         this.preco = preco;
@@ -55,11 +56,11 @@ public class PedidoDet {
         this.observacao = observacao;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -125,22 +126,5 @@ public class PedidoDet {
 
     public void setObservacao(String observacao) {
         this.observacao = observacao;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        PedidoDet pedidoDet = (PedidoDet) o;
-        return Objects.equals(id, pedidoDet.id) && Objects.equals(pedido, pedidoDet.pedido);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, pedido);
-    }
-
-    @Override
-    public String toString() {
-        return "PedidoDet: " + id + " - " + pedido;
     }
 }

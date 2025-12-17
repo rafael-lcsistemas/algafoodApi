@@ -5,6 +5,7 @@ import com.algaworks.algafoodapi.domain.model.entity.FormaPagamento;
 import com.algaworks.algafoodapi.domain.model.entity.Usuario;
 import com.algaworks.algafoodapi.domain.model.entity.restaurante.Restaurante;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -18,7 +19,8 @@ import java.util.UUID;
 public class Pedido {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
     @Column(nullable = false, unique = true)
@@ -221,11 +223,6 @@ public class Pedido {
         this.itensPedido.add(item);
     }
 
-    @PrePersist
-    private void geratorUUID() {
-        this.id = UUID.randomUUID();
-    }
-
     @Override
     public boolean equals(Object object) {
         if (object == null || getClass() != object.getClass()) return false;
@@ -236,11 +233,6 @@ public class Pedido {
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
-    }
-
-    @Override
-    public String toString() {
-        return "Pedido: " + id + " - " + datahoraPedido;
     }
 }
 

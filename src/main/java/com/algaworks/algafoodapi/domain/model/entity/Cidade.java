@@ -91,9 +91,4 @@ public class Cidade {
     public int hashCode() {
         return Objects.hashCode(id);
     }
-
-    @Override
-    public String toString() {
-        return "Cidade: " +  id + " - " + nome + " / " + estado;
-    }
 }

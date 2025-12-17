@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ProdutoService {
@@ -37,13 +38,17 @@ public class ProdutoService {
         }
     }
 
-    public Produto filtrarPorId(Long id) {
+    public Produto filtrarPorId(UUID id) {
         return produtoRepository.findById(id).orElseThrow(() -> new ProdutoNaoEncontradaException(id));
     }
 
     @Transactional
     public Produto inserirOuAtualizar(Produto produto, ProdutoInput input) {
         try {
+            if(produto.getCodInterno() == null) {
+                produto.setCodInterno(getLastCodInterno() + 1);
+            }
+
             var restaurante = restauranteService.filtrarPorID(input.getIdrestaurante());
 
             produto.setRestaurante(restaurante);
@@ -52,5 +57,9 @@ public class ProdutoService {
         } catch (RestauranteNaoEncontradaException e) {
             throw new NegocioException(e.getMessage());
         }
+    }
+
+    private Integer getLastCodInterno() {
+        return produtoRepository.getLastCodInterno();
     }
 }

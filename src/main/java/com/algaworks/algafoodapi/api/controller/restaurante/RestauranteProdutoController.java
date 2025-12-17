@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/restaurantes/{idRestaurante}/produtos")
@@ -22,7 +23,7 @@ public class RestauranteProdutoController {
     private GenericResponseAssembler genericResponseAssembler;
 
     @GetMapping
-    public List<ProdutoResponse> listarProdutosByIdRestaurante(@PathVariable Long idRestaurante) {
+    public List<ProdutoResponse> listarProdutosByIdRestaurante(@PathVariable UUID idRestaurante) {
         var restaurante = restauranteService.filtrarPorID(idRestaurante);
         return genericResponseAssembler.toCollectionModel(restaurante.getProdutos(), ProdutoResponse.class);
     }

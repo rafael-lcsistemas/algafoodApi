@@ -5,6 +5,7 @@ import com.algaworks.algafoodapi.core.validation.PrecoValidacao;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.util.UUID;
 
 public class ProdutoInput {
 
@@ -21,7 +22,7 @@ public class ProdutoInput {
     private Boolean status;
 
     @NotNull
-    private Long idrestaurante;
+    private UUID idrestaurante;
 
     public String getNome() {
         return nome;
@@ -55,11 +56,11 @@ public class ProdutoInput {
         this.status = status;
     }
 
-    public Long getIdrestaurante() {
+    public UUID getIdrestaurante() {
         return idrestaurante;
     }
 
-    public void setIdrestaurante(Long idrestaurante) {
+    public void setIdrestaurante(UUID idrestaurante) {
         this.idrestaurante = idrestaurante;
     }
 }

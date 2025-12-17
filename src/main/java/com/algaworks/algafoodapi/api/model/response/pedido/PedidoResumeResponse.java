@@ -4,10 +4,12 @@ import com.algaworks.algafoodapi.domain.model.entity.pedido.StatusPedido;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.UUID;
 
 public class PedidoResumeResponse {
 
-    private Long id;
+    private UUID id;
+    private Integer codInterno;
     private BigDecimal total;
     private BigDecimal taxaFrete;
     private BigDecimal valorDesconto;
@@ -18,12 +20,20 @@ public class PedidoResumeResponse {
     private OffsetDateTime datahoraCancelamento;
     private OffsetDateTime datahoraEntrega;
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
+    }
+
+    public Integer getCodInterno() {
+        return codInterno;
+    }
+
+    public void setCodInterno(Integer codInterno) {
+        this.codInterno = codInterno;
     }
 
     public BigDecimal getTotal() {

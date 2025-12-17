@@ -3,6 +3,7 @@ package com.algaworks.algafoodapi.api.model.input;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.UUID;
 
 public class GrupoInput {
 
@@ -13,7 +14,7 @@ public class GrupoInput {
     private Boolean status;
 
     @NotNull
-    private List<Long> idsPermissoes;
+    private List<UUID> idsPermissoes;
 
     public String getNome() {
         return nome;
@@ -31,11 +32,11 @@ public class GrupoInput {
         this.status = status;
     }
 
-    public List<Long> getIdsPermissoes() {
+    public List<UUID> getIdsPermissoes() {
         return idsPermissoes;
     }
 
-    public void setIdsPermissoes(List<Long> idsPermissoes) {
+    public void setIdsPermissoes(List<UUID> idsPermissoes) {
         this.idsPermissoes = idsPermissoes;
     }
 }

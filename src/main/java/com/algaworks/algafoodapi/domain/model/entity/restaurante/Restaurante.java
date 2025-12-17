@@ -2,6 +2,7 @@ package com.algaworks.algafoodapi.domain.model.entity.restaurante;
 
 import com.algaworks.algafoodapi.domain.model.entity.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -13,7 +14,8 @@ import java.util.*;
 public class Restaurante {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
     @Column(nullable = false, unique = true)
@@ -67,10 +69,9 @@ public class Restaurante {
     public Restaurante() {
     }
 
-    public Restaurante(UUID id, Integer codInterno, String nome, BigDecimal taxaFrete, Boolean status, Boolean aberto,
+    public Restaurante(Integer codInterno, String nome, BigDecimal taxaFrete, Boolean status, Boolean aberto,
                        Cozinha cozinha, Set<FormaPagamento> formasPagamento, Endereco endereco, List<Produto> produtos,
                        List<RestauranteMov> movimentos, Set<Usuario> usuarios) {
-        this.id = id;
         this.codInterno = codInterno;
         this.nome = nome;
         this.taxaFrete = taxaFrete;
@@ -227,11 +228,5 @@ public class Restaurante {
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
-    }
-
-    @Override
-    public String toString() {
-        return "Restaurante: " + codInterno + " - " + nome + " / Cozinha: " + cozinha.getNome() +
-                " / Forma de pagamento: ";
     }
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/grupos")
@@ -39,7 +40,7 @@ public class GrupoController {
     }
 
     @GetMapping("/{id}")
-    public GrupoResponse filtrarPorId(@PathVariable Long id) {
+    public GrupoResponse filtrarPorId(@PathVariable UUID id) {
         return genericResponseAssembler.toModel(grupoService.filtrarPorId(id), GrupoResponse.class);
     }
 
@@ -51,10 +52,10 @@ public class GrupoController {
     }
 
     @PutMapping("/{id}")
-    public GrupoResponse atualizar(@PathVariable Long id, @RequestBody @Valid GrupoInput grupoInput) {
+    public GrupoResponse atualizar(@PathVariable UUID id, @RequestBody @Valid GrupoInput grupoInput) {
         var grupo = genericInputAssembler.toEntity(grupoInput, Grupo.class);
         var grupoAtual = grupoService.filtrarPorId(id);
-        BeanUtils.copyProperties(grupo, grupoAtual, "id");
+        BeanUtils.copyProperties(grupo, grupoAtual, "id", "codInterno");
 
         try {
             return genericResponseAssembler.toModel(

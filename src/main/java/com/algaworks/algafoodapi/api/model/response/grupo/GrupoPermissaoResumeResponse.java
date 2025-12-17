@@ -3,18 +3,19 @@ package com.algaworks.algafoodapi.api.model.response.grupo;
 import com.algaworks.algafoodapi.api.model.response.permissao.PermissaoResumeResponse;
 
 import java.util.List;
+import java.util.UUID;
 
 public class GrupoPermissaoResumeResponse {
 
-    private Long id;
+    private UUID id;
     private String nome;
     private List<PermissaoResumeResponse> permissoes;
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

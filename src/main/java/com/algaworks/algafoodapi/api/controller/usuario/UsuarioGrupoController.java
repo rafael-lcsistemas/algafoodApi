@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/usuarios/listar/{idUsuario}/grupos")
@@ -22,7 +23,7 @@ public class UsuarioGrupoController {
     private GenericResponseAssembler genericResponseAssembler;
 
     @GetMapping
-    public List<GrupoResumeResponse> listarGruposByUsuario(@PathVariable Long idUsuario) {
+    public List<GrupoResumeResponse> listarGruposByUsuario(@PathVariable UUID idUsuario) {
         var usuario = usuarioService.filtrarPorID(idUsuario);
         List<Grupo> listGrupos = new ArrayList<>(usuario.getGrupos());
 
@@ -30,7 +31,7 @@ public class UsuarioGrupoController {
     }
 
     @GetMapping("/permissoes")
-    public List<GrupoPermissaoResumeResponse> listarPermissoesByGrupoByUsuario(@PathVariable Long idUsuario) {
+    public List<GrupoPermissaoResumeResponse> listarPermissoesByGrupoByUsuario(@PathVariable UUID idUsuario) {
         var usuario = usuarioService.filtrarPorID(idUsuario);
         List<Grupo> listGrupos = new ArrayList<>(usuario.getGrupos());
 
@@ -38,12 +39,12 @@ public class UsuarioGrupoController {
     }
 
     @PutMapping("/{idGrupo}")
-    public void associarGrupo(@PathVariable Long idUsuario, @PathVariable Long idGrupo) {
+    public void associarGrupo(@PathVariable UUID idUsuario, @PathVariable UUID idGrupo) {
         usuarioService.associarGrupo(idUsuario, idGrupo);
     }
 
     @DeleteMapping("/{idGrupo}")
-    public void desassociarGrupo(@PathVariable Long idUsuario, @PathVariable Long idGrupo) {
+    public void desassociarGrupo(@PathVariable UUID idUsuario, @PathVariable UUID idGrupo) {
         usuarioService.desassociarGrupo(idUsuario, idGrupo);
     }
 }

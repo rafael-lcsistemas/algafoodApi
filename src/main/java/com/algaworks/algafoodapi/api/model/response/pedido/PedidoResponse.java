@@ -5,10 +5,12 @@ import com.algaworks.algafoodapi.domain.model.entity.pedido.StatusPedido;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.UUID;
 
 public class PedidoResponse {
 
-    private Long id;
+    private UUID id;
+    private Integer codInterno;
     private BigDecimal total;
     private BigDecimal taxaFrete;
     private BigDecimal valorDesconto;
@@ -24,14 +26,14 @@ public class PedidoResponse {
     private List<ProdutoPedidoResponse> itensPedido;
 
     public static class UsuarioPedidoResponse {
-        private Long id;
+        private UUID id;
         private String nome;
 
-        public Long getId() {
+        public UUID getId() {
             return id;
         }
 
-        public void setId(Long id) {
+        public void setId(UUID id) {
             this.id = id;
         }
 
@@ -45,15 +47,15 @@ public class PedidoResponse {
     }
 
     public static class RestaurantePedidoResponse {
-        private Long id;
+        private UUID id;
         private String nome;
         private BigDecimal taxaFrete;
 
-        public Long getId() {
+        public UUID getId() {
             return id;
         }
 
-        public void setId(Long id) {
+        public void setId(UUID id) {
             this.id = id;
         }
 
@@ -75,14 +77,14 @@ public class PedidoResponse {
     }
 
     public static class FormaPagamentoPedidoResponse {
-        private Long id;
+        private UUID id;
         private String nome;
 
-        public Long getId() {
+        public UUID getId() {
             return id;
         }
 
-        public void setId(Long id) {
+        public void setId(UUID id) {
             this.id = id;
         }
 
@@ -96,27 +98,27 @@ public class PedidoResponse {
     }
 
     public static class ProdutoPedidoResponse {
-        private Long id;
-        private Long idProduto;
+        private UUID id;
+        private UUID idProduto;
         private String nomeProduto;
         private BigDecimal preco;
         private Integer quantidade;
         private BigDecimal valorDesconto;
         private BigDecimal subtotal;
 
-        public Long getId() {
+        public UUID getId() {
             return id;
         }
 
-        public void setId(Long id) {
+        public void setId(UUID id) {
             this.id = id;
         }
 
-        public Long getIdProduto() {
+        public UUID getIdProduto() {
             return idProduto;
         }
 
-        public void setIdProduto(Long idProduto) {
+        public void setIdProduto(UUID idProduto) {
             this.idProduto = idProduto;
         }
 
@@ -161,12 +163,20 @@ public class PedidoResponse {
         }
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
+    }
+
+    public Integer getCodInterno() {
+        return codInterno;
+    }
+
+    public void setCodInterno(Integer codInterno) {
+        this.codInterno = codInterno;
     }
 
     public BigDecimal getTotal() {

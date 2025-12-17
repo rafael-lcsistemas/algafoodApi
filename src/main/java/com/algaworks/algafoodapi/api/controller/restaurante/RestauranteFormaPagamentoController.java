@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/restaurantes/{idRestaurante}/formas-pagamento")
@@ -21,7 +22,7 @@ public class RestauranteFormaPagamentoController {
     private GenericResponseAssembler genericResponseAssembler;
 
     @GetMapping
-    public List<FormaPagamentoResponse> listarFormasPagamentoByIdRestaurante(@PathVariable Long idRestaurante) {
+    public List<FormaPagamentoResponse> listarFormasPagamentoByIdRestaurante(@PathVariable UUID idRestaurante) {
         var restaurante = restauranteService.filtrarPorID(idRestaurante);
         List<FormaPagamento> listFormasPagamento = new ArrayList<>(restaurante.getFormasPagamento());
         return genericResponseAssembler.toCollectionModel(listFormasPagamento, FormaPagamentoResponse.class);
@@ -29,13 +30,13 @@ public class RestauranteFormaPagamentoController {
 
     @DeleteMapping("/{idFormaPagamento}")
     public void desassociarFormaPagamento(
-            @PathVariable Long idRestaurante, @PathVariable Long idFormaPagamento) {
+            @PathVariable UUID idRestaurante, @PathVariable UUID idFormaPagamento) {
         restauranteService.desassociarFormaPagamentoToRestaurante(idRestaurante, idFormaPagamento);
     }
 
     @PutMapping("/{idFormaPagamento}")
     public void asassociarFormaPagamento(
-            @PathVariable Long idRestaurante, @PathVariable Long idFormaPagamento) {
+            @PathVariable UUID idRestaurante, @PathVariable UUID idFormaPagamento) {
         restauranteService.asassociarFormaPagamentoToRestaurante(idRestaurante, idFormaPagamento);
     }
 }
