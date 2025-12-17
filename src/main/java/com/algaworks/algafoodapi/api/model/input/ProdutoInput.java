@@ -24,6 +24,12 @@ public class ProdutoInput {
     @NotNull
     private UUID idrestaurante;
 
+    @NotNull
+    private UUID idcategoria;
+
+    @NotNull
+    private UUID idfabricante;
+
     public String getNome() {
         return nome;
     }
@@ -62,5 +68,21 @@ public class ProdutoInput {
 
     public void setIdrestaurante(UUID idrestaurante) {
         this.idrestaurante = idrestaurante;
+    }
+
+    public UUID getIdcategoria() {
+        return idcategoria;
+    }
+
+    public void setIdcategoria(UUID idcategoria) {
+        this.idcategoria = idcategoria;
+    }
+
+    public UUID getIdfabricante() {
+        return idfabricante;
+    }
+
+    public void setIdfabricante(UUID idfabricante) {
+        this.idfabricante = idfabricante;
     }
 }

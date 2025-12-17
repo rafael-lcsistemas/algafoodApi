@@ -42,6 +42,10 @@ public class Produto {
     @JoinColumn(name = "id_categoria")
     private Categoria categoria;
 
+    @ManyToOne
+    @JoinColumn(name = "id_fabricante")
+    private Fabricante fabricante;
+
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "TIMESTAMP")
     private OffsetDateTime dataCadastro;
@@ -53,7 +57,8 @@ public class Produto {
     public Produto() {
     }
 
-    public Produto(Integer codInterno, String nome, String descricao, BigDecimal preco, Boolean status, Restaurante restaurante, Categoria categoria) {
+    public Produto(Integer codInterno, String nome, String descricao, BigDecimal preco, Boolean status,
+                   Restaurante restaurante, Categoria categoria, Fabricante fabricante) {
         this.codInterno = codInterno;
         this.nome = nome;
         this.descricao = descricao;
@@ -61,6 +66,7 @@ public class Produto {
         this.status = status;
         this.restaurante = restaurante;
         this.categoria = categoria;
+        this.fabricante = fabricante;
     }
 
     public UUID getId() {
@@ -125,6 +131,14 @@ public class Produto {
 
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
+    }
+
+    public Fabricante getFabricante() {
+        return fabricante;
+    }
+
+    public void setFabricante(Fabricante fabricante) {
+        this.fabricante = fabricante;
     }
 
     public OffsetDateTime getDataCadastro() {

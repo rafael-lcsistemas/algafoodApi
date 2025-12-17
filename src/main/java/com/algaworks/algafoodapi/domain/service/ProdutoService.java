@@ -22,6 +22,12 @@ public class ProdutoService {
     @Autowired
     private RestauranteService restauranteService;
 
+    @Autowired
+    private CategoriaService categoriaService;
+
+    @Autowired
+    private FabricanteService fabricanteService;
+
     public List<Produto> listarTodos() {
         try {
             return produtoRepository.findAll();
@@ -50,8 +56,13 @@ public class ProdutoService {
             }
 
             var restaurante = restauranteService.filtrarPorID(input.getIdrestaurante());
-
             produto.setRestaurante(restaurante);
+
+            var categoria = categoriaService.buscarPorId(input.getIdcategoria());
+            produto.setCategoria(categoria);
+
+            var fabricante = fabricanteService.buscarPorId(input.getIdfabricante());
+            produto.setFabricante(fabricante);
 
             return produtoRepository.save(produto);
         } catch (RestauranteNaoEncontradaException e) {

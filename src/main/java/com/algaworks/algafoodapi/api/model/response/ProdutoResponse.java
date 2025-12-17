@@ -1,6 +1,7 @@
 package com.algaworks.algafoodapi.api.model.response;
 
 import com.algaworks.algafoodapi.api.model.response.categoria.CategoriaResumeResponse;
+import com.algaworks.algafoodapi.api.model.response.fabricante.FabricanteResumeResponse;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -8,11 +9,13 @@ import java.util.UUID;
 public class ProdutoResponse {
 
     private UUID id;
+    private Integer codInterno;
     private String nome;
     private String descricao;
     private BigDecimal preco;
     private Boolean status;
     private CategoriaResumeResponse categoria;
+    private FabricanteResumeResponse fabricante;
 
     public UUID getId() {
         return id;
@@ -20,6 +23,14 @@ public class ProdutoResponse {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public Integer getCodInterno() {
+        return codInterno;
+    }
+
+    public void setCodInterno(Integer codInterno) {
+        this.codInterno = codInterno;
     }
 
     public String getNome() {
@@ -60,5 +71,13 @@ public class ProdutoResponse {
 
     public void setCategoria(CategoriaResumeResponse categoria) {
         this.categoria = categoria;
+    }
+
+    public FabricanteResumeResponse getFabricante() {
+        return fabricante;
+    }
+
+    public void setFabricante(FabricanteResumeResponse fabricante) {
+        this.fabricante = fabricante;
     }
 }
