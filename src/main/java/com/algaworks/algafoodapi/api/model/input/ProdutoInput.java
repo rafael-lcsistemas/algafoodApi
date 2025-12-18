@@ -1,7 +1,6 @@
 package com.algaworks.algafoodapi.api.model.input;
 
-import com.algaworks.algafoodapi.core.validation.PrecoValidacao;
-
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -15,7 +14,7 @@ public class ProdutoInput {
     @NotNull
     private String descricao;
 
-    @PrecoValidacao
+    @DecimalMin(value = "0.01", message = "O preço não pode ser zerado")
     private BigDecimal preco;
 
     @NotNull

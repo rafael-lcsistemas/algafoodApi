@@ -1,5 +1,6 @@
 package com.algaworks.algafoodapi.api.model.input;
 
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
@@ -24,7 +25,7 @@ public class PedidoInput {
         @NotNull
         private UUID idproduto;
 
-        @PositiveOrZero
+        @DecimalMin(value = "0.01", message = "A quantidade não pode ser zerada")
         private BigDecimal quantidade;
 
         @PositiveOrZero

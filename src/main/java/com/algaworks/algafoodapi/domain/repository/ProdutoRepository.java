@@ -12,6 +12,9 @@ import java.util.UUID;
 @Repository
 public interface ProdutoRepository extends JpaRepository<Produto, UUID> {
 
+    @Query("from Produto ORDER BY codInterno")
+    List<Produto> findAll();
+
     List<Produto> findByNomeContaining(String nome);
 
     @Query("from Produto p where p.id = ?1")
