@@ -47,6 +47,9 @@ CREATE TABLE cozinha
   default charset = utf8mb4;
 
 ALTER TABLE cozinha
+    ADD CONSTRAINT uc_cozinha_id UNIQUE (id);
+
+ALTER TABLE cozinha
     ADD CONSTRAINT uc_cozinha_codinterno UNIQUE (cod_interno);
 
 CREATE TABLE forma_pagamento
@@ -60,6 +63,9 @@ CREATE TABLE forma_pagamento
     CONSTRAINT pk_formapagamento PRIMARY KEY (id)
 ) engine = InnoDB
   default charset = utf8mb4;
+
+ALTER TABLE forma_pagamento
+    ADD CONSTRAINT uc_forma_pagamento_id UNIQUE (id);
 
 ALTER TABLE forma_pagamento
     ADD CONSTRAINT uc_formapagamento_codinterno UNIQUE (cod_interno);
@@ -77,6 +83,9 @@ CREATE TABLE grupo
   default charset = utf8mb4;
 
 ALTER TABLE grupo
+    ADD CONSTRAINT uc_grupo_id UNIQUE (id);
+
+ALTER TABLE grupo
     ADD CONSTRAINT uc_grupo_codinterno UNIQUE (cod_interno);
 
 CREATE TABLE permissao
@@ -91,6 +100,9 @@ CREATE TABLE permissao
     CONSTRAINT pk_permissao PRIMARY KEY (id)
 ) engine = InnoDB
   default charset = utf8mb4;
+
+ALTER TABLE permissao
+    ADD CONSTRAINT uc_permissao_id UNIQUE (id);
 
 ALTER TABLE permissao
     ADD CONSTRAINT uc_permissao_codinterno UNIQUE (cod_interno);
@@ -131,6 +143,9 @@ CREATE TABLE restaurante
   DEFAULT CHARSET = utf8mb4;
 
 ALTER TABLE restaurante
+    ADD CONSTRAINT uc_restaurante_id UNIQUE (id);
+
+ALTER TABLE restaurante
     ADD CONSTRAINT uc_restaurante_codinterno UNIQUE (cod_interno);
 
 ALTER TABLE restaurante
@@ -169,6 +184,9 @@ CREATE TABLE produto
   default charset = utf8mb4;
 
 ALTER TABLE produto
+    ADD CONSTRAINT uc_produto_id UNIQUE (id);
+
+ALTER TABLE produto
     ADD CONSTRAINT uc_produto_codinterno UNIQUE (cod_interno);
 
 ALTER TABLE produto
@@ -187,6 +205,9 @@ CREATE TABLE usuario
     CONSTRAINT pk_usuario PRIMARY KEY (id)
 ) engine = InnoDB
   default charset = utf8mb4;
+
+ALTER TABLE usuario
+    ADD CONSTRAINT uc_usuario_id UNIQUE (id);
 
 ALTER TABLE usuario
     ADD CONSTRAINT uc_usuario_codinterno UNIQUE (cod_interno);

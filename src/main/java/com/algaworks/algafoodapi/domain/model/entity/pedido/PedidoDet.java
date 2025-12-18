@@ -14,6 +14,7 @@ public class PedidoDet {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(nullable = false, unique = true, updatable = false)
     private UUID id;
 
     @ManyToOne

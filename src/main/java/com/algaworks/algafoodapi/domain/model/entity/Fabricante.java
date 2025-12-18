@@ -19,6 +19,7 @@ public class Fabricante {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(nullable = false, unique = true, updatable = false)
     private UUID id;
 
     @Column(nullable = false)

@@ -27,5 +27,4 @@ public class RestauranteProdutoController {
         var restaurante = restauranteService.filtrarPorID(idRestaurante);
         return genericResponseAssembler.toCollectionModel(restaurante.getProdutos(), ProdutoResponse.class);
     }
-
 }
