@@ -7,6 +7,8 @@ import com.algaworks.algafoodapi.domain.exceptions.RestauranteNaoEncontradaExcep
 import com.algaworks.algafoodapi.domain.model.entity.Produto;
 import com.algaworks.algafoodapi.domain.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,9 +30,9 @@ public class ProdutoService {
     @Autowired
     private FabricanteService fabricanteService;
 
-    public List<Produto> listarTodos() {
+    public Page<Produto> listarTodos(Pageable pageable) {
         try {
-            return produtoRepository.findAll();
+            return produtoRepository.findTodosProdutos(pageable);
         } catch (Exception e) {
             throw new NegocioException("Erro inesperado ao buscar todos os produtos");
         }

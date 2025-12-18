@@ -8,6 +8,9 @@ import com.algaworks.algafoodapi.domain.model.entity.Produto;
 import com.algaworks.algafoodapi.domain.service.ProdutoService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -18,7 +21,7 @@ import java.util.UUID;
 @RequestMapping("/produtos")
 public class ProdutoController {
 
-    @Autowired
+//    @Autowired
     private ProdutoService produtoService;
 
     @Autowired
@@ -27,9 +30,19 @@ public class ProdutoController {
     @Autowired
     private GenericInputAssembler genericInputAssembler;
 
+
+    public ProdutoController(ProdutoService produtoService) {
+        this.produtoService = produtoService;
+    }
+
     @GetMapping("/listar")
-    public List<ProdutoResponse> listarTodos() {
-        return genericResponseAssembler.toCollectionModel(produtoService.listarTodos(), ProdutoResponse.class);
+    public Page<ProdutoResponse> listarTodos(Pageable pageable) {
+        Page<Produto> produtoPage = produtoService.listarTodos(pageable);
+
+        return new PageImpl<>(
+                genericResponseAssembler.toCollectionModel(produtoPage.getContent(), ProdutoResponse.class),
+                pageable, produtoPage.getTotalElements()
+        );
     }
 
     @GetMapping("/por-nome")

@@ -10,7 +10,10 @@ import com.algaworks.algafoodapi.domain.model.entity.pedido.PedidoDet;
 import com.algaworks.algafoodapi.domain.model.entity.pedido.StatusPedido;
 import com.algaworks.algafoodapi.domain.model.entity.restaurante.Restaurante;
 import com.algaworks.algafoodapi.domain.repository.PedidoRepository;
+import com.algaworks.algafoodapi.infrastructure.repository.specification.PedidoSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -153,6 +156,10 @@ public class PedidoService {
         pedido.setDatahoraEntrega(OffsetDateTime.now());
 
         return pedido;
+    }
+
+    public Page<Pedido> findByFilters(PedidoSpecification specification, Pageable pageable) {
+        return pedidoRepository.findAll(specification, pageable);
     }
 
     public Long getLastCodInterno() {

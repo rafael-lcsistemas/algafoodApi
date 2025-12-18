@@ -7,7 +7,11 @@ import com.algaworks.algafoodapi.api.model.response.pedido.PedidoResponse;
 import com.algaworks.algafoodapi.api.model.response.pedido.PedidoResumeResponse;
 import com.algaworks.algafoodapi.domain.model.entity.pedido.Pedido;
 import com.algaworks.algafoodapi.domain.service.PedidoService;
+import com.algaworks.algafoodapi.infrastructure.repository.specification.PedidoSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -26,6 +30,16 @@ public class PedidoController {
 
     @Autowired
     private GenericInputAssembler genericInputAssembler;
+
+    @GetMapping
+    public Page<PedidoResponse> findByFilters(PedidoSpecification specification, Pageable pageable) {
+        Page<Pedido> pedidoPage = pedidoService.findByFilters(specification, pageable);
+
+        return new PageImpl<>(
+                genericResponseAssembler.toCollectionModel(pedidoPage.getContent(), PedidoResponse.class),
+                pageable, pedidoPage.getTotalElements()
+        );
+    }
 
     @GetMapping("/listar")
     public List<PedidoResumeResponse> buscarTodos() {
