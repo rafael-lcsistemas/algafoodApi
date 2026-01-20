@@ -1,5 +1,7 @@
 package com.algaworks.algafoodapi.api.model.response.pedido;
 
+import com.algaworks.algafoodapi.api.model.response.restaurante.RestauranteResumeResponse;
+import com.algaworks.algafoodapi.api.model.response.usuario.UsuarioResumeResponse;
 import com.algaworks.algafoodapi.domain.model.entity.pedido.StatusPedido;
 
 import java.math.BigDecimal;
@@ -20,61 +22,10 @@ public class PedidoResponse {
     private OffsetDateTime datahoraConfirmacao;
     private OffsetDateTime datahoraCancelamento;
     private OffsetDateTime datahoraEntrega;
-    private UsuarioPedidoResponse usuarioPedido;
-    private RestaurantePedidoResponse restaurante;
+    private UsuarioResumeResponse usuarioPedido;
+    private RestauranteResumeResponse restaurante;
     private FormaPagamentoPedidoResponse formaPagamento;
     private List<ProdutoPedidoResponse> itensPedido;
-
-    public static class UsuarioPedidoResponse {
-        private UUID id;
-        private String nome;
-
-        public UUID getId() {
-            return id;
-        }
-
-        public void setId(UUID id) {
-            this.id = id;
-        }
-
-        public String getNome() {
-            return nome;
-        }
-
-        public void setNome(String nome) {
-            this.nome = nome;
-        }
-    }
-
-    public static class RestaurantePedidoResponse {
-        private UUID id;
-        private String nome;
-        private BigDecimal taxaFrete;
-
-        public UUID getId() {
-            return id;
-        }
-
-        public void setId(UUID id) {
-            this.id = id;
-        }
-
-        public String getNome() {
-            return nome;
-        }
-
-        public void setNome(String nome) {
-            this.nome = nome;
-        }
-
-        public BigDecimal getTaxaFrete() {
-            return taxaFrete;
-        }
-
-        public void setTaxaFrete(BigDecimal taxaFrete) {
-            this.taxaFrete = taxaFrete;
-        }
-    }
 
     public static class FormaPagamentoPedidoResponse {
         private UUID id;
@@ -251,19 +202,19 @@ public class PedidoResponse {
         this.datahoraEntrega = datahoraEntrega;
     }
 
-    public UsuarioPedidoResponse getUsuarioPedido() {
+    public UsuarioResumeResponse getUsuarioPedido() {
         return usuarioPedido;
     }
 
-    public void setUsuarioPedido(UsuarioPedidoResponse usuarioPedido) {
+    public void setUsuarioPedido(UsuarioResumeResponse usuarioPedido) {
         this.usuarioPedido = usuarioPedido;
     }
 
-    public RestaurantePedidoResponse getRestaurante() {
+    public RestauranteResumeResponse getRestaurante() {
         return restaurante;
     }
 
-    public void setRestaurante(RestaurantePedidoResponse restaurante) {
+    public void setRestaurante(RestauranteResumeResponse restaurante) {
         this.restaurante = restaurante;
     }
 

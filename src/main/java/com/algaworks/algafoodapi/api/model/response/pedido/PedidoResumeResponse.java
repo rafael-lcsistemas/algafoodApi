@@ -1,5 +1,8 @@
 package com.algaworks.algafoodapi.api.model.response.pedido;
 
+import com.algaworks.algafoodapi.api.model.response.FormaPagamentoResponse;
+import com.algaworks.algafoodapi.api.model.response.restaurante.RestauranteResumeResponse;
+import com.algaworks.algafoodapi.api.model.response.usuario.UsuarioResumeResponse;
 import com.algaworks.algafoodapi.domain.model.entity.pedido.StatusPedido;
 
 import java.math.BigDecimal;
@@ -10,6 +13,9 @@ public class PedidoResumeResponse {
 
     private UUID id;
     private Integer codInterno;
+    private FormaPagamentoResponse formaPagamento;
+    private RestauranteResumeResponse restaurante;
+    private UsuarioResumeResponse usuario;
     private BigDecimal total;
     private BigDecimal taxaFrete;
     private BigDecimal valorDesconto;
@@ -34,6 +40,30 @@ public class PedidoResumeResponse {
 
     public void setCodInterno(Integer codInterno) {
         this.codInterno = codInterno;
+    }
+
+    public FormaPagamentoResponse getFormaPagamento() {
+        return formaPagamento;
+    }
+
+    public void setFormaPagamento(FormaPagamentoResponse formaPagamento) {
+        this.formaPagamento = formaPagamento;
+    }
+
+    public RestauranteResumeResponse getRestaurante() {
+        return restaurante;
+    }
+
+    public void setRestaurante(RestauranteResumeResponse restaurante) {
+        this.restaurante = restaurante;
+    }
+
+    public UsuarioResumeResponse getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(UsuarioResumeResponse usuario) {
+        this.usuario = usuario;
     }
 
     public BigDecimal getTotal() {
@@ -107,4 +137,5 @@ public class PedidoResumeResponse {
     public void setDatahoraEntrega(OffsetDateTime datahoraEntrega) {
         this.datahoraEntrega = datahoraEntrega;
     }
+
 }

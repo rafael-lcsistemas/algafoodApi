@@ -32,11 +32,11 @@ public class PedidoController {
     private GenericInputAssembler genericInputAssembler;
 
     @GetMapping
-    public Page<PedidoResponse> findByFilters(PedidoSpecification specification, Pageable pageable) {
+    public Page<PedidoResumeResponse> findByFilters(PedidoSpecification specification, Pageable pageable) {
         Page<Pedido> pedidoPage = pedidoService.findByFilters(specification, pageable);
 
         return new PageImpl<>(
-                genericResponseAssembler.toCollectionModel(pedidoPage.getContent(), PedidoResponse.class),
+                genericResponseAssembler.toCollectionModel(pedidoPage.getContent(), PedidoResumeResponse.class),
                 pageable, pedidoPage.getTotalElements()
         );
     }
