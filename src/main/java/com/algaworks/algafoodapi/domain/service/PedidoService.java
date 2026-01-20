@@ -79,7 +79,7 @@ public class PedidoService {
             BigDecimal valorDesconto = BigDecimal.ZERO;
             BigDecimal subtotal = BigDecimal.ZERO;
 
-            for (PedidoInput.ItensPedidoResponse itemInput : input.getDet()) {
+            for (PedidoInput.ItensPedidoInput itemInput : input.getDet()) {
 
                 Produto produto = produtoService.filtrarPorId(itemInput.getIdproduto());
 

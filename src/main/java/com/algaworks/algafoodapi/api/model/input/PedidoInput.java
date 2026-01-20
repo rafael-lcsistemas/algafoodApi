@@ -19,9 +19,9 @@ public class PedidoInput {
     private UUID idformapagamento;
 
     @NotNull
-    private List<ItensPedidoResponse> det;
+    private List<ItensPedidoInput> det;
 
-    public static class ItensPedidoResponse {
+    public static class ItensPedidoInput {
         @NotNull
         private UUID idproduto;
 
@@ -90,11 +90,11 @@ public class PedidoInput {
         this.idformapagamento = idformapagamento;
     }
 
-    public List<ItensPedidoResponse> getDet() {
+    public List<ItensPedidoInput> getDet() {
         return det;
     }
 
-    public void setDet(List<ItensPedidoResponse> det) {
+    public void setDet(List<ItensPedidoInput> det) {
         this.det = det;
     }
 }
