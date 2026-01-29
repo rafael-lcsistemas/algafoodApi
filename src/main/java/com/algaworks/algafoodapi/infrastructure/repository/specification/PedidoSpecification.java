@@ -36,8 +36,10 @@ public class PedidoSpecification implements Specification<Pedido> {
 
     @Override
     public Predicate toPredicate(Root<Pedido> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-        root.fetch("restaurante").fetch("cozinha");
-        root.fetch("usuario");
+        if(query.getResultType().equals(Pedido.class)) {
+            root.fetch("restaurante").fetch("cozinha");
+            root.fetch("usuario");
+        }
 
         var predicates = new ArrayList<Predicate>();
 
