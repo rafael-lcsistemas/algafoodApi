@@ -1,5 +1,6 @@
 package com.algaworks.algafoodapi.infrastructure.repository.specification;
 
+import com.algaworks.algafoodapi.domain.model.entity.pedido.OrdemPedido;
 import com.algaworks.algafoodapi.domain.model.entity.pedido.Pedido;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -18,6 +19,7 @@ public class PedidoSpecification implements Specification<Pedido> {
     private UUID idUsuario;
     private UUID idRestaurante;
     private UUID idFormaPagamento;
+    private OrdemPedido ordemPedido;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private OffsetDateTime datahoraInicio;
@@ -25,18 +27,19 @@ public class PedidoSpecification implements Specification<Pedido> {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private OffsetDateTime datahoraFim;
 
-    public PedidoSpecification(Long codigo, UUID idUsuario, UUID idRestaurante, UUID idFormaPagamento, OffsetDateTime datahoraInicio, OffsetDateTime datahoraFim) {
+    public PedidoSpecification(Long codigo, UUID idUsuario, UUID idRestaurante, UUID idFormaPagamento, OffsetDateTime datahoraInicio, OffsetDateTime datahoraFim, OrdemPedido ordemPedido) {
         this.codigo = codigo;
         this.idUsuario = idUsuario;
         this.idRestaurante = idRestaurante;
         this.idFormaPagamento = idFormaPagamento;
         this.datahoraInicio = datahoraInicio;
         this.datahoraFim = datahoraFim;
+        this.ordemPedido = ordemPedido;
     }
 
     @Override
     public Predicate toPredicate(Root<Pedido> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-        if(query.getResultType().equals(Pedido.class)) {
+        if (query.getResultType().equals(Pedido.class)) {
             root.fetch("restaurante").fetch("cozinha");
             root.fetch("usuario");
         }
@@ -61,6 +64,15 @@ public class PedidoSpecification implements Specification<Pedido> {
 
         if (datahoraInicio != null && datahoraFim != null) {
             predicates.add(builder.between(root.get("datahoraPedido"), datahoraInicio, datahoraFim)
+            );
+        }
+
+        if (ordemPedido != null && ordemPedido.equals(OrdemPedido.DATA_HORA)) {
+            query.orderBy(builder.desc(root.get("datahoraPedido")));
+        } else {
+            query.orderBy(
+                    builder.asc(root.get("usuario").get("nome")),
+                    builder.desc(root.get("datahoraPedido"))
             );
         }
 
