@@ -1,10 +1,10 @@
-package com.algaworks.algafoodapi.infrastructure.service;
+package com.algaworks.algafoodapi.infrastructure.service.query;
 
 import com.algaworks.algafoodapi.domain.filter.VendaDiariaFilter;
 import com.algaworks.algafoodapi.domain.model.dto.VendaDiaria;
 import com.algaworks.algafoodapi.domain.model.entity.pedido.Pedido;
 import com.algaworks.algafoodapi.domain.model.entity.pedido.StatusPedido;
-import com.algaworks.algafoodapi.domain.service.VendaQueryService;
+import com.algaworks.algafoodapi.domain.service.interfaces.VendaQueryService;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
