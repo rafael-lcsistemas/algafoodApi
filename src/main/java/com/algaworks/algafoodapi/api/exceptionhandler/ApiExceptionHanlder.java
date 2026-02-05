@@ -167,6 +167,8 @@ public class ApiExceptionHanlder extends ResponseEntityExceptionHandler {
 
         Problem problem = createProblemBuilder(status, problemType, MSG_GENERICA_CONSUMIDOR_FINAL).build();
 
+        ex.printStackTrace();
+
         return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
     }
 
