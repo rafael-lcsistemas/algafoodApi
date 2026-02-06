@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.UUID;
 
 @RestController
@@ -31,7 +32,7 @@ public class ProdutoFotoController {
 
 
     @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ProdutoFotoResponse atualizarFoto(@PathVariable UUID idProduto, @Valid ProdutoFotoInput input) {
+    public ProdutoFotoResponse atualizarFoto(@PathVariable UUID idProduto, @Valid ProdutoFotoInput input) throws IOException {
 
         var produto = produtoService.filtrarPorId(idProduto);
         var arquivo = input.getArquivo();
@@ -43,7 +44,7 @@ public class ProdutoFotoController {
         foto.setContentType(arquivo.getContentType());
         foto.setTamanho(arquivo.getSize());
 
-        var fotoSalva = produtoFotoService.salvarFoto(foto);
+        var fotoSalva = produtoFotoService.salvarFoto(foto, arquivo.getInputStream());
 
         return genericResponseAssembler.toModel(fotoSalva, ProdutoFotoResponse.class);
     }
