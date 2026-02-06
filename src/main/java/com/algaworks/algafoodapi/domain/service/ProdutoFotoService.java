@@ -23,15 +23,17 @@ public class ProdutoFotoService {
     @Transactional
     public ProdutoFoto salvarFoto(ProdutoFoto foto, InputStream stream) {
         var idProduto = foto.getProduto().getId();
-        var novoNomeArquivo = fotoStorage.gerarNomeArquivo(foto.getNomeArquivo());
+        String nomeArquivoNovo = fotoStorage.gerarNomeArquivo(foto.getNomeArquivo());
+        String nomeArquivoAntigo = null;
 
         Optional<ProdutoFoto> fotoExistente = produtoRepository.findProdutoFotoById(idProduto);
 
         if(fotoExistente.isPresent()) {
+            nomeArquivoAntigo = fotoExistente.get().getNomeArquivo();
             produtoRepository.delete(fotoExistente.get());
         }
 
-        foto.setNomeArquivo(novoNomeArquivo);
+        foto.setNomeArquivo(nomeArquivoNovo);
         foto = produtoRepository.save(foto);
         produtoRepository.flush();
 
@@ -40,7 +42,7 @@ public class ProdutoFotoService {
                 .inputStream(stream)
                 .build();
 
-        fotoStorage.armazenar(novaFoto);
+        fotoStorage.substituir(nomeArquivoAntigo, novaFoto);
 
         return foto;
     }
