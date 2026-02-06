@@ -2,7 +2,7 @@ package com.algaworks.algafoodapi.infrastructure.repository;
 
 import com.algaworks.algafoodapi.domain.model.entity.restaurante.Restaurante;
 import com.algaworks.algafoodapi.domain.repository.RestauranteRepository;
-import com.algaworks.algafoodapi.domain.repository.RestauranteRepositoryQueries;
+import com.algaworks.algafoodapi.domain.repository.queries.RestauranteRepositoryQueries;
 import com.algaworks.algafoodapi.infrastructure.repository.specification.RestauranteSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;

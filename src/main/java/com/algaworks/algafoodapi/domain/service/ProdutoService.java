@@ -50,6 +50,11 @@ public class ProdutoService {
         return produtoRepository.findById(id).orElseThrow(() -> new ProdutoNaoEncontradaException(id));
     }
 
+    public Produto buscarOuFalhar(UUID idRestaurante, UUID idProduto) {
+        return produtoRepository.findRestauranteAndProduto(idRestaurante, idProduto)
+                .orElseThrow(() -> new ProdutoNaoEncontradaException(idProduto));
+    }
+
     @Transactional
     public Produto inserirOuAtualizar(Produto produto, ProdutoInput input) {
         try {
@@ -75,4 +80,5 @@ public class ProdutoService {
     private Integer getLastCodInterno() {
         return produtoRepository.getLastCodInterno();
     }
+
 }

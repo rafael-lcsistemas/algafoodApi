@@ -1,4 +1,4 @@
-package com.algaworks.algafoodapi.domain.repository;
+package com.algaworks.algafoodapi.domain.repository.queries;
 
 import com.algaworks.algafoodapi.domain.model.entity.restaurante.Restaurante;
 
